@@ -1,11 +1,9 @@
-<!-- file to add cdn to current file -->
+<!-- file to add cdn n show errors to current file -->
 
-<?php function isLoggedIn()
-{
-    // NOT WORKING - EXAMPLE PURPOSE ONLY
-    return true;
-    // return isset($_SESSION["user_id"]);
-} ?>
+<?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+?>
 
 <!DOCTYPE html>
 <html lang="en">

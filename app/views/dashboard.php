@@ -1,3 +1,18 @@
+<?php
+// Start the session
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION["user_id"])) {
+    // Redirect to login if not logged in
+    header("Location: /login");
+    exit();
+}
+
+// Access session data
+$username = $_SESSION["username"] ?? "Guest";
+$role = $_SESSION["role"] ?? "User";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +28,17 @@
         <!-- Main Content -->
         <div class="main-content flex-1 p-8 bg-base-100">
             <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+
+            <!-- Display User Session Data -->
+            <div class="mb-6">
+                <p class="text-lg">Welcome, <span class="font-bold text-primary"><?= htmlspecialchars(
+                    $username
+                ) ?></span>!</p>
+                <p class="text-sm text-gray-500">Role: <span class="font-bold"><?= htmlspecialchars(
+                    $role
+                ) ?></span></p>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Income Card -->
                 <div class="card bg-base-200 shadow-lg">

@@ -12,6 +12,7 @@
         <div class="card bg-base-200 shadow-lg w-96">
             <div class="card-body">
                 <h2 class="card-title text-2xl font-bold mb-4">Login</h2>
+
                 <form method="POST">
                     <div class="form-control">
                         <label class="label" for="username">Username</label>

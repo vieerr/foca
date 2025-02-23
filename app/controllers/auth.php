@@ -1,6 +1,10 @@
+
 <?php
-require "../models/UserModel.php";
-// FOR EXMAPLE ONLY -- NOT WORKING CURRENTLY:)
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+require $_SERVER["DOCUMENT_ROOT"] . "/foca" . "/app/models/UserModel.php";
+session_start();
+
 class AuthController
 {
     private $userModel;
@@ -12,24 +16,39 @@ class AuthController
 
     public function login()
     {
-        require "../views/auth/login.php";
-    }
-
-    public function handleLogin()
-    {
         $username = $_POST["username"];
         $password = $_POST["password"];
 
         $user = $this->userModel->findByUsername($username);
 
-        if ($user && password_verify($password, $user["password"])) {
-            $_SESSION["user_id"] = $user["id"];
-            $_SESSION["role"] = $user["role"];
-            header("Location: /dashboard");
+        if ($user && password_verify($password, $user["claveHash_usuario"])) {
+            $_SESSION["user_id"] = $user["id_usuario"];
+            $_SESSION["username"] = $user["username_usuario"];
+            $_SESSION["role"] = $user["id_rol"];
+            $this->loggedIn();
+            exit();
         } else {
-            $error = "Invalid username or password.";
-            require "../views/auth/login.php";
+            echo json_encode([
+                "success" => false,
+                "message" => "Invalid username or password.",
+            ]);
+            exit();
         }
     }
+    public function loggedIn()
+    {
+        return header("Location: ../../main.php");
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        echo json_encode(["success" => true, "redirect" => "/login"]);
+        exit();
+    }
 }
+$con = new AuthController();
+$con->login();
+
+
 ?>
