@@ -9,6 +9,13 @@ require_once 'Model.php';
         return $this->conn->query($query);
     }
 
+    public function findByUsername($username)
+    {
+        $query = "SELECT * FROM users WHERE username = $username";
+        $res = $this->conn->query($query);
+        return $res->fetch_assoc();
+    }
+
     public function findById($id_username)
     {
         $query = "SELECT * FROM users WHERE id_username = $id_username";
