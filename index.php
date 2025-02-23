@@ -1,3 +1,5 @@
+<?php
+include "config/includes/header.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -5,9 +7,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FOCA</title>
-    <link href="./assets/daisyui.css" rel="stylesheet">
-    <script src="./assets/tailwind.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-base-100">
     <!-- App Container -->
@@ -54,29 +53,7 @@
             <!-- Content will be loaded here dynamically -->
         </div>
     </div>
-
-    <script>
-    $(document).ready(function() {
-        // Handle sidebar link clicks
-        $('.load-content').on('click', function(e) {
-            e.preventDefault();
-            const route = $(this).data('route');
-
-            $.ajax({
-                url: `app/controllers/${route}.php`,
-                method: 'GET',
-                success: function(response) {
-                    $('#main-content').html(response);
-                },
-                error: function() {
-                    $('#main-content').html('<p class="text-error">Error loading content.</p>');
-                }
-            });
-        });
-
-        // Load default content on page load
-        $('[data-route="dashboard"]').click();
-    });
+    <script src="assets/js/sidebar.js">
     </script>
 </body>
 </html>

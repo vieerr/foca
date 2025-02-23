@@ -1,7 +1,25 @@
 <?php
-// Fetch data from the model (if needed)
-?>
-<div class="bg-white p-4 shadow rounded">
-    <h2 class="text-xl font-semibold">Dashboard</h2>
+// require '../models/TransactionModel.php';
 
-</div>
+class DashboardController
+{
+    // private $registerModel;
+
+    public function __construct()
+    {
+        // $this->registerModel = new RegisterModel();
+    }
+
+    public function index()
+    {
+        // Fetch data from the model
+        // $transactions = $this->transactionModel->getAll();
+
+        require "../views/dashboard.php";
+    }
+}
+
+// Instantiate the controller and call the index method
+$controller = new DashboardController();
+$controller->index();
+?>

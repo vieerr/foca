@@ -1,6 +1,6 @@
 <?php
 require "../models/UserModel.php";
-
+// FOR EXMAPLE ONLY -- NOT WORKING CURRENTLY:)
 class AuthController
 {
     private $userModel;
