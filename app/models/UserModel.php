@@ -1,56 +1,78 @@
-
 <?php
 require_once "Model.php";
-
-class UserModel extends Model
+class Usuario extends Model
 {
-    // missing role param
-    public function createUser($username, $password)
+    private $conn;
+
+    public function __construct()
     {
-        $query = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
-        return $this->conn->query($query);
+        $this->conn = self::getConn();
     }
 
-    public function findByUsername($username)
+    public function createUser(
+        $nombre_usuario,
+        $apellido_usuario,
+        $username_usuario,
+        $password_plain,
+        $id_rol
+    ) {
+        $password_hash = password_hash($password_plain, PASSWORD_DEFAULT);
+        $estado_usuario = "activo";
+        $stmt = $this->conn->prepare(
+            "INSERT INTO Usuarios (nombre_usuario, apellido_usuario, username_usuario, claveHash_usuario, id_rol, estado_usuario) VALUES (?, ?, ?, ?, ?, ?)"
+        );
+        $stmt->bind_param(
+            "ssssis",
+            $nombre_usuario,
+            $apellido_usuario,
+            $username_usuario,
+            $password_hash,
+            $id_rol,
+            $estado_usuario
+        );
+
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
+
+    public function getUserByUsername($username)
     {
-        // Use prepared statements to prevent SQL injection
-        $query = "SELECT * FROM Usuarios WHERE username_usuario = ?";
-        $stmt = $this->conn->prepare($query);
-
-        if (!$stmt) {
-            // Handle prepare error
-            die("Prepare failed: " . $this->conn->error);
-        }
-
-        // Bind the username parameter
+        $stmt = $this->conn->prepare(
+            "SELECT * FROM Usuarios WHERE username_usuario = ? AND estado_usuario = 'activo' LIMIT 1"
+        );
         $stmt->bind_param("s", $username);
-
-        // Execute the query
-        if (!$stmt->execute()) {
-            // Handle execute error
-            die("Execute failed: " . $stmt->error);
-        }
-
-        // Get the result
+        $stmt->execute();
         $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
 
-        // Check if any rows were returned
-        if ($result->num_rows > 0) {
-            // Fetch the first row as an associative array
-            return $result->fetch_assoc();
-        } else {
-            // No rows found
-            return null;
-        }
+        $stmt->close();
+        return $user;
     }
 
-    public function findById($id_username)
+    public function getInfoUsers()
     {
-        $query = "SELECT * FROM users WHERE id_username = $id_username";
-        $res = $this->conn->query($query);
-        return $res->fetch_assoc();
+        $stmt = $this->conn->prepare(
+            "SELECT id_usuario, nombre_usuario, apellido_usuario, username_usuario, nombre_rol FROM Usuarios u JOIN Roles r ON u.id_rol=r.id_rol;"
+        );
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $users = $result->fetch_all(MYSQLI_ASSOC);
+
+        $stmt->close();
+        return $users;
+    }
+    public function fetchAllUsers()
+    {
+        $query = "SELECT u.id_usuario, u.nombre_usuario, u.apellido_usuario, u.username_usuario, u.estado_usuario, r.nombre_rol
+                      FROM Usuarios u
+                      JOIN Roles r ON u.id_rol = r.id_rol";
+        $result = $this->conn->query($query);
+
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            die("Error fetching users: " . $this->conn->error);
+        }
     }
 }
-
-
-?>

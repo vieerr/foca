@@ -15,7 +15,7 @@ include "config/includes/header.php"; ?>
             <div class="card-body">
                 <h2 class="card-title text-2xl font-bold mb-4">Login</h2>
 
-                <form id="loginForm" method="post" action="routes/login.php">
+                <form id="loginForm" method="post" action="router.php?page=login">
                     <div class="form-control">
                         <label class="label" for="username">Username</label>
                         <input type="text" id="username" name="username" class="input input-bordered" required>
@@ -30,5 +30,4 @@ include "config/includes/header.php"; ?>
         </div>
     </div>
 </body>
-<!-- <script src="assets/js/login.js" ></script> -->
 </html>

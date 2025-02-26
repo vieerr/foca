@@ -1,26 +1,23 @@
 <?php
 class Model
 {
-    public $conn;
-    public function __construct()
+    private static $conn = null;
+
+    public static function getConn()
     {
-        $this->conn = $this->getConn();
-    }
+        if (self::$conn === null) {
+            $host = "localhost";
+            $user = "admin";
+            $pass = "admin";
+            $dbname = "economiaf";
 
-    private function getConn()
-    {
-        $host = "localhost";
-        $user = "admin";
-        $pass = "admin";
-        $dbname = "foca";
+            self::$conn = new mysqli($host, $user, $pass, $dbname);
 
-        $conn = new mysqli($host, $user, $pass, $dbname);
-
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+            if (self::$conn->connect_error) {
+                die("Connection failed: " . self::$conn->connect_error);
+            }
         }
-        return $conn;
+
+        return self::$conn;
     }
 }
-
-?>
