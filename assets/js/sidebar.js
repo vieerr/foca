@@ -52,15 +52,14 @@ $(document).ready(function () {
   $("#sidebar-links").html(html);
 
   $(".load-content").on("click", function (e) {
-    e.preventDefault(); // Prevent default link behavior
-    const route = $(this).data("route"); // Get the route from data-route attribute
+    e.preventDefault();
+    const route = $(this).data("route");
 
-    // Fetch content via AJAX
     $.ajax({
-      url: `app/controllers/${route}.php`, // Adjust the path as needed
+      url: `app/controllers/${route}.php`,
       method: "GET",
       success: function (response) {
-        $("#main-content").html(response); // Update main content
+        $("#main-content").html(response);
 
         // const previousScript = document.querySelector(
         //   `script[src="assets/js/${route}.js"]`,
@@ -69,8 +68,7 @@ $(document).ready(function () {
         //   previousScript.remove();
         // }
         const script = document.createElement("script");
-        script.src = `assets/js/${route}.js`; // Adjust the path as needed
-        console.log(script.src);
+        script.src = `assets/js/${route}.js`;
         script.onload = () => {
           console.log(`${route}.js loaded successfully`);
         };
@@ -85,6 +83,5 @@ $(document).ready(function () {
     });
   });
 
-  // Load default content (e.g., dashboard) on page load
   $('[data-route="dashboard"]').click();
 });

@@ -67,8 +67,3 @@ $role = "Admin";
         </div>
     </div>
 </div>
-<script>
-$(document).ready(() => {
-  $("now-date").html(`<p> ${new Date()}</p>`);
-});
-</script>
