@@ -27,9 +27,10 @@ $(document).ready(function () {
     e.preventDefault();
 
     $.ajax({
-      url: "app/controllers/AuthController.php?action=logout",
+      url: "routes/logout.php",
       method: "GET",
       success: function (response) {
+        console.log(response);
         const data = JSON.parse(response);
         if (data.success) {
           window.location.href = data.redirect;

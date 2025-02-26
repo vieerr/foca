@@ -2,7 +2,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
-require $_SERVER["DOCUMENT_ROOT"] . "/foca" . "/app/models/UserModel.php";
+require "../app/models/UserModel.php";
 session_start();
 
 class AuthController
@@ -37,7 +37,7 @@ class AuthController
     }
     public function loggedIn()
     {
-        return header("Location: ../../main.php");
+        return header("Location: ../main.php");
     }
 
     public function logout()
@@ -47,8 +47,7 @@ class AuthController
         exit();
     }
 }
-$con = new AuthController();
-$con->login();
-
+// $con = new AuthController();
+// $con->login();
 
 ?>
