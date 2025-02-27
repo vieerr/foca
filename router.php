@@ -1,39 +1,67 @@
-<?php
-require_once "app/controllers/auth.php";
-require_once "app/controllers/userController.php";
 
-$page = isset($_GET["page"]) ? $_GET["page"] : "login";
+<?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+session_start();
+require_once "app/controllers/sessionController.php";
+require_once "app/controllers/userController.php";
+require_once "app/controllers/dashboardController.php";
+require_once "app/controllers/profileController.php";
+require_once "app/controllers/incomeController.php";
+
+$incomeController = new IncomeController();
+$profileController = new ProfileController();
+$sessionController = new SessionController();
+$userController = new UsuarioController();
+$dashboardController = new DashboardController();
+
+$page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
+$route = isset($_GET["route"]) ? $_GET["route"] : "";
+if (isset($_GET["route"])) {
+    switch ($route) {
+        case "login":
+            $sessionController->login();
+            break;
+        case "logout":
+            $sessionController->logout();
+            break;
+        case "get-users":
+            $userController->fetchUsers();
+            break;
+
+        case "crear_usuario":
+            require_once "app/controllers/UsuarioController.php";
+            $controller = new UsuarioController();
+            $controller->create();
+            break;
+        default:
+            echo "404 Not Found";
+            break;
+    }
+}
 
 switch ($page) {
-    case "login":
-        $controller = new AuthController();
-        $controller->login();
+    case "dashboard":
+        $dashboardController->index();
+        exit();
         break;
-    case "logout":
-        $controller = new AuthController();
-        $controller->logout();
+    case "perfil":
+        $profileController->index();
+        exit();
         break;
-    case "get-users":
-        $controller = new UsuarioController();
-        $controller->fetchUsers();
+    case "usuarios":
+        $userController->index();
+        exit();
         break;
-
-    // case "home":
-    //     require_once "app/controllers/HomeController.php";
-    //     $controller = new HomeController();
-    //     $controller->index();
-    //     break;
-    // case "crear_rol":
-    //     require_once "app/controllers/RoleController.php";
-    //     $controller = new RoleController();
-    //     $controller->create();
-    //     break;
-    case "crear_usuario":
-        require_once "app/controllers/UsuarioController.php";
-        $controller = new UsuarioController();
-        $controller->create();
+    case "ingresos":
+        $incomeController->index();
+        exit();
         break;
     default:
         echo "404 Not Found";
+        exit();
+        break;
 }
+
+
 ?>

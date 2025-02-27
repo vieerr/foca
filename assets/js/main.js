@@ -54,9 +54,9 @@ $(document).ready(function () {
   $(".load-content").on("click", function (e) {
     e.preventDefault();
     const route = $(this).data("route");
-
+    console.log(route);
     $.ajax({
-      url: `app/controllers/${route}.php`,
+      url: `router.php?page=${route}`,
       method: "GET",
       success: function (response) {
         $("#main-content").html(response);

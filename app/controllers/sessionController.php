@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 require "app/models/UserModel.php";
-class AuthController
+class SessionController
 {
     private $userModel;
 
@@ -44,11 +44,10 @@ class AuthController
     public function logout()
     {
         session_destroy();
-        echo json_encode(["success" => true, "redirect" => "/login"]);
+        echo json_encode(["success" => true, "redirect" => "/index.php"]);
         exit();
     }
 }
-// $con = new AuthController();
-// $con->login();
+
 
 ?>

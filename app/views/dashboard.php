@@ -1,15 +1,12 @@
 <?php
-// Start the session
-session_start();
+// VALIDATE WITH AUTH ROLES
 
-// Check if the user is logged in
-if (!isset($_SESSION["user_id"])) {
-    // Redirect to login if not logged in
-    header("Location: /login");
-    exit();
-}
+// if (!isset($_SESSION["user_id"])) {
+//     // Redirect to login if not logged in
+//     header("Location: /login");
+//     exit();
+// }
 
-// Access session data
 $username = $_SESSION["username"] ?? "Guest";
 // $role = $_SESSION["role"] ?? "User";
 $role = "Admin";

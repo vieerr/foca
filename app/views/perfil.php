@@ -1,12 +1,5 @@
 <?php
 
-session_start();
-
-if (!isset($_SESSION["user_id"])) {
-    header("Location: /login");
-    exit();
-}
-
 $username = $_SESSION["username"] ?? "Guest";
 $name = $_SESSION["name"] ?? "John";
 $last_name = $_SESSION["last_name"] ?? "Doe";
