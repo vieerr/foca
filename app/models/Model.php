@@ -7,8 +7,8 @@ class Model
     {
         if (self::$conn === null) {
             $host = "localhost";
-            $user = "admin";
-            $pass = "admin";
+            $user = "root";
+            $pass = "Negra123%";
             $dbname = "economiaf";
 
             self::$conn = new mysqli($host, $user, $pass, $dbname);

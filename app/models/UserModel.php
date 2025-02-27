@@ -50,18 +50,6 @@ class Usuario extends Model
         return $user;
     }
 
-    public function getInfoUsers()
-    {
-        $stmt = $this->conn->prepare(
-            "SELECT id_usuario, nombre_usuario, apellido_usuario, username_usuario, nombre_rol FROM Usuarios u JOIN Roles r ON u.id_rol=r.id_rol;"
-        );
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $users = $result->fetch_all(MYSQLI_ASSOC);
-
-        $stmt->close();
-        return $users;
-    }
     public function fetchAllUsers()
     {
         $query = "SELECT u.id_usuario, u.nombre_usuario, u.apellido_usuario, u.username_usuario, u.estado_usuario, r.nombre_rol
