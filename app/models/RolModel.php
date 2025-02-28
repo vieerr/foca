@@ -29,6 +29,12 @@ class Rol extends Model{
         $stmt->close();
         return $id_rol ?? null;
     }
+
+    public function getRoles()
+    {
+        return self::select("Roles", ["id_rol", "nombre_rol"], ["estado_rol" => "activo"]);
+    }
+    
 }
 
 
