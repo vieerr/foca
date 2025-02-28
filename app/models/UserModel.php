@@ -1,56 +1,72 @@
-
 <?php
 require_once "Model.php";
 
-class UserModel extends Model
+class Usuario extends Model
 {
-    // missing role param
-    public function createUser($username, $password)
-    {
-        $query = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
-        return $this->conn->query($query);
+    protected static $table = "Usuarios"; // Define the table name
+
+    public function createUser(
+        $nombre_usuario,
+        $apellido_usuario,
+        $username_usuario,
+        $password_plain,
+        $id_rol
+    ) {
+        $password_hash = password_hash($password_plain, PASSWORD_DEFAULT);
+        $estado_usuario = "activo";
+
+        $data = [
+            "nombre_usuario" => $nombre_usuario,
+            "apellido_usuario" => $apellido_usuario,
+            "username_usuario" => $username_usuario,
+            "claveHash_usuario" => $password_hash,
+            "id_rol" => $id_rol,
+            "estado_usuario" => $estado_usuario,
+        ];
+
+        return self::insert(self::$table, $data); // Use the generic insert method
     }
 
-    public function findByUsername($username)
+    public function getUserByUsername($username)
     {
-        // Use prepared statements to prevent SQL injection
-        $query = "SELECT * FROM Usuarios WHERE username_usuario = ?";
-        $stmt = $this->conn->prepare($query);
+        $conditions = [
+            "username_usuario" => $username,
+            "estado_usuario" => "activo",
+        ];
 
-        if (!$stmt) {
-            // Handle prepare error
-            die("Prepare failed: " . $this->conn->error);
-        }
+        $result = self::select(self::$table, ["*"], $conditions, 1); // Use the generic select method with a limit
+        return !empty($result) ? $result[0] : null; // Return the first row or null
+    }
 
-        // Bind the username parameter
-        $stmt->bind_param("s", $username);
+    public function getInfoUsers()
+    {
+        $query = "SELECT id_usuario, nombre_usuario, apellido_usuario, username_usuario, nombre_rol
+                  FROM Usuarios u
+                  JOIN Roles r ON u.id_rol = r.id_rol";
 
-        // Execute the query
-        if (!$stmt->execute()) {
-            // Handle execute error
-            die("Execute failed: " . $stmt->error);
-        }
+        $conn = self::getConn();
+        $result = $conn->query($query);
 
-        // Get the result
-        $result = $stmt->get_result();
-
-        // Check if any rows were returned
-        if ($result->num_rows > 0) {
-            // Fetch the first row as an associative array
-            return $result->fetch_assoc();
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
         } else {
-            // No rows found
-            return null;
+            die("Error fetching users: " . $conn->error);
         }
     }
 
-    public function findById($id_username)
+    public function fetchAllUsers()
     {
-        $query = "SELECT * FROM users WHERE id_username = $id_username";
-        $res = $this->conn->query($query);
-        return $res->fetch_assoc();
+        $query = "SELECT u.id_usuario, u.nombre_usuario, u.apellido_usuario, u.username_usuario, u.estado_usuario, r.nombre_rol
+                  FROM Usuarios u
+                  JOIN Roles r ON u.id_rol = r.id_rol";
+
+        $conn = self::getConn();
+        $result = $conn->query($query);
+
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            die("Error fetching users: " . $conn->error);
+        }
     }
 }
-
-
-?>
