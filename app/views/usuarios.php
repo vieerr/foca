@@ -51,7 +51,7 @@
                         <th class="px-6 py-3 border-b border-gray-200 text-left text-sm font-medium text-gray-700">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="users-table-body"</tbody>
+                <tbody id="users-table-body"></tbody>
             </table>
         </div>
     </div>

@@ -29,6 +29,16 @@ class Rol extends Model{
         $stmt->close();
         return $id_rol ?? null;
     }
+
+    public function get_rol() {
+        $query = "SELECT * FROM Roles";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $rows;
+    }
 }
 
 
