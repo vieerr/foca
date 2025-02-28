@@ -34,7 +34,7 @@ class Usuario extends Model
             "estado_usuario" => "activo",
         ];
 
-        $result = self::select(self::$table, ["*"], $conditions, 1); // Use the generic select method with a limit
+        $result = self::select(self::$table, ["*"], $conditions); // Use the generic select method with a limit
         return !empty($result) ? $result[0] : null; // Return the first row or null
     }
 
