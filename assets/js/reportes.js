@@ -1,6 +1,7 @@
 $(document).ready(function () {
-  const incomeExpensesCtx = $("#incomeExpensesChart")[0].getContext("2d");
-  new Chart(incomeExpensesCtx, {
+  // Initialize Summary Chart (Bar Chart)
+  const summaryCtx = $("#summaryChart")[0].getContext("2d");
+  new Chart(summaryCtx, {
     type: "bar",
     data: {
       labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun"],
@@ -17,13 +18,9 @@ $(document).ready(function () {
         },
       ],
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-    },
   });
 
-  // Category Breakdown Chart (Pie Chart)
+  // Initialize Category Chart (Pie Chart)
   const categoryCtx = $("#categoryChart")[0].getContext("2d");
   new Chart(categoryCtx, {
     type: "pie",
@@ -36,14 +33,5 @@ $(document).ready(function () {
         },
       ],
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-    },
   });
-
-  // Display Current Date
-  const now = new Date();
-  const options = { year: "numeric", month: "long", day: "numeric" };
-  $("#now-date").text(now.toLocaleDateString("es-ES", options));
 });
