@@ -2,6 +2,7 @@
 require_once "Model.php";
 class Autorizacion extends Model
 {
+    public static $table = "Autorizaciones";
     private $conn;
 
     public function __construct()
@@ -32,19 +33,9 @@ class Autorizacion extends Model
 
     public function createAutoriza($id_rol, $id_permiso)
     {
-        try {
-            $stmt = $this->conn->prepare(
-                "INSERT INTO Autorizaciones (id_rol, id_permiso) VALUES (?, ?)"
-            );
-            $stmt->bind_param("ii", $id_rol, $id_permiso);
-
-            $success = $stmt->execute();
-            $stmt->close();
-
-            return $success;
-        } catch (Exception $e) {
-            error_log("Error en createAutoriza: " . $e->getMessage());
-            return false;
-        }
+        return self::insert(self::$table, [
+            "id_rol" => $id_rol,
+            "id_permiso" => $id_permiso
+        ]);
     }
 }
