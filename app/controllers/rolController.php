@@ -19,6 +19,13 @@ class RolController{
         exit();
     }
 
+    public function fetchRoles(){
+        $totalRoles=$this->rolModel->get_rol();
+        header("Content-Type: application/json");
+        echo json_encode($totalRoles);
+        exit();
+    }
+
     public function index(){
         require "app/views/roles.php";
     }
@@ -30,12 +37,11 @@ class RolController{
         $permisos = isset($_POST['permisos']) ? $_POST['permisos'] : [];
     
         // Crear el rol
-        $roleModel = new Rol();
-        $result = $roleModel->createRol($nombre_rol, $descripcion_rol);
+        $result = $this->rolModel->createRol($nombre_rol, $descripcion_rol);
     
         if ($result) {
             // Obtener el ID del nuevo rol
-            $idNuevo = $roleModel->getId($nombre_rol);
+            $idNuevo = $this->rolModel->getId($nombre_rol);
             
             if ($idNuevo) {
                 // Asociar los permisos seleccionados

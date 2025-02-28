@@ -42,6 +42,10 @@ if (isset($_GET["route"])) {
         case "get-permisos":
             $rolController->fetchPermisos();
             break;
+        
+        case "get-roles":
+            $rolController->fetchRoles();
+            break;
 
         case "crear-rol":
             $rolController->crearRol();

@@ -1,5 +1,6 @@
 $(document).ready(function () {
     fetchPermisos();
+    fetchRoles();
     $("#register-rol-form").on("submit", function (e) {
         e.preventDefault();
         submitRol();
@@ -30,6 +31,51 @@ $(document).ready(function () {
         console.error("Error al obtener los permisos:", error);
         alert("Error al cargar los permisos. Por favor, intenta nuevamente.");
       }
+    });
+  }
+
+  function fetchRoles(){
+    $.ajax({
+      url: "router.php?route=get-roles",
+      method: "GET",
+      dataType: "json",
+      success: function (response) {
+        $("#roles-table-body").empty();
+        console.log("Roles recibidos:", response);
+
+        response.forEach(function (role) {
+          const row = `
+            <tr class="text-center">
+              <td class="px-6 py-4 border-b border-gray-200">${role.id_rol}</td>
+              <td class="px-6 py-4 border-b border-gray-200">${role.nombre_rol}</td>
+              <td class="py-3">
+                <span class="badge ${role.estado_rol === "activo" ? "badge-accent badge-outline" : "badge-secondary"} badge-outline">
+                  ${role.estado_rol}
+                </span>
+              </td>
+
+              <td class="py-3">
+                <button class="btn btn-sm btn-info" data-id="${role.id_rol}">
+                    <i class="fas fa-pencil"></i>
+                    <p class="hidden lg:inline-block">Editar</p>
+                </button>
+                
+                <button class="btn btn-sm btn-error ml-2 toggle-status" data-id="${role.id_rol}" data-status="${role.estado_rol}">
+                    <i class="fas fa-retweet"></i>
+                    <p class="hidden lg:inline-block">
+                      ${role.estado_rol === "activo" ? "Desactivar" : "Activar"}
+                    </p>
+                </button>
+              </td>
+            </tr>
+          `;
+          $("#roles-table-body").append(row);
+        });
+      },
+      error: function (xhr, status, error) {
+        console.error("Error fetching roles data:", error);
+        alert("Error fetching roles data. Please try again.");
+      },
     });
   }
 
