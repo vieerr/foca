@@ -9,6 +9,7 @@ require_once "app/controllers/dashboardController.php";
 require_once "app/controllers/profileController.php";
 require_once "app/controllers/incomeController.php";
 require_once "app/controllers/rolController.php";
+require_once "app/controllers/expenseController.php";
 
 $incomeController = new IncomeController();
 $profileController = new ProfileController();
@@ -16,7 +17,7 @@ $sessionController = new SessionController();
 $userController = new UsuarioController();
 $dashboardController = new DashboardController();
 $rolController = new RolController();
-
+$expenseController = new ExpenseController();
 $page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
 $route = isset($_GET["route"]) ? $_GET["route"] : "";
 if (isset($_GET["route"])) {
@@ -43,7 +44,7 @@ if (isset($_GET["route"])) {
         case "crear-rol":
             $rolController->crearRol();
             break;
-        
+
         default:
             echo "404 Not Found";
             break;
@@ -54,27 +55,25 @@ switch ($page) {
     case "dashboard":
         $dashboardController->index();
         exit();
-        //break;
     case "perfil":
         $profileController->index();
         exit();
-        //break;
     case "usuarios":
         $userController->index();
         exit();
-        //break;
     case "ingresos":
         $incomeController->index();
         exit();
-        //break;
+    case "gastos":
+        $expenseController->index();
+        exit();
     case "roles":
         $rolController->index();
         exit();
-        
+
     default:
         echo "404 Not Found";
         exit();
-        //break;
 }
 
 

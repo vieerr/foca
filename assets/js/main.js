@@ -16,9 +16,9 @@ $(document).ready(function () {
       name: "Gastos",
     },
     {
-      route: "reporters",
+      route: "reportes",
       icon: "fa-chart-line",
-      name: "Reporters",
+      name: "Reportes",
     },
     {
       route: "perfil",
@@ -40,7 +40,7 @@ $(document).ready(function () {
   let html = "";
   $.each(links, function (index, link) {
     html += `
-    <li>
+    <li id=${link.route}-link class="w-full">
         <a href="#" data-route=${link.route} class="load-content gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
             <i class="fas ${link.icon}"></i>
             ${link.name}
@@ -60,7 +60,6 @@ $(document).ready(function () {
       method: "GET",
       success: function (response) {
         $("#main-content").html(response);
-
         // const previousScript = document.querySelector(
         //   `script[src="assets/js/${route}.js"]`,
         // );
