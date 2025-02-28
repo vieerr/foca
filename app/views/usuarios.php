@@ -4,7 +4,7 @@
     <!-- Register New User Form -->
     <div class="bg-base-200 p-6 rounded-lg shadow-lg mb-6">
         <h2 class="text-xl font-bold mb-4">Registrar un nuevo usuario</h2>
-        <form id="register-user-form">
+        <form id="register-user-form" method="POST">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
@@ -25,9 +25,6 @@
                 <div>
                     <label for="rol" class="block text-sm font-medium text-gray-700">Rol</label>
                     <select id="rol" name="rol" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg" required>
-                        <option value="1">Admin</option>
-                        <option value="2">User</option>
-                        <!-- Add more roles as needed -->
                     </select>
                 </div>
             </div>

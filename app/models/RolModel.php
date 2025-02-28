@@ -30,15 +30,11 @@ class Rol extends Model{
         return $id_rol ?? null;
     }
 
-    public function get_rol() {
-        $query = "SELECT * FROM Roles";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
-        $stmt->close();
-        return $rows;
+    public function getRoles()
+    {
+        return self::select("Roles", ["id_rol", "nombre_rol"], ["estado_rol" => "activo"]);
     }
+    
 }
 
 

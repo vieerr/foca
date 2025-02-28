@@ -34,9 +34,8 @@ if (isset($_GET["route"])) {
             $userController->fetchUsers();
             break;
 
-        case "crear_usuario":
-            $controller = new UsuarioController();
-            //$controller->create();
+        case "crear-usuario":
+            $userController->createUser();
             break;
 
         case "get-permisos":
@@ -44,7 +43,7 @@ if (isset($_GET["route"])) {
             break;
         
         case "get-roles":
-            $rolController->fetchRoles();
+            $userController->fetchRoles();
             break;
 
         case "crear-rol":
