@@ -70,7 +70,6 @@
           <option disabled selected>Seleccionar estado</option>
           <option>Activo</option>
           <option>Inactivo</option>
-          <option>Pendiente</option>
         </select>
       </label>
       <label class="input">
@@ -110,7 +109,7 @@
           <td><span class="badge badge-success">Activo</span></td>
           <td>
             <button class="btn btn-xs btn-info">Editar</button>
-            <button class="btn btn-xs btn-error ml-2">Eliminar</button>
+            <button class="btn btn-xs btn-error ml-2">Anular</button>
           </td>
         </tr>
         <tr>
@@ -120,10 +119,10 @@
           <td>Efectivo</td>
           <td>2023-10-05</td>
           <td>2023-10-06</td>
-          <td><span class="badge badge-warning">Pendiente</span></td>
+          <td><span class="badge badge-error">Anulado</span></td>
           <td>
             <button class="btn btn-xs btn-info">Editar</button>
-            <button class="btn btn-xs btn-error ml-2">Eliminar</button>
+            <button class="btn btn-xs btn-error ml-2">Anular</button>
           </td>
         </tr>
         <tr>
@@ -136,7 +135,7 @@
           <td><span class="badge badge-success">Activo</span></td>
           <td>
             <button class="btn btn-xs btn-info">Editar</button>
-            <button class="btn btn-xs btn-error ml-2">Eliminar</button>
+            <button class="btn btn-xs btn-error ml-2">Anular</button>
           </td>
         </tr>
       </tbody>

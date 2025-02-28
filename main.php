@@ -13,7 +13,7 @@
     </script>
     <title>FOCA</title>
 </head>
-<body class="bg-base-100">
+<body class="bg-base-100 w-screen">
     <!-- App Container -->
     <div class="flex min-h-screen">
         <!-- Sidebar -->
@@ -28,7 +28,7 @@
         </div>
 
         <!-- Main Content -->
-        <div id="main-content" class="main-content flex-1 p-8 bg-base-100">
+        <div id="main-content" class="main-content w-full p-8 bg-base-100">
             <!-- Content will be loaded here dynamically -->
         </div>
     </div>
