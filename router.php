@@ -10,6 +10,7 @@ require_once "app/controllers/profileController.php";
 require_once "app/controllers/incomeController.php";
 require_once "app/controllers/rolController.php";
 require_once "app/controllers/expenseController.php";
+require_once "app/controllers/reportController.php";
 
 $incomeController = new IncomeController();
 $profileController = new ProfileController();
@@ -18,6 +19,7 @@ $userController = new UsuarioController();
 $dashboardController = new DashboardController();
 $rolController = new RolController();
 $expenseController = new ExpenseController();
+$reportController = new ReportController();
 $page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
 $route = isset($_GET["route"]) ? $_GET["route"] : "";
 if (isset($_GET["route"])) {
@@ -70,7 +72,9 @@ switch ($page) {
     case "roles":
         $rolController->index();
         exit();
-
+    case "reportes":
+        $reportController->index();
+        exit();
     default:
         echo "404 Not Found";
         exit();
