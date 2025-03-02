@@ -19,13 +19,6 @@ class RolController{
         exit();
     }
 
-    public function fetchRoles(){
-        $totalRoles=$this->rolModel->get_rol();
-        header("Content-Type: application/json");
-        echo json_encode($totalRoles);
-        exit();
-    }
-
     public function index(){
         require "app/views/roles.php";
     }

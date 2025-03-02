@@ -32,7 +32,7 @@ class Rol extends Model{
 
     public function getRoles()
     {
-        return self::select("Roles", ["id_rol", "nombre_rol"], ["estado_rol" => "activo"]);
+        return self::select("Roles", ["id_rol", "nombre_rol","estado_rol"], ["estado_rol" => "activo"]);
     }
     
 }
