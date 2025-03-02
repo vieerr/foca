@@ -2,15 +2,15 @@
 SET SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema RC5
+-- Schema economiaf
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `RC5`;
-USE `RC5`;
+CREATE SCHEMA IF NOT EXISTS `economiaf`;
+USE `economiaf`;
 
 -- -----------------------------------------------------
--- Table `RC5`.`Roles`
+-- Table `economiaf`.`Roles`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `RC5`.`Roles` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`Roles` (
   `id_rol` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_rol` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion_rol` VARCHAR(100) NULL,
@@ -19,9 +19,9 @@ CREATE TABLE IF NOT EXISTS `RC5`.`Roles` (
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `RC5`.`Usuarios`
+-- Table `economiaf`.`Usuarios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `RC5`.`Usuarios` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`Usuarios` (
   `id_usuario` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_usuario` VARCHAR(45) NOT NULL,
   `apellido_usuario` VARCHAR(45) NOT NULL,
@@ -33,24 +33,24 @@ CREATE TABLE IF NOT EXISTS `RC5`.`Usuarios` (
   INDEX `fk_id_rol_usuario_idx` (`id_rol` ASC),
   CONSTRAINT `fk_id_rol_usuario`
     FOREIGN KEY (`id_rol`)
-    REFERENCES `RC5`.`Roles` (`id_rol`)
+    REFERENCES `economiaf`.`Roles` (`id_rol`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `RC5`.`Permisos`
+-- Table `economiaf`.`Permisos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `RC5`.`Permisos` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`Permisos` (
   `id_permiso` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_permiso` VARCHAR(45) NOT NULL UNIQUE,
   PRIMARY KEY (`id_permiso`)
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `RC5`.`Categorias`
+-- Table `economiaf`.`Categorias`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `RC5`.`Categorias` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`Categorias` (
   `id_categoria` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_categoria` VARCHAR(45) NOT NULL,
   `tipo_categoria` ENUM('ingreso','egreso') NOT NULL,
@@ -59,16 +59,17 @@ CREATE TABLE IF NOT EXISTS `RC5`.`Categorias` (
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `RC5`.`Registros`
+-- Table `economiaf`.`Registros`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `RC5`.`Registros` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`Registros` (
   `id_registro` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_registro` VARCHAR(45) NULL,
   `tipo_registro` ENUM('tarjeta','efectivo','transferencia') NOT NULL,
   `metodo_registro` VARCHAR(45) NULL,
   `fecha_registro` DATETIME NOT NULL,
+  'fecha_obtencion' DATETIME NOT NULL,
   `valor_registro` DECIMAL(10,2) NOT NULL,
-  `estado_registro` ENUM('activo','inactivo') NOT NULL DEFAULT 'activo',
+  `estado_registro` ENUM('activo','anulado') NOT NULL DEFAULT 'activo',
   `id_usuario` INT UNSIGNED NOT NULL,
   `id_categoria` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_registro`),
@@ -76,31 +77,31 @@ CREATE TABLE IF NOT EXISTS `RC5`.`Registros` (
   INDEX `fk_id_categoria_registros_idx` (`id_categoria` ASC),
   CONSTRAINT `fk_id_usuario_registros`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `RC5`.`Usuarios` (`id_usuario`)
+    REFERENCES `economiaf`.`Usuarios` (`id_usuario`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_id_categoria_registros`
     FOREIGN KEY (`id_categoria`)
-    REFERENCES `RC5`.`Categorias` (`id_categoria`)
+    REFERENCES `economiaf`.`Categorias` (`id_categoria`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `RC5`.`Autorizaciones`
+-- Table `economiaf`.`Autorizaciones`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `RC5`.`Autorizaciones` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`Autorizaciones` (
   `id_rol` INT UNSIGNED NOT NULL,
   `id_permiso` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_rol`, `id_permiso`),
   CONSTRAINT `fk_id_rol_autorizacion`
     FOREIGN KEY (`id_rol`)
-    REFERENCES `RC5`.`Roles` (`id_rol`)
+    REFERENCES `economiaf`.`Roles` (`id_rol`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_id_permiso_autorizacion`
     FOREIGN KEY (`id_permiso`)
-    REFERENCES `RC5`.`Permisos` (`id_permiso`)
+    REFERENCES `economiaf`.`Permisos` (`id_permiso`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
@@ -108,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `RC5`.`Autorizaciones` (
 -- -----------------------------------------------------
 -- Tabla Auditoría
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `RC5`.`Auditoria` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`Auditoria` (
   `id_auditoria` INT NOT NULL AUTO_INCREMENT,
   `accion` VARCHAR(45) NOT NULL, 
   `tabla_afectada` VARCHAR(45) NOT NULL, -- Tabla en la que se realizó la acción
@@ -120,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `RC5`.`Auditoria` (
   INDEX `fk_id_usuario_auditoria_idx` (`id_usuario` ASC) VISIBLE,
   CONSTRAINT `fk_id_usuario_auditoria`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `RC5`.`Usuarios` (`id_usuario`)
+    REFERENCES `economiaf`.`Usuarios` (`id_usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;

@@ -21,6 +21,13 @@ class Model
         return self::$conn;
     }
 
+    public static function setUsuarioActivo($idUsuario)
+    {
+        $conn = self::getConn();
+        $conn->query("SET @usuario_activo = " . intval($idUsuario));
+    }
+    
+
     /**
      * Generic method to execute a SELECT query.
      *

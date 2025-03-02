@@ -35,6 +35,11 @@ $(document).ready(function () {
       icon: "fa-shield-halved",
       name: "Roles",
     },
+    {
+      route: "auditorias",
+      icon: "fa-clipboard-list",
+      name: "Auditorias",
+    },
   ];
 
   let html = "";

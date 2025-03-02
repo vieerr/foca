@@ -3,6 +3,7 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 require "app/models/UserModel.php";
+require_once "app/models/Model.php";
 class SessionController
 {
     private $userModel;
@@ -25,7 +26,8 @@ class SessionController
             $_SESSION["role"] = $user["id_rol"];
             $_SESSION["name"] = $user["nombre_usuario"];
             $_SESSION["last_name"] = $user["apellido_usuario"];
-
+            $model= new Model();
+            $model->setUsuarioActivo($user["id_usuario"]);
             $this->loggedIn();
             exit();
         } else {

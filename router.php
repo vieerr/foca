@@ -3,6 +3,12 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 session_start();
+
+if (isset($_SESSION["user_id"])) {
+    require_once "app/models/Model.php";
+    Model::setUsuarioActivo($_SESSION["user_id"]);
+}
+
 require_once "app/controllers/sessionController.php";
 require_once "app/controllers/userController.php";
 require_once "app/controllers/dashboardController.php";
@@ -11,6 +17,7 @@ require_once "app/controllers/incomeController.php";
 require_once "app/controllers/rolController.php";
 require_once "app/controllers/expenseController.php";
 require_once "app/controllers/reportController.php";
+require_once "app/controllers/auditoryController.php";
 
 $incomeController = new IncomeController();
 $profileController = new ProfileController();
@@ -20,6 +27,7 @@ $dashboardController = new DashboardController();
 $rolController = new RolController();
 $expenseController = new ExpenseController();
 $reportController = new ReportController();
+$auditoryController = new AuditoryController();
 $page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
 $route = isset($_GET["route"]) ? $_GET["route"] : "";
 if (isset($_GET["route"])) {
@@ -77,6 +85,9 @@ switch ($page) {
         exit();
     case "reportes":
         $reportController->index();
+        exit();
+    case "auditorias":
+        $auditoryController->index();
         exit();
     default:
         echo "404 Not Found";
