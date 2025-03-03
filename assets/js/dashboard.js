@@ -2,7 +2,7 @@ $(document).ready(async () => {
   const fetchRegs = async () => {
     try {
       const response = await $.ajax({
-        url: "router.php?route=get-all-regs",
+        url: "router.php?route=get-all-regs-with-cats",
         method: "GET",
         dataType: "json",
       });
@@ -12,8 +12,21 @@ $(document).ready(async () => {
       // throw error;
     }
   };
-  const regs = await fetchRegs();
 
+  const fetchCats = async () => {
+    try {
+      const response = await $.ajax({
+        url: "router.php?route=get-all-categories",
+        method: "GET",
+        dataType: "json",
+      });
+      return response;
+    } catch (error) {
+      console.error("Error al obtener las categorias:", error);
+      // throw error;
+    }
+  };
+  const regs = await fetchRegs();
   // dashboard elements
 
   let income = [];
@@ -23,7 +36,6 @@ $(document).ready(async () => {
     reg.tipo_registro === "ingreso" ? income.push(reg) : expense.push(reg);
   });
 
-
   $("#income-num").text(income.length);
   $("#expense-num").text(expense.length);
   const expTotal = expense.reduce(
@@ -31,26 +43,55 @@ $(document).ready(async () => {
     0
   );
   $("#expense-total").text(
-    `$ ${expense.reduce((prev, curr) => prev + Number(curr.valor_registro), 0)}`
+    `$ ${expense
+      .reduce((prev, curr) => prev + Number(curr.valor_registro), 0)
+      .toFixed(2)}`
   );
   $("#income-total").text(
-    `$ ${income.reduce((prev, curr) => prev + Number(curr.valor_registro), 0)}`
+    `$ ${income
+      .reduce((prev, curr) => prev + Number(curr.valor_registro), 0)
+      .toFixed(2)}`
   );
+
+  const monthlyIncome = new Array(12).fill(0);
+  const monthlyExpense = new Array(12).fill(0);
+
+  regs.forEach((reg) => {
+    const month = new Date(reg.fecha_registro).getMonth(); // Get month index (0-11)
+    if (reg.tipo_registro === "ingreso") {
+      monthlyIncome[month] += Number(reg.valor_registro);
+    } else {
+      monthlyExpense[month] += Number(reg.valor_registro);
+    }
+  });
 
   const incomeExpensesCtx = $("#incomeExpensesChart")[0].getContext("2d");
   new Chart(incomeExpensesCtx, {
     type: "bar",
     data: {
-      labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun"],
+      labels: [
+        "Ene",
+        "Feb",
+        "Mar",
+        "Abr",
+        "May",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dic",
+      ],
       datasets: [
         {
           label: "Ingresos",
-          data: [6500, 5900, 8000, 8100, 5600, 5500],
+          data: monthlyIncome,
           backgroundColor: "#36D399",
         },
         {
           label: "Gastos",
-          data: [2800, 3700, 2400, 3000, 4200, 3100],
+          data: monthlyExpense,
           backgroundColor: "#F87272",
         },
       ],
@@ -61,22 +102,104 @@ $(document).ready(async () => {
     },
   });
 
-  // Category Breakdown Chart (Pie Chart)
-  const categoryCtx = $("#categoryChart")[0].getContext("2d");
-  new Chart(categoryCtx, {
+  const categories = await fetchCats();
+
+  const incomeCats = categories.filter(
+    (cat) => cat.tipo_categoria === "ingreso"
+  );
+  const expenseCats = categories.filter(
+    (cat) => cat.tipo_categoria === "egreso"
+  );
+
+  console.log(incomeCats);
+  console.log(expenseCats);
+  console.log(regs);
+
+  const getCategoryTotals = (regs) => {
+    const names = Array.from(new Set(regs.map((reg) => reg.nombre_categoria)));
+    // const unique = new Set(names);
+    const values = new Array(names.length).fill(0);
+    const obj = Object.fromEntries(
+      names.map((key, index) => [key, values[index]])
+    );
+    regs.map((reg) => {
+      obj[reg.nombre_categoria]++;
+    });
+    return obj;
+  };
+
+  const incObj = getCategoryTotals(income);
+  const expObj = getCategoryTotals(expense);
+  const incomeLabels = Object.keys(incObj);
+  const incomeData = Object.values(incObj);
+
+  const expenseLabels = Object.keys(expObj);
+  const expenseData = Object.values(expObj);
+
+  // Income Category Breakdown Chart (Pie Chart)
+  const incomeCat = $("#income-category")[0].getContext("2d");
+
+  new Chart(incomeCat, {
     type: "pie",
     data: {
-      labels: ["Comida", "Transporte", "Servicios", "Entretenimiento"],
+      labels: incomeLabels,
       datasets: [
         {
-          data: [45, 25, 20, 10],
-          backgroundColor: ["#36D399", "#3B82F6", "#FBBF24", "#F472B6"],
+          data: incomeData,
+          backgroundColor: [
+            "#36D399",
+            "#3B82F6",
+            "#FBBF24",
+            "#F472B6",
+            "#A78BFA",
+            "#60A5FA",
+            "#FCD34D",
+            "#F87171",
+          ], // Add more colors if needed
         },
       ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+        },
+      },
+    },
+  });
+
+  // Expense Category Breakdown Chart (Pie Chart)
+  const expenseCat = $("#expense-category")[0].getContext("2d");
+  new Chart(expenseCat, {
+    type: "pie",
+    data: {
+      labels: expenseLabels,
+      datasets: [
+        {
+          data: expenseData,
+          backgroundColor: [
+            "#36D399",
+            "#3B82F6",
+            "#FBBF24",
+            "#F472B6",
+            "#A78BFA",
+            "#60A5FA",
+            "#FCD34D",
+            "#F87171",
+          ], // Add more colors if needed
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+        },
+      },
     },
   });
 

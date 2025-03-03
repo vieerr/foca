@@ -11,12 +11,18 @@ class RegController
 
     public function fetchAllRegs()
     {
-        $regs = $this->regModel->getAll();
+        $res = $this->regModel->getAll();
         header("Content-Type: application/json");
-        echo json_encode($regs);
+        echo json_encode($res);
         exit();
     }
-
+    public function fetchAllRegsWithCats()
+    {
+        $res = $this->regModel->getAllWithCats();
+        header("Content-Type: application/json");
+        echo json_encode($res);
+        exit();
+    }
 
 }
 ?>

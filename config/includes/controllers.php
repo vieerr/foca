@@ -10,8 +10,10 @@ require_once "app/controllers/reportController.php";
 require_once "app/controllers/auditController.php";
 require_once "app/controllers/permitController.php";
 require_once "app/controllers/regController.php";
+require_once "app/controllers/categoryController.php";
 
 $incomeController = new IncomeController();
+$categoryController = new CategoryController();
 $regController = new RegController();
 $profileController = new ProfileController();
 $sessionController = new SessionController();

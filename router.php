@@ -37,10 +37,19 @@ if (isset($_GET["route"])) {
             break;
         case "get-all-income":
             $incomeController->fetchAllIncome();
+            break;
         case "get-all-expense":
             $expenseController->fetchAllExpense();
+            break;
         case "get-all-regs":
             $regController->fetchAllRegs();
+            break;
+        case "get-all-regs-with-cats":
+            $regController->fetchAllRegsWithCats();
+            break;
+        case "get-all-categories":
+            $categoryController->fetchAllCategories();
+            break;
         default:
             echo "404 Not Found";
             break;

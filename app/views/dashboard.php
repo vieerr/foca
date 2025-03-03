@@ -51,7 +51,7 @@ $role = "Admin";
                 <div class="card bg-base-100 shadow-lg">
                     <div class="card-body">
                         <h2 class="card-title ">Total de Ingresos</h2>
-                        <p class="text-2xl font-bold text-success" id="income-total" ></p>
+                        <p class="text-2xl font-bold text-success" id="income-total"></p>
                         <p class="text-sm text-gray-500">Todos los tiempos</p>
                     </div>
                 </div>
@@ -59,7 +59,7 @@ $role = "Admin";
                 <div class="card bg-base-100 shadow-lg">
                     <div class="card-body">
                         <h2 class="card-title ">Total de Gastos</h2>
-                        <p class="text-2xl font-bold text-error" id="expense-total" ></p>
+                        <p class="text-2xl font-bold text-error" id="expense-total"></p>
                         <p class="text-sm text-gray-500">Todos los tiempos</p>
                     </div>
                 </div>
@@ -67,18 +67,23 @@ $role = "Admin";
 
             <!-- Charts Section -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <!-- Income vs Expenses Chart -->
-              <div class="bg-base-200 rounded-lg h-96 p-12 pt-0 m-0">
-                  <h2 class="card-title">Ingresos vs Gastos</h2>
-                <canvas id="incomeExpensesChart" class="w-14 h-28"></canvas>
+                <!-- Income vs Expenses Chart -->
+                <div class="bg-base-200 rounded-lg col-span-2 h-96 p-12 pt-0 m-0">
+                    <h2 class="card-title">Ingresos vs Gastos</h2>
+                    <canvas id="incomeExpensesChart" class="w-14 h-28"></canvas>
 
-              </div>
+                </div>
 
-              <!-- Category Breakdown -->
-              <div class="bg-base-200 rounded-lg h-96 p-12 pt-0 m-0">
-                <h3 class="text-lg font-bold mb-4">Distribución por Categoría</h3>
-                <canvas id="categoryChart" class="w-14 h-28"></canvas>
-              </div>
+                <!-- Category Breakdown -->
+                <div class="bg-base-200 rounded-lg h-96 p-12 pt-0 m-0">
+                    <h3 class="text-lg font-bold mb-4">Ingresos por categorías</h3>
+                    <canvas id="income-category" class="w-14 h-28"></canvas>
+                </div>
+                <!-- Category Breakdown -->
+                <div class="bg-base-200 rounded-lg h-96 p-12 pt-0 m-0">
+                    <h3 class="text-lg font-bold mb-4">Egresos por categorías</h3>
+                    <canvas id="expense-category" class="w-14 h-28"></canvas>
+                </div>
             </div>
 
             <div class="card bg-base-100 shadow-lg">
