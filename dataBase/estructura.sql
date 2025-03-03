@@ -155,7 +155,7 @@ INSERT INTO Roles (nombre_rol, descripcion_rol, estado_rol)
 VALUES ('Administrador', 'Rol administrador con permisos completos', 'activo');
 
 INSERT INTO Usuarios (nombre_usuario, apellido_usuario, username_usuario, claveHash_usuario, id_rol, estado_usuario)
-VALUES ("Kleber", "Aguilar", "01234567890","$2y$10$ciGgtxcUUAWsqDNT5n9f3uIFLrmJdr6ZJvXyGiv0cvO6U/CO6EtiS" , 1, 'activo');
+VALUES ("Kleber", "Aguilar", "1234567890","$2y$10$ciGgtxcUUAWsqDNT5n9f3uIFLrmJdr6ZJvXyGiv0cvO6U/CO6EtiS" , 1, 'activo');
 
 INSERT INTO Autorizaciones (id_rol, id_permiso) VALUES 
 (1, 1),
