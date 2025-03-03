@@ -29,6 +29,8 @@ class UsuarioController
         $users = $this->rolModel->getRoles();
         header("Content-Type: application/json");
         echo json_encode($users);
+    
+        // echo $users;
         exit();
     }
 

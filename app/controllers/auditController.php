@@ -1,5 +1,5 @@
 <?php
-class AuditoryController {
+class AuditController {
     public function index()
     {
         require "app/views/auditorias.php";

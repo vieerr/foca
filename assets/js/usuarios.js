@@ -54,8 +54,8 @@ function fetchRoles() {
         $("#rol").append(option);
       });
     },
-    error: function (xhr, status, error) {
-      console.error("Error al obtener los roles:", error);
+    error: function (xhr, status, error, response) {
+      console.error("Error al obtener los roles:", error, response);
       alert("Error al cargar los roles. Por favor, intenta nuevamente.");
     }
   });

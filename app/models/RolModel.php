@@ -1,27 +1,31 @@
 <?php
 require_once "Model.php";
 
-class Rol extends Model{
+class Rol extends Model
+{
 
-    public static $table="Roles";
+    public static $table = "roles";
     private $conn;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->conn = self::getConn();
     }
 
-    public function createRol($nombre_rol,$descripcion_rol){
-        $data=[
-            "nombre_rol"=>$nombre_rol,
-            "descripcion_rol"=>$descripcion_rol
+    public function createRol($nombre_rol, $descripcion_rol)
+    {
+        $data = [
+            "nombre_rol" => $nombre_rol,
+            "descripcion_rol" => $descripcion_rol
         ];
 
-        return self::insert(self::$table,$data);
+        return self::insert(self::$table, $data);
     }
 
 
-    public function getId($name) {
-        $stmt = $this->conn->prepare('SELECT id_rol FROM Roles WHERE nombre_rol = ?');
+    public function getId($name)
+    {
+        $stmt = $this->conn->prepare('SELECT id_rol FROM roles WHERE nombre_rol = ?');
         $stmt->bind_param('s', $name);
         $stmt->execute();
         $stmt->bind_result($id_rol);
@@ -32,9 +36,9 @@ class Rol extends Model{
 
     public function getRoles()
     {
-        return self::select("Roles", ["id_rol", "nombre_rol","estado_rol"], ["estado_rol" => "activo"]);
+        return self::select(self::$table, ["id_rol", "nombre_rol", "estado_rol"], ["estado_rol" => "activo"]);
     }
-    
+
 }
 
 
