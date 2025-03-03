@@ -2,7 +2,7 @@
 require_once "Model.php";
 class Autorizacion extends Model
 {
-    public static $table = "Autorizaciones";
+    public static $table = "autorizaciones";
     private $conn;
 
     public function __construct()

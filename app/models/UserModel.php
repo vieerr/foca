@@ -3,7 +3,7 @@ require_once "Model.php";
 
 class Usuario extends Model
 {
-    protected static $table = "Usuarios"; // Define the table name
+    protected static $table = "usuarios"; // Define the table name
 
     public function createUser(
         $nombre_usuario,
@@ -41,8 +41,8 @@ class Usuario extends Model
     public function getInfoUsers()
     {
         $query = "SELECT id_usuario, nombre_usuario, apellido_usuario, username_usuario, nombre_rol
-                  FROM Usuarios u
-                  JOIN Roles r ON u.id_rol = r.id_rol";
+                  FROM usuarios u
+                  JOIN roles r ON u.id_rol = r.id_rol";
 
         $conn = self::getConn();
         $result = $conn->query($query);
@@ -57,8 +57,8 @@ class Usuario extends Model
     public function fetchAllUsers()
     {
         $query = "SELECT u.id_usuario, u.nombre_usuario, u.apellido_usuario, u.username_usuario, u.estado_usuario, r.nombre_rol
-                  FROM Usuarios u
-                  JOIN Roles r ON u.id_rol = r.id_rol";
+                  FROM usuarios u
+                  JOIN roles r ON u.id_rol = r.id_rol";
 
         $conn = self::getConn();
         $result = $conn->query($query);

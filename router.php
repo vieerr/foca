@@ -17,7 +17,7 @@ require_once "app/controllers/incomeController.php";
 require_once "app/controllers/rolController.php";
 require_once "app/controllers/expenseController.php";
 require_once "app/controllers/reportController.php";
-require_once "app/controllers/auditoryController.php";
+require_once "app/controllers/auditController.php";
 
 $incomeController = new IncomeController();
 $profileController = new ProfileController();
@@ -27,7 +27,8 @@ $dashboardController = new DashboardController();
 $rolController = new RolController();
 $expenseController = new ExpenseController();
 $reportController = new ReportController();
-$auditoryController = new AuditoryController();
+$auditController = new AuditController();
+
 $page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
 $route = isset($_GET["route"]) ? $_GET["route"] : "";
 if (isset($_GET["route"])) {
@@ -87,7 +88,7 @@ switch ($page) {
         $reportController->index();
         exit();
     case "auditorias":
-        $auditoryController->index();
+        $auditController->index();
         exit();
     default:
         echo "404 Not Found";
