@@ -203,6 +203,35 @@ $(document).ready(async () => {
     },
   });
 
+  const populateTable = (data) => {
+    const tbody = $("#recent-regs");
+    tbody.empty();
+    data.forEach((item) => {
+      const row = `
+            <tr>
+                <td><span class="badge ${
+                  item.tipo_registro === "ingreso"
+                    ? "badge-success"
+                    : "badge-error"
+                }">${item.tipo_registro}</span></td>
+                <td>${item.nombre_registro}</td>
+                <td class="${
+                  item.tipo_registro === "ingreso"
+                    ? "text-success"
+                    : "text-error"
+                }">${item.valor_registro}</td>
+                <td>${item.fecha_accion}</td>
+                <td><span class="badge badge-success">${
+                  item.estado_registro
+                }</span></td>
+            </tr>
+        `;
+      tbody.append(row); // Append the row to the tbody
+    });
+  };
+
+  populateTable(regs.slice(0, 10));
+
   // Display Current Date
   const now = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };

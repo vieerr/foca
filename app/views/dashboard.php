@@ -100,7 +100,7 @@ $role = "Admin";
                                     <th>Estado</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="recent-regs" >
                                 <tr>
                                     <td><span class="badge badge-success">Ingreso</span></td>
                                     <td>Sueldo Octubre</td>
