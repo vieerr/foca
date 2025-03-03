@@ -23,17 +23,6 @@ class UsuarioController
         echo json_encode($users);
         exit();
     }
-
-    public function fetchRoles()
-    {
-        $users = $this->rolModel->getRoles();
-        header("Content-Type: application/json");
-        echo json_encode($users);
-    
-        // echo $users;
-        exit();
-    }
-
     public function createUser()
     {
         header('Content-Type: application/json');
@@ -45,10 +34,10 @@ class UsuarioController
 
         $result = $this->userModel->createUser($nombre, $apellido, $username, $password, $rol);
         if ($result) {
-            echo json_encode(['success'=> true,'message'=> 'Usuario creado Exitosamente']);
+            echo json_encode(['success' => true, 'message' => 'Usuario creado Exitosamente']);
             exit();
-        }else{
-            echo json_encode(['success'=> false,'message'=> 'Error al crear Usuario']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Error al crear Usuario']);
             exit();
         }
     }
