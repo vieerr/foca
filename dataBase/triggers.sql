@@ -1,100 +1,81 @@
--- TODO: correct sql script
 
--- -------------------------------------------------------
--- -- triggers para roles
--- -------------------------------------------------------
--- delimiter $$
--- -- trigger para insert en la tabla roles
--- create trigger `roles_auditoria_insert` after insert on `roles`
--- for each row
--- begin
---   insert into `auditoria` 
---     (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
---   values 
---     ('crear', 'roles', new.id_rol, @usuario_activo, now(), concat('nuevo rol creado: ', new.nombre_rol));
--- end$$
+DELIMITER $$
 
--- -- trigger para update en la tabla roles
--- create trigger `roles_auditoria_update` after update on `roles`
--- for each row
--- begin
---   insert into `auditoria` 
---     (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
---   values 
---     ('actualizar', 'roles', new.id_rol, @usuario_activo, now(), concat('rol actualizado: ', new.nombre_rol));
--- end$$
--- delimiter ;
+CREATE TRIGGER `Roles_Auditoria_Insert` AFTER INSERT ON `Roles`
+FOR EACH ROW
+BEGIN
+  INSERT INTO `Auditoria` 
+    (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
+  VALUES 
+    ('Crear', 'Roles', NEW.id_rol, @usuario_activo, NOW(), CONCAT('Nuevo rol creado: ', NEW.nombre_rol));
+END$$
 
--- -------------------------------------------------------
--- -- triggers para registros
--- -------------------------------------------------------
--- delimiter $$
--- -- trigger para insert en la tabla registros
--- create trigger `registros_auditoria_insert` after insert on `registros`
--- for each row
--- begin
---   insert into `auditoria` 
---     (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
---   values 
---     ('crear', 'registros', new.id_registro, @usuario_activo, now(), concat('nuevo registro creado: ', new.id_registro));
--- end$$
+CREATE TRIGGER `Roles_Auditoria_Update` AFTER UPDATE ON `Roles`
+FOR EACH ROW
+BEGIN
+  INSERT INTO `Auditoria` 
+    (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
+  VALUES 
+    ('Actualizar', 'Roles', NEW.id_rol, @usuario_activo, NOW(), CONCAT('Rol actualizado: ', NEW.nombre_rol));
+END$$
 
--- -- trigger combinado para update en la tabla registros
--- create trigger `registros_auditoria_update` after update on `registros`
--- for each row
--- begin
---   -- se registra la actualización general del registro
---   insert into `auditoria` 
---     (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
---   values 
---     ('actualizar', 'registros', new.id_registro, @usuario_activo, now(), concat('registro actualizado: ', new.nombre_registro));
+-- Triggers para Registros
+CREATE TRIGGER `Registros_Auditoria_Insert` AFTER INSERT ON `Registros`
+FOR EACH ROW
+BEGIN
+  INSERT INTO `Auditoria` 
+    (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
+  VALUES 
+    ('Crear', 'Registros', NEW.id_registro, @usuario_activo, NOW(), CONCAT('Nuevo registro creado: ', NEW.id_registro));
+END$$
+
+CREATE TRIGGER `Registros_Auditoria_Update` AFTER UPDATE ON `Registros`
+FOR EACH ROW
+BEGIN
+  INSERT INTO `Auditoria` 
+    (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
+  VALUES 
+    ('Actualizar', 'Registros', NEW.id_registro, @usuario_activo, NOW(), CONCAT('Registro actualizado: ', NEW.nombre_registro));
   
---   -- si el estado cambió, se registra el cambio de estado
---   if old.estado_registro != new.estado_registro then  
---     insert into `auditoria` 
---       (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
---     values 
---       ('actualizar', 'registros', new.id_registro, @usuario_activo, now(), concat('estado del registro actualizado: ', new.estado_registro));
---   end if;
--- end$$
--- delimiter ;
+  IF OLD.estado_registro != NEW.estado_registro THEN  
+    INSERT INTO `Auditoria` 
+      (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
+    VALUES 
+      ('Actualizar', 'Registros', NEW.id_registro, @usuario_activo, NOW(), CONCAT('Estado del registro actualizado: ', NEW.estado_registro));
+  END IF;
+END$$
 
--- -------------------------------------------------------
--- -- triggers para usuarios
--- -------------------------------------------------------
--- delimiter $$
--- -- trigger para insert en la tabla usuarios
--- create trigger `usuarios_auditoria_insert` after insert on `usuarios`
--- for each row
--- begin
---   insert into `auditoria` 
---     (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
---   values 
---     ('crear', 'usuarios', new.id_usuario, @usuario_activo, now(), 
---      concat('nuevo usuario creado: ', new.nombre_usuario, ' ', new.apellido_usuario));
--- end$$
+-- Triggers para Usuarios
+CREATE TRIGGER `Usuarios_Auditoria_Insert` AFTER INSERT ON `Usuarios`
+FOR EACH ROW
+BEGIN
+  INSERT INTO `Auditoria` 
+    (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
+  VALUES 
+    ('Crear', 'Usuarios', NEW.id_usuario, @usuario_activo, NOW(), 
+     CONCAT('Nuevo usuario creado: ', NEW.nombre_usuario, ' ', NEW.apellido_usuario));
+END$$
 
--- -- trigger para update en la clave foránea id_rol en usuarios
--- create trigger `usuarios_auditoria_update_rol` after update on `usuarios`
--- for each row
--- begin
---   if old.id_rol != new.id_rol then
---     insert into `auditoria` 
---       (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
---     values 
---       ('actualizar', 'usuarios', new.id_usuario, @usuario_activo, now(), 'cambio de rol');
---   end if;
--- end$$
+CREATE TRIGGER `Usuarios_Auditoria_Update_Rol` AFTER UPDATE ON `Usuarios`
+FOR EACH ROW
+BEGIN
+  IF OLD.id_rol != NEW.id_rol THEN
+    INSERT INTO `Auditoria` 
+      (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
+    VALUES 
+      ('Actualizar', 'Usuarios', NEW.id_usuario, @usuario_activo, NOW(), 'Cambio de rol');
+  END IF;
+END$$
 
--- -- trigger para update en el campo estado_usuario en usuarios
--- create trigger `usuarios_auditoria_update_estado` after update on `usuarios`
--- for each row
--- begin
---   if old.estado_usuario != new.estado_usuario then
---     insert into `auditoria` 
---       (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
---     values 
---       ('actualizar', 'usuarios', new.id_usuario, @usuario_activo, now(), concat('estado actualizado: ', new.estado_usuario));
---   end if;
--- end$$
--- delimiter ;
+CREATE TRIGGER `Usuarios_Auditoria_Update_Estado` AFTER UPDATE ON `Usuarios`
+FOR EACH ROW
+BEGIN
+  IF OLD.estado_usuario != NEW.estado_usuario THEN
+    INSERT INTO `Auditoria` 
+      (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
+    VALUES 
+      ('Actualizar', 'Usuarios', NEW.id_usuario, @usuario_activo, NOW(), CONCAT('Estado actualizado: ', NEW.estado_usuario));
+  END IF;
+END$$
+
+DELIMITER ;
