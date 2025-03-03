@@ -1,6 +1,6 @@
-# Documentación del Esquema RC5
+# Documentación del Esquema de la base de datos economiaf
 
-Este documento describe cada una de las tablas definidas en el esquema **RC5** de la base de datos, detallando su propósito, estructura y cómo utilizarlas dentro de la aplicación.
+Este documento describe cada una de las tablas definidas en el esquema **economiaf** de la base de datos, detallando su propósito, estructura y cómo utilizarlas dentro de la aplicación.
 
 ---
 

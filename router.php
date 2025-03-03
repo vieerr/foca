@@ -3,23 +3,14 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 session_start();
-require_once "app/controllers/sessionController.php";
-require_once "app/controllers/userController.php";
-require_once "app/controllers/dashboardController.php";
-require_once "app/controllers/profileController.php";
-require_once "app/controllers/incomeController.php";
-require_once "app/controllers/rolController.php";
-require_once "app/controllers/expenseController.php";
-require_once "app/controllers/reportController.php";
 
-$incomeController = new IncomeController();
-$profileController = new ProfileController();
-$sessionController = new SessionController();
-$userController = new UsuarioController();
-$dashboardController = new DashboardController();
-$rolController = new RolController();
-$expenseController = new ExpenseController();
-$reportController = new ReportController();
+if (isset($_SESSION["user_id"])) {
+    require_once "app/models/Model.php";
+    Model::setUsuarioActivo($_SESSION["user_id"]);
+}
+
+require("config/includes/controllers.php");
+
 $page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
 $route = isset($_GET["route"]) ? $_GET["route"] : "";
 if (isset($_GET["route"])) {
@@ -34,13 +25,12 @@ if (isset($_GET["route"])) {
             $userController->fetchUsers();
             break;
 
-        case "crear_usuario":
-            $controller = new UsuarioController();
-            //$controller->create();
+        case "crear-usuario":
+            $userController->createUser();
             break;
 
         case "get-permisos":
-            $rolController->fetchPermisos();
+            $permitController->fetchPermisos();
             break;
         
         case "get-roles":
@@ -78,6 +68,9 @@ switch ($page) {
         exit();
     case "reportes":
         $reportController->index();
+        exit();
+    case "auditorias":
+        $auditController->index();
         exit();
     default:
         echo "404 Not Found";

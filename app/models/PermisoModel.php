@@ -9,7 +9,7 @@ class Permiso extends Model{
     }
 
     public function get_permiso() {
-        $query = "SELECT * FROM Permisos";
+        $query = "SELECT * FROM permisos";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();

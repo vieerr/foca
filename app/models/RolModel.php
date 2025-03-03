@@ -1,27 +1,31 @@
 <?php
 require_once "Model.php";
 
-class Rol extends Model{
+class Rol extends Model
+{
 
-    public static $table="Roles";
+    public static $table = "roles";
     private $conn;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->conn = self::getConn();
     }
 
-    public function createRol($nombre_rol,$descripcion_rol){
-        $data=[
-            "nombre_rol"=>$nombre_rol,
-            "descripcion_rol"=>$descripcion_rol
+    public function createRol($nombre_rol, $descripcion_rol)
+    {
+        $data = [
+            "nombre_rol" => $nombre_rol,
+            "descripcion_rol" => $descripcion_rol
         ];
 
-        return self::insert(self::$table,$data);
+        return self::insert(self::$table, $data);
     }
 
 
-    public function getId($name) {
-        $stmt = $this->conn->prepare('SELECT id_rol FROM Roles WHERE nombre_rol = ?');
+    public function getId($name)
+    {
+        $stmt = $this->conn->prepare('SELECT id_rol FROM roles WHERE nombre_rol = ?');
         $stmt->bind_param('s', $name);
         $stmt->execute();
         $stmt->bind_result($id_rol);
@@ -30,15 +34,11 @@ class Rol extends Model{
         return $id_rol ?? null;
     }
 
-    public function get_rol() {
-        $query = "SELECT * FROM Roles";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
-        $stmt->close();
-        return $rows;
+    public function getRoles()
+    {
+        return self::select(self::$table, ["id_rol", "nombre_rol", "estado_rol"], ["estado_rol" => "activo"]);
     }
+
 }
 
 
