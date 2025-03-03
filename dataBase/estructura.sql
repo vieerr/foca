@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`Categorias` (
 CREATE TABLE IF NOT EXISTS `economiaf`.`Registros` (
   `id_registro` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_registro` VARCHAR(45) NULL,
-  `tipo_registro` ENUM('tarjeta','efectivo','transferencia') NOT NULL,
-  `metodo_registro` VARCHAR(45) NULL,
+  `tipo_registro` ENUM('ingreso','egreso') NOT NULL,
+  `metodo_registro` ENUM('tarjeta','efectivo','transferencia') NULL,
   `fecha_registro` DATETIME NOT NULL,
   `fecha_obtencion` DATETIME NOT NULL,
   `valor_registro` DECIMAL(10,2) NOT NULL,
