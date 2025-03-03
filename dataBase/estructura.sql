@@ -127,20 +127,29 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`Auditoria` (
 ) ENGINE = InnoDB;
 
 INSERT INTO Permisos (id_permiso, nombre_permiso) VALUES
-(14, 'Agregar categoría'),
-(10, 'Añadir gastos'),
-(7, 'Añadir ingresos'),
-(12, 'Anular gastos'),
-(9, 'Anular ingresos'),
-(1, 'Crear roles'),
-(4, 'Crear usuarios'),
-(3, 'Desactivar roles'),
-(6, 'Desactivar usuarios'),
-(11, 'Editar gastos'),
-(8, 'Editar ingresos'),
-(2, 'Editar roles'),
-(5, 'Editar usuarios'),
-(13, 'Generar reportes');
+-- Funciones INSERT
+(1, 'Agregar categoría'),  -- Solo ADMIN
+(2, 'Agregar gastos'),
+(3, 'Agregar ingresos'),
+(4, 'Crear roles'),          -- Solo ADMIN
+(5, 'Crear usuarios'),       -- Solo ADMIN
+
+-- Funciones UPDATE (cambiar estado)
+(6, 'Anular gastos'),
+(7, 'Anular ingresos'),
+(8, 'Desactivar categoría'),
+(9, 'Desactivar roles'),
+(10, 'Desactivar usuarios'),
+
+-- Funciones UPDATE (editar registro)
+(11, 'Editar categoría'),
+(12, 'Editar gastos'),
+(13, 'Editar ingresos'),
+(14, 'Editar roles'),
+(15, 'Editar usuarios'),
+
+-- Reportes
+(16, 'Generar reportes');
 
 INSERT INTO Roles (nombre_rol, descripcion_rol, estado_rol) 
 VALUES ('Administrador', 'Rol administrador con permisos completos', 'activo');
