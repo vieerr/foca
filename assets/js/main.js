@@ -65,12 +65,12 @@ $(document).ready(function () {
       method: "GET",
       success: function (response) {
         $("#main-content").html(response);
-        // const previousScript = document.querySelector(
-        //   `script[src="assets/js/${route}.js"]`,
-        // );
-        // if (previousScript) {
-        //   previousScript.remove();
-        // }
+        const previousScript = document.querySelector(
+          `script[src="assets/js/${route}.js"]`,
+        );
+        if (previousScript) {
+          previousScript.remove();
+        }
         const script = document.createElement("script");
         script.src = `assets/js/${route}.js`;
         script.onload = () => {

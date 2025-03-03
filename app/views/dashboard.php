@@ -34,33 +34,33 @@ $role = "Admin";
                 <!-- Income Card -->
                 <div class="card bg-base-100 shadow-lg">
                     <div class="card-body">
-                        <h2 class="card-title text-success">Ingresos Registrados</h2>
-                        <p class="text-2xl font-bold">$2,000</p>
-                        <p class="text-sm text-gray-500">+5% desde el mes pasado</p>
+                        <h2 class="card-title ">Total de ingresos registrados</h2>
+                        <p id="income-num" class=" text-success text-2xl font-bold"></p>
+                        <!-- <p class="text-sm text-gray-500">+5% desde el mes pasado</p> -->
                     </div>
                 </div>
                 <!-- Expenses Card -->
                 <div class="card bg-base-100 shadow-lg">
                     <div class="card-body">
-                        <h2 class="card-title text-error">Gastos Registrados</h2>
-                        <p class="text-2xl font-bold">$100</p>
-                        <p class="text-sm text-gray-500">-2% desde el mes pasado</p>
+                        <h2 class="card-title ">Total de ingresos registrados</h2>
+                        <p class="text-2xl font-bold text-error" id="expense-num">$100</p>
+                        <!-- <p class="text-sm text-gray-500">-2% desde el mes pasado</p> -->
                     </div>
                 </div>
                 <!-- Total Income Card -->
                 <div class="card bg-base-100 shadow-lg">
                     <div class="card-body">
-                        <h2 class="card-title text-success">Total de Ingresos</h2>
-                        <p class="text-2xl font-bold">$10,000</p>
-                        <p class="text-sm text-gray-500">Acumulado este año</p>
+                        <h2 class="card-title ">Total de Ingresos</h2>
+                        <p class="text-2xl font-bold text-success" id="income-total" ></p>
+                        <p class="text-sm text-gray-500">Todos los tiempos</p>
                     </div>
                 </div>
                 <!-- Total Expenses Card -->
                 <div class="card bg-base-100 shadow-lg">
                     <div class="card-body">
-                        <h2 class="card-title text-error">Total de Gastos</h2>
-                        <p class="text-2xl font-bold">$1,500</p>
-                        <p class="text-sm text-gray-500">Acumulado este año</p>
+                        <h2 class="card-title ">Total de Gastos</h2>
+                        <p class="text-2xl font-bold text-error" id="expense-total" ></p>
+                        <p class="text-sm text-gray-500">Todos los tiempos</p>
                     </div>
                 </div>
             </div>
@@ -99,8 +99,8 @@ $role = "Admin";
                                 <tr>
                                     <td><span class="badge badge-success">Ingreso</span></td>
                                     <td>Sueldo Octubre</td>
-                                    <td class="text-success">+$2,500.00</td>
-                                    <td>2023-10-01</td>
+                                    <td class="">+$2,500.00</td>
+                                    <td>2023-month-income</ text-success td>
                                     <td><span class="badge badge-success">Confirmado</span></td>
                                 </tr>
                                 <tr>

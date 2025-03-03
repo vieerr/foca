@@ -1,4 +1,3 @@
-
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -24,23 +23,24 @@ if (isset($_GET["route"])) {
         case "get-users":
             $userController->fetchUsers();
             break;
-
         case "crear-usuario":
             $userController->createUser();
             break;
-
         case "get-permisos":
             $permitController->fetchPermisos();
             break;
-        
         case "get-roles":
             $rolController->fetchRoles();
             break;
-
         case "crear-rol":
             $rolController->crearRol();
             break;
-
+        case "get-all-income":
+            $incomeController->fetchAllIncome();
+        case "get-all-expense":
+            $expenseController->fetchAllExpense();
+        case "get-all-regs":
+            $regController->fetchAllRegs();
         default:
             echo "404 Not Found";
             break;

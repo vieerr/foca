@@ -1,4 +1,42 @@
-$(document).ready(function () {
+$(document).ready(async () => {
+  const fetchRegs = async () => {
+    try {
+      const response = await $.ajax({
+        url: "router.php?route=get-all-regs",
+        method: "GET",
+        dataType: "json",
+      });
+      return response;
+    } catch (error) {
+      console.error("Error al obtener los regs:", error);
+      // throw error;
+    }
+  };
+  const regs = await fetchRegs();
+
+  // dashboard elements
+
+  let income = [];
+  let expense = [];
+
+  regs.map((reg) => {
+    reg.tipo_registro === "ingreso" ? income.push(reg) : expense.push(reg);
+  });
+
+
+  $("#income-num").text(income.length);
+  $("#expense-num").text(expense.length);
+  const expTotal = expense.reduce(
+    (prev, curr) => prev + Number(curr.valor_registro),
+    0
+  );
+  $("#expense-total").text(
+    `$ ${expense.reduce((prev, curr) => prev + Number(curr.valor_registro), 0)}`
+  );
+  $("#income-total").text(
+    `$ ${income.reduce((prev, curr) => prev + Number(curr.valor_registro), 0)}`
+  );
+
   const incomeExpensesCtx = $("#incomeExpensesChart")[0].getContext("2d");
   new Chart(incomeExpensesCtx, {
     type: "bar",

@@ -1,23 +1,19 @@
 <?php
 
 include_once "app/models/RegistroModel.php";
-class ExpenseController
+class RegController
 {
     private $regModel;
     public function __construct()
     {
         $this->regModel = new Registro();
     }
-    public function index()
-    {
-        require "app/views/gastos.php";
-    }
 
-    public function fetchAllExpense()
+    public function fetchAllRegs()
     {
-        $expense = $this->regModel->getAllIncome();
+        $regs = $this->regModel->getAll();
         header("Content-Type: application/json");
-        echo json_encode($expense);
+        echo json_encode($regs);
         exit();
     }
 
