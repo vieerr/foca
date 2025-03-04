@@ -123,14 +123,6 @@ $(document).ready(async () => {
     });
   };
 
-  function submitIncome(event) {
-    event.preventDefault();
-    //TODO
-    alert("Ingreso registrado");
-  }
-
-  function updateIncome(income) {}
-
   const generateInsertModal = () => {
     $("#id-display").remove();
 
@@ -186,7 +178,6 @@ $(document).ready(async () => {
   let populatedIncome = populateIngresosCats(income, cats);
 
   setList(populatedIncome);
-  console.log(populatedIncome);
 
   handleFilter("filtro_nombre_categoria", "id_categoria", populatedIncome);
   handleFilter("filtro_metodo_registro", "metodo_pago", populatedIncome);
@@ -219,7 +210,6 @@ $(document).ready(async () => {
         url: "router.php?route=edit-reg",
         type: "PUT",
         data: data,
-        // contentType: "application/x-www-form-urlencoded", // Set the content type
         success: function (response) {
           refetchList();
           console.log("Update successful:", response);
