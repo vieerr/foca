@@ -38,6 +38,9 @@ if (isset($_GET["route"])) {
         case "crear-rol":
             $rolController->crearRol();
             break;
+        case "edit-rol":
+            $rolController->editRol();
+            break;
         case "get-all-income":
             $incomeController->fetchAllIncome();
             break;

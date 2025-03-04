@@ -22,6 +22,12 @@ class Rol extends Model
         return self::insert(self::$table, $data);
     }
 
+    public function updateRol($id, $fields)
+    {
+        return self::update(table: self::$table, data: $fields, conditions: ["id_rol" => $id]);
+    }
+
+
 
     public function getId($name)
     {
@@ -36,7 +42,7 @@ class Rol extends Model
 
     public function getRoles()
     {
-        return self::select(self::$table, ["id_rol", "nombre_rol", "estado_rol"], ["estado_rol" => "activo"]);
+        return self::select(table: self::$table, columns: ["id_rol", "nombre_rol", "estado_rol"]);
     }
 
 }

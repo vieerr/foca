@@ -123,7 +123,7 @@ $(document).ready(function () {
         console.log("Respuesta del servidor:", response);
         if (response.success) {
           alert("Usuario registrado exitosamente.");
-          $("#register-user-form")[0].reset();
+          // $("#register-user-form")[0].reset();
         } else {
           alert("Error al registrar el usuario: " + response.message);
         }
