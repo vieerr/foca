@@ -10,6 +10,15 @@ class Categoria extends Model
         return self::select(table: self::$table);
     }
 
+    public function getAllIncomeCategories()
+    {
+        return self::select(table: self::$table, conditions: ["tipo_categoria" => "ingreso"]);
+    }
+    public function getCategoryByName($name)
+    {
+        return self::select(table: self::$table, conditions: ["nombre_categoria" => $name]);
+    }
+
 }
 
 

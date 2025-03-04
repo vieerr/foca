@@ -13,19 +13,6 @@ $(document).ready(async () => {
     }
   };
 
-  const fetchCats = async () => {
-    try {
-      const response = await $.ajax({
-        url: "router.php?route=get-all-categories",
-        method: "GET",
-        dataType: "json",
-      });
-      return response;
-    } catch (error) {
-      console.error("Error al obtener las categorias:", error);
-      // throw error;
-    }
-  };
   const regs = await fetchRegs();
   // dashboard elements
 
@@ -38,10 +25,6 @@ $(document).ready(async () => {
 
   $("#income-num").text(income.length);
   $("#expense-num").text(expense.length);
-  const expTotal = expense.reduce(
-    (prev, curr) => prev + Number(curr.valor_registro),
-    0
-  );
   $("#expense-total").text(
     `$ ${expense
       .reduce((prev, curr) => prev + Number(curr.valor_registro), 0)
@@ -101,23 +84,8 @@ $(document).ready(async () => {
       maintainAspectRatio: false,
     },
   });
-
-  const categories = await fetchCats();
-
-  const incomeCats = categories.filter(
-    (cat) => cat.tipo_categoria === "ingreso"
-  );
-  const expenseCats = categories.filter(
-    (cat) => cat.tipo_categoria === "egreso"
-  );
-
-  console.log(incomeCats);
-  console.log(expenseCats);
-  console.log(regs);
-
   const getCategoryTotals = (regs) => {
     const names = Array.from(new Set(regs.map((reg) => reg.nombre_categoria)));
-    // const unique = new Set(names);
     const values = new Array(names.length).fill(0);
     const obj = Object.fromEntries(
       names.map((key, index) => [key, values[index]])
@@ -136,7 +104,6 @@ $(document).ready(async () => {
   const expenseLabels = Object.keys(expObj);
   const expenseData = Object.values(expObj);
 
-  // Income Category Breakdown Chart (Pie Chart)
   const incomeCat = $("#income-category")[0].getContext("2d");
 
   new Chart(incomeCat, {
@@ -170,7 +137,6 @@ $(document).ready(async () => {
     },
   });
 
-  // Expense Category Breakdown Chart (Pie Chart)
   const expenseCat = $("#expense-category")[0].getContext("2d");
   new Chart(expenseCat, {
     type: "pie",

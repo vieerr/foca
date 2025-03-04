@@ -10,8 +10,8 @@
       <!--MODAL FORM-->
       <dialog id="modalIngreso" class="modal">
         <div class="modal-box">
-          <form method="dialog">
-            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          <form id="close-modal" method="dialog">
+            <button  class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
           <!--Form-->
           <h2 id="income-form-title" class="text-xl font-bold mb-4"></h2>
@@ -27,7 +27,7 @@
             <label class="select min-w-full" for="metodo_registro">
               <span class="label font-medium">Método de pago</span>
               <select class="select" name="metodo_registro" id="metodo_registro">
-                <option disabled selected>Seleccionar método</option>
+                <option selected>Seleccionar método</option>
                 <option>Transferencia</option>
                 <option>Efectivo</option>
                 <option>Tarjeta</option>
@@ -53,33 +53,33 @@
         <label class="select" for="filtro_metodo_registro">
           <span class="label font-medium">Método de Pago</span>
           <select class="select" name="filtro_metodo_registro" id="filtro_metodo_registro">
-            <option disabled selected>Seleccionar método</option>
-            <option>Transferencia</option>
-            <option>Efectivo</option>
-            <option>Tarjeta</option>
+            <option value="" selected>Seleccionar método</option>
+            <option value="Transferencia">Transferencia</option>
+            <option value="Efectivo" >Efectivo</option>
+            <option value="Tarjeta">Tarjeta</option>
           </select>
         </label>
         <label class="select" for="filtro_estado_registro">
           <span class="label font-medium">Estado</span>
           <select class="select" name="filtro_estado_registro" id="filtro_estado_registro">
-            <option disabled selected>Seleccionar estado</option>
-            <option>Activo</option>
-            <option>Anulado</option>
+            <option selected>Seleccionar estado</option>
+            <option value="activo" >Activo</option>
+            <option value="anulado">Anulado</option>
           </select>
         </label>
-        <label class="input" for="filtro_fecha_accion">
-          <span class="label font-medium">Fecha de Obtención</span>
-          <input type="date" name="filtro_fecha_accion" id="filtro_fecha_accion"/>
+        <label class="input" for="fecha-inicial">
+          <span class="label font-medium">Desde</span>
+          <input type="date" name="fecha-inicial" id="fecha-inicial"/>
         </label>
-        <label class="input" for="filtro_fecha_registro">
-          <span class="label font-medium">Fecha de Registro</span>
-          <input type="date" name="filtro_fecha_registro" id="filtro_fecha_registro"/>
+        <label class="input" for="fecha-final">
+          <span class="label font-medium">Hasta</span>
+          <input type="date" name="fecha-final" id="fecha-final"/>
         </label>
       </div>
     </section>
 
     <!--Table Section-->
-    <section class="overflow-x-auto">
+    <section class="overflow-x-auto w-full">
       <table id="ingresos-table" class="table w-full bg-base-100">
         <thead>
           <tr class="text-center text-sm font-medium text-gray-700">
@@ -94,63 +94,7 @@
           </tr>
         </thead>
         <tbody id="ingresos-table-body">
-          <!-- Hardcoded Data -->
-          <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">1</td>
-            <td class="px-6 py-4 border-b border-gray-200">Sueldo</td>
-            <td class="px-6 py-4 border-b border-gray-200">$1500.00</td>
-            <td class="px-6 py-4 border-b border-gray-200">Transferencia</td>
-            <td class="px-6 py-4 border-b border-gray-200">2023-10-01</td>
-            <td class="px-6 py-4 border-b border-gray-200">2023-10-02</td>
-            <td class="px-6 py-4 border-b border-gray-200">
-              <span class="badge badge-success badge-outline">Activo</span>
-            </td>
-            <td class="py-3">
-              <div class="inline-flex">
-                <button class="edit-income btn btn-sm btn-info">
-                  <i class="fas fa-pencil"></i>
-                  <p class="hidden lg:inline-block">Editar</p>
-                </button>
-                <button class="btn btn-sm btn-error ml-2 toggle-status">
-                  <i class="fas fa-retweet"></i>
-                  <p class="hidden lg:inline-block">Anular</p>
-                </button>
-                <button class="btn btn-sm btn-warning ml-2">
-                  <i class="fas fa-qrcode"></i>
-                  <p class="hidden lg:inline-block">QR</p>
-                </button>
-              </div>
-            </td>
-          </tr>
 
-
-          <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">2</td>
-            <td class="px-6 py-4 border-b border-gray-200">Alquiler/renta</td>
-            <td class="px-6 py-4 border-b border-gray-200">$800.00</td>
-            <td class="px-6 py-4 border-b border-gray-200">Efectivo</td>
-            <td class="px-6 py-4 border-b border-gray-200">2023-10-05</td>
-            <td class="px-6 py-4 border-b border-gray-200">2023-10-06</td>
-            <td class="px-6 py-4 border-b border-gray-200">
-              <span class="badge badge-error badge-outline">Anulado</span>
-            </td>
-            <td class="py-3">
-              <div class="inline-flex">
-                <button class="edit-income btn btn-sm btn-info">
-                  <i class="fas fa-pencil"></i>
-                  <p class="hidden lg:inline-block">Editar</p>
-                </button>
-                <button class="btn btn-sm btn-error ml-2 toggle-status">
-                  <i class="fas fa-retweet"></i>
-                  <p class="hidden lg:inline-block">Habilitar</p>
-                </button>
-                <button class="btn btn-sm btn-warning ml-2">
-                  <i class="fas fa-qrcode"></i>
-                  <p class="hidden lg:inline-block">QR</p>
-                </button>
-              </div>
-            </td>
-          </tr>
         </tbody>
       </table>
     </section>

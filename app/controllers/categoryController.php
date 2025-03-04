@@ -16,6 +16,22 @@ class CategoryController
         echo json_encode($res);
         exit();
     }
+    public function fetchAllIncomeCategories()
+    {
+        $res = $this->catModel->getAllIncomeCategories();
+        header("Content-Type: application/json");
+        echo json_encode($res);
+        exit();
+    }
+
+    public function fetchCategoryByName($name)
+    {
+        $res = $this->catModel->getCategoryByName($name);
+        header("Content-Type: application/json");
+        echo json_encode($res);
+        exit();
+    }
+    
 
 
 }

@@ -55,24 +55,27 @@ $(document).ready(function () {
   });
 
   $("#sidebar-links").html(html);
-
   $(".load-content").on("click", function (e) {
     e.preventDefault();
     const route = $(this).data("route");
     console.log(route);
+  
     $.ajax({
       url: `router.php?page=${route}`,
       method: "GET",
       success: function (response) {
+        // Update the main content
         $("#main-content").html(response);
-        const previousScript = document.querySelector(
-          `script[src="assets/js/${route}.js"]`,
-        );
-        if (previousScript) {
-          previousScript.remove();
-        }
+  
+        // Remove all previously loaded scripts with the class "dynamic-script"
+        document.querySelectorAll("script.dynamic-script").forEach((script) => {
+          script.remove();
+        });
+  
+        // Create and append the new script
         const script = document.createElement("script");
         script.src = `assets/js/${route}.js`;
+        script.classList.add("dynamic-script"); // Add a class to identify dynamically loaded scripts
         script.onload = () => {
           console.log(`${route}.js loaded successfully`);
         };
