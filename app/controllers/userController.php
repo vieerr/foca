@@ -61,7 +61,7 @@ class UsuarioController
             "username_usuario" => "username",
             "apellido_usuario" => "apellido",
             "claveHash_usuario" => "password",
-            "estado_registro" => "estado",
+            "estado_usuario" => "estado_usuario",
             "nombre_usuario" => "nombre",
             "id_rol"=>"rol"
         ];
