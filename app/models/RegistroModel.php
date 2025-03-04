@@ -5,17 +5,12 @@ class Registro extends Model
 {
 
     public static $table = "registros";
-    // private $conn;
 
-    // public function __construct()
-    // {
-    //     $this->conn = self::getConn();
-    // }
     public function getAllIncome()
     {
-        return self::select(table: self::$table, columns: [
+        return self::select(table: self::$table, conditions: [
             "tipo_registro" => "ingreso",
-            "estado_registro" => "activo"
+            // "estado_registro" => "activo"
         ]);
     }
 
@@ -34,6 +29,11 @@ class Registro extends Model
         ]);
     }
 
+    public function editReg($id, $fields)
+    {
+        return self::update(table: self::$table, data: $fields, conditions: ["id_registro" => $id]);
+    }
+
     public function getAllWithCats()
     {
         $query = "SELECT *
@@ -48,6 +48,11 @@ class Registro extends Model
         } else {
             die("Error fetching users: " . $conn->error);
         }
+    }
+
+    public function createReg($data)
+    {
+        return self::insert(self::$table, $data);
     }
 
 }
