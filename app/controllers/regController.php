@@ -48,6 +48,7 @@ class RegController
             "metodo_registro" => "metodo_registro",
             "valor_registro" => "valor_registro",
             "estado_registro" => "estado_registro",
+            "nombre_registro" => "nombre_registro",
         ];
     
         

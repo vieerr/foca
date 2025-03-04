@@ -24,6 +24,14 @@ class CategoryController
         exit();
     }
 
+    public function fetchAllExpenseCategories()
+    {
+        $res = $this->catModel->getAllExpenseCategories();
+        header("Content-Type: application/json");
+        echo json_encode($res);
+        exit();
+    }
+
     public function fetchCategoryByName($name)
     {
         $res = $this->catModel->getCategoryByName($name);

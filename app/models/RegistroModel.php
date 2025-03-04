@@ -16,9 +16,9 @@ class Registro extends Model
 
     public function getAllExpenses()
     {
-        return self::select(table: self::$table, columns: [
+        return self::select(table: self::$table, conditions: [
             "tipo_registro" => "egreso",
-            "estado_registro" => "activo"
+            // "estado_registro" => "activo"
         ]);
     }
 
