@@ -20,6 +20,9 @@ if (isset($_GET["route"])) {
         case "logout":
             $sessionController->logout();
             break;
+        case "get-all-audits":
+            $auditController->fetchAllAudits();
+            break;
         case "get-users":
             $userController->fetchUsers();
             break;
@@ -53,11 +56,9 @@ if (isset($_GET["route"])) {
         case "edit-reg":
             $regController->updateReg();
             break;
-
         case "create-income":
             $incomeController->createIncome();
             break;
-
         case "create-expense":
             $expenseController->createExpense();
             break;

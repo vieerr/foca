@@ -1,10 +1,11 @@
 <?php
 class Auditorias extends Model
 {
-    public static $table="auditorias";
+    public static $table = "auditoria";
 
-    public function getAuditorias(){
-        return self::select($this->table);
+    public function getAuditorias()
+    {
+        return self::select(self::$table);
     }
 }
 ?>

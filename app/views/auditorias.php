@@ -11,46 +11,47 @@
         <label class="select" for="filtro_accion">
           <span class="label font-medium">Acción</span>
           <select class="select" name="filtro_accion" id="filtro_accion">
-            <option disabled selected>Seleccionar acción</option>
-            <option>Actualizar</option>
-            <option>Crear</option>
+            <option value="" selected>Seleccionar acción</option>
+            <option value="actualizar">Actualizar</option>
+            <option value="crear">Crear</option>
           </select>
         </label>
         <label class="select" for="filtro_apartado">
           <span class="label font-medium">Apartado</span>
           <select class="select" name="filtro_apartado" id="filtro_apartado">
-            <option disabled selected>Seleccionar apartado</option>
-            <option>Releases</option>
-            <option>Usuarios</option>
-            <option>Registros</option>
+            <option selected>Seleccionar apartado</option>
+            <option value="roles">Roles</option>
+            <option value="usuarios">Usuarios</option>
+            <option value="registros">Registros</option>
           </select>
         </label>
-        <label class="select" for="filtro_usuario">
+        <!-- it may not be a good idea to fetch all users in the database to show them in a select input -->
+        <!-- <label class="select" for="filtro_usuario">
           <span class="label font-medium">Usuario</span>
           <select class="select" name="filtro_usuario" id="filtro_usuario">
-            <option disabled selected>Seleccionar usuario</option>
+            <option selected>Seleccionar usuario</option>
             <option>Fredo</option>
             <option>Carlos</option>
             <option>Antonik</option>
           </select>
-        </label>
-        <label class="input" for="filtro_fecha_exacta">
+        </label> -->
+        <!-- <label class="input" for="filtro_fecha_exacta">
           <span class="label font-medium">Fecha exacta</span>
-          <input type="date" name="filtro_fecha_exacta" id="filtro_fecha_exacta"/>
-        </label>
+          <input type="date" name="filtro_fecha_exacta" id="filtro_fecha_exacta" />
+        </label> -->
         <label class="select" for="filtro_ano">
           <span class="label font-medium">Año</span>
           <select class="select" name="filtro_ano" id="filtro_ano">
-            <option disabled selected>Seleccionar año</option>
-            <option>2023</option>
-            <option>2024</option>
+            <option  value="" selected>Seleccionar año</option>
+            <!-- <option>2023</option>
+            <option>2024</option> -->
           </select>
         </label>
         <label class="select" for="filtro_mes">
           <span class="label font-medium">Mes</span>
           <select class="select" name="filtro_mes" id="filtro_mes">
-            <option disabled selected>Seleccionar mes</option>
-            <option>Enero</option>
+            <option value="" selected>Seleccionar mes</option>
+            <!-- <option>Enero</option>
             <option>Febrero</option>
             <option>Marzo</option>
             <option>Abril</option>
@@ -61,7 +62,7 @@
             <option>Septiembre</option>
             <option>Octubre</option>
             <option>Noviembre</option>
-            <option>Diciembre</option>
+            <option>Diciembre</option> -->
           </select>
         </label>
       </div>
@@ -113,12 +114,12 @@
     <!-- Pagination Section -->
     <div class="flex justify-center mt-6">
       <div class="btn-group">
-        <button class="btn btn-sm">«</button>
+        <!-- <button class="btn btn-sm">«</button>
         <button class="btn btn-sm btn-active">1</button>
         <button class="btn btn-sm">2</button>
         <button class="btn btn-sm">3</button>
         <button class="btn btn-sm">4</button>
-        <button class="btn btn-sm">»</button>
+        <button class="btn btn-sm">»</button> -->
       </div>
     </div>
   </div>
