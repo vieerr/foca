@@ -26,6 +26,9 @@ if (isset($_GET["route"])) {
         case "crear-usuario":
             $userController->createUser();
             break;
+        case "edit-user":
+            $userController->updateUser();
+            break;
         case "get-permisos":
             $permitController->fetchPermisos();
             break;

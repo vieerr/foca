@@ -23,6 +23,7 @@ class UsuarioController
         echo json_encode($users);
         exit();
     }
+    //todo - improve data security (no post data)
     public function createUser()
     {
         header('Content-Type: application/json');
@@ -41,6 +42,62 @@ class UsuarioController
             exit();
         }
     }
+
+
+    public function updateUser()
+    {
+        $input = file_get_contents("php://input");
+        parse_str($input, $data);
+    
+        
+        $id = $data['id_usuario'] ?? null;
+        if (!$id) {
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "error", "message" => "ID is required"]);
+            exit();
+        }
+
+        $allowedFields = [
+            "username_usuario" => "username",
+            "apellido_usuario" => "apellido",
+            "claveHash_usuario" => "password",
+            "estado_registro" => "estado",
+            "nombre_usuario" => "nombre",
+            "id_rol"=>"rol"
+        ];
+    
+        
+        $fields = [];
+        foreach ($allowedFields as $dbField => $requestField) {
+            if (isset($data[$requestField])) {
+                $fields[$dbField] = $data[$requestField];
+            }
+        }
+        if(isset($data['password'])){
+            $fields['claveHash_usuario'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+    
+        
+        if (empty($fields)) {
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "error", "message" => "No fields provided to update"]);
+            exit();
+        }
+    
+        
+        $res = $this->userModel->editUser($id, $fields);
+    
+        
+        if ($res) {
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "success", "message" => "Record updated successfully"]);
+        } else {
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "error", "message" => "Failed to update record"]);
+        }
+        exit();
+    }
+
 }
 
 ?>

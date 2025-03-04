@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
   fetchUsers();
   fetchRoles();
 
@@ -9,11 +8,30 @@ $(document).ready(function () {
     modalUsuario.showModal();
   });
 
-  $("#register-user-btn").click(function(){
+  $("#register-user-btn").click(function () {
     generateInsertModal();
-		modalUsuario.showModal();
-	});
+    modalUsuario.showModal();
+  });
+  $(document).on("click", ".toggle-status", () => {
+    const userId = $(this).data("id");
 
+    const data = `id_usuario=${userId}&estado_usuario=inactivo`;
+
+    if (confirm("¿Estás seguro que deseas anular este registro?")) {
+      $.ajax({
+        url: "router.php?route=edit-reg",
+        type: "PUT",
+        data: data,
+        success: function (response) {
+          refetchList();
+          console.log("Update successful:", response);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error updating:", error);
+        },
+      });
+    }
+  });
 
   // $(document).on("click", ".toggle-status", function () {
   //   const userId = $(this).data("id");
@@ -36,9 +54,27 @@ $(document).ready(function () {
   // });
 });
 
-$(document).on("submit","#register-user-form", submitUser);
-$(document).on("submit","#edit-user-form", updateUser);
+$(document).on("submit", "#register-user-form", submitUser);
+$(document).on("submit", "#edit-user-form", (e) => {
+  e.preventDefault();
 
+  const formData = $("#edit-user-form").serialize();
+
+  $.ajax({
+    url: "router.php?route=edit-user",
+    type: "PUT",
+    data: formData,
+    success: function (response) {
+      $("#close-modal").trigger("submit");
+      fetchUsers();
+      $("#edit-user-form").trigger("reset");
+      console.log("Update successful:", response);
+    },
+    error: function (xhr, status, error) {
+      console.error("Error updating:", error);
+    },
+  });
+});
 
 function fetchRoles() {
   $.ajax({
@@ -57,11 +93,11 @@ function fetchRoles() {
     error: function (xhr, status, error, response) {
       console.error("Error al obtener los roles:", error, response);
       alert("Error al cargar los roles. Por favor, intenta nuevamente.");
-    }
+    },
   });
 }
 
-function fetchUser(id){
+function fetchUser(id) {
   //TODO
 }
 
@@ -76,27 +112,49 @@ function fetchUsers() {
       response.forEach(function (user) {
         const row = `
           <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">${user.id_usuario}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${user.nombre_usuario}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${user.apellido_usuario}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${user.username_usuario}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${user.nombre_rol}</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              user.id_usuario
+            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              user.nombre_usuario
+            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              user.apellido_usuario
+            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              user.username_usuario
+            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              user.nombre_rol
+            }</td>
             <td class="py-3">
-              <span class="badge ${user.estado_usuario === "activo" ? "badge-accent" : "badge-error"} badge-outline">
+              <span class="badge ${
+                user.estado_usuario === "activo"
+                  ? "badge-accent"
+                  : "badge-error"
+              } badge-outline">
                 ${user.estado_usuario}
               </span>
             </td>
             <td class="py-3">
               <div class="inline-flex">
-                <button class="edit-user btn btn-sm btn-info" data-id="${user.id_usuario}">
+                <button class="edit-user btn btn-sm btn-info" data-id="${
+                  user.id_usuario
+                }">
                     <i class="fas fa-pencil"></i>
                     <p class="hidden lg:inline-block">Editar</p>
                 </button>
 
-                <button class="btn btn-sm btn-error ml-2 toggle-status" data-id="${user.id_usuario}" data-status="${user.estado_usuario}">
+                <button class="btn btn-sm btn-error ml-2 toggle-status" data-id="${
+                  user.id_usuario
+                }" data-status="${user.estado_usuario}">
                     <i class="fas fa-retweet"></i>
                     <p class="hidden lg:inline-block">
-                      ${user.estado_usuario === "activo" ? "Desactivar" : "Activar"}
+                      ${
+                        user.estado_usuario === "activo"
+                          ? "Desactivar"
+                          : "Activar"
+                      }
                     </p>
                 </button>
               </div>
@@ -120,11 +178,11 @@ function submitUser(event) {
     apellido: $("#apellido").val().trim(),
     username: $("#username").val().trim(),
     password: $("#password").val().trim(),
-    rol: $("#rol").val()
+    rol: $("#rol").val(),
   };
 
   // Validaciones
-  if (Object.values(formData).some(value => value === "")) {
+  if (Object.values(formData).some((value) => value === "")) {
     alert("Por favor, complete todos los campos obligatorios.");
     return;
   }
@@ -147,16 +205,16 @@ function submitUser(event) {
     error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
       alert("Ocurrió un error. Intente nuevamente.");
-    }
+    },
   });
 }
 
-function updateUser(event){
+function updateUser(event) {
   event.preventDefault();
   //TODO
 }
 
-function generateInsertModal(){
+function generateInsertModal() {
   $("#id-display").remove();
 
   $("#user-form-title").html("Registrar nuevo usuario");
@@ -165,8 +223,7 @@ function generateInsertModal(){
   $("#edit-user-form").attr("id", "register-user-form");
 }
 
-
-function generateEditModal(userId){
+function generateEditModal(userId) {
   $("#user-form-title").html("Editar usuario");
   $("#user-form-btn").html("Actualizar");
 
@@ -181,8 +238,7 @@ function generateEditModal(userId){
         <input class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-white" type="text" name="id_usuario" id="id_usuario" value="${userId}" readonly>
       </div>`);
   }
-  
+
   const userData = fetchUser(userId);
   //TODO fetch user data based on their ID and fill the form inputs
-  
 }
