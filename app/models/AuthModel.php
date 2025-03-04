@@ -31,6 +31,10 @@ class Autorizacion extends Model
         return $permissions;
     }
 
+    public function deleteAutoriza($id_rol)
+    {
+        return self::delete(self::$table, ["id_rol" => $id_rol]);
+    }
     public function createAutoriza($id_rol, $id_permiso)
     {
         return self::insert(self::$table, [
