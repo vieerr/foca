@@ -180,7 +180,7 @@ $(document).ready(async () => {
   setList(populatedIncome);
 
   handleFilter("filtro_nombre_categoria", "id_categoria", populatedIncome);
-  handleFilter("filtro_metodo_registro", "metodo_pago", populatedIncome);
+  handleFilter("filtro_metodo_registro", "metodo_registro", populatedIncome);
   handleFilter("filtro_estado_registro", "estado_registro", populatedIncome);
 
   $("#fecha-inicial, #fecha-final").on("input", function () {

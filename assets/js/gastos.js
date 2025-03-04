@@ -155,6 +155,7 @@ $(document).ready(async () => {
   };
 
   const handleFilter = (id, field, array) => {
+    console.log(array)
     $(`#${id}`).change(() => {
       const selected = $(`#${id}`).val();
       if (selected.length === 0) {
@@ -182,7 +183,7 @@ $(document).ready(async () => {
   setList(populatedRegs);
 
   handleFilter("filtro_nombre_categoria", "id_categoria", populatedRegs);
-  handleFilter("filtro_metodo_registro", "metodo_pago", populatedRegs);
+  handleFilter("filtro_metodo_registro", "metodo_registro", populatedRegs);
   handleFilter("filtro_estado_registro", "estado_registro", populatedRegs);
 
   $("#fecha-inicial, #fecha-final").on("input", function () {

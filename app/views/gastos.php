@@ -17,8 +17,9 @@
           <h2 id="expense-form-title" class="text-xl font-bold mb-4"></h2>
           <form id="register-expense-form" class="w-full flex flex-col gap-2">
             <label class="input min-w-full" for="nombre_registro">
-                <span class="label">Descripción</span>
-                <input type="text" class="outline-none" placeholder="Breve descripción del gasto" name="nombre_registro" id="nombre_registro"/>
+              <span class="label">Descripción</span>
+              <input type="text" class="outline-none" placeholder="Breve descripción del gasto" name="nombre_registro"
+                id="nombre_registro" />
             </label>
             <label class="select min-w-full" for="nombre_categoria">
               <span class="label font-medium">Categoría</span>
@@ -26,24 +27,25 @@
             </label>
             <label class="input min-w-full" for="fecha_accion">
               <span class="label font-medium">Fecha de pago</span>
-              <input type="date" name="fecha_accion" id="fecha_accion" required/>
+              <input type="date" name="fecha_accion" id="fecha_accion" required />
             </label>
             <label class="select min-w-full" for="metodo_registro">
               <span class="label font-medium">Método de pago</span>
               <select class="select" name="metodo_registro" id="metodo_registro">
-                <option selected>Seleccionar método</option>
-                <option>Transferencia</option>
-                <option>Efectivo</option>
-                <option>Tarjeta</option>
+                <option value="" selected>Seleccionar método</option>
+                <option value="Transferencia">Transferencia</option>
+                <option value="Efectivo">Efectivo</option>
+                <option value="Tarjeta">Tarjeta</option>
               </select>
             </label>
             <label class="input min-w-full" for="valor_registro">
               <span class="label font-medium">Valor</span>
-              <input type="number" step="0.01" min="0.15" class="outline-none" placeholder="$500.00" name="valor_registro" id="valor_registro" required/>
+              <input type="number" step="0.01" min="0.15" class="outline-none" placeholder="$500.00"
+                name="valor_registro" id="valor_registro" required />
             </label>
             <button id="expense-form-btn" type="submit" class="btn btn-primary mt-4 w-full"></button>
           </form>
-        </div>          
+        </div>
       </dialog>
     </section>
 
@@ -57,27 +59,27 @@
         <label class="select" for="filtro_metodo_registro">
           <span class="label font-medium">Método de Pago</span>
           <select class="select" name="metodo_registro" id="filtro_metodo_registro">
-            <option  selected>Seleccionar método</option>
-            <option>Transferencia</option>
-            <option>Efectivo</option>
-            <option>Tarjeta</option>
+            <option value="" selected>Seleccionar método</option>
+            <option value="Transferencia">Transferencia</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Tarjeta">Tarjeta</option>
           </select>
         </label>
         <label class="select" for="filtro_estado_registro">
           <span class="label font-medium">Estado</span>
           <select class="select" name="filtro_estado_registro" id="filtro_estado_registro">
-            <option  selected>Seleccionar estado</option>
-            <option>Activo</option>
-            <option>Anulado</option>
+            <option value="" selected>Seleccionar estado</option>
+            <option value="activo">Activo</option>
+            <option value="anulado">Anulado</option>
           </select>
         </label>
-        <label class="input" for="filtro_fecha_accion">
-          <span class="label font-medium">Fecha de Pago</span>
-          <input type="date" name="filtro_fecha_accion" id="filtro_fecha_accion"/>
+        <label class="input" for="fecha-inicial">
+          <span class="label font-medium">Desde</span>
+          <input type="date" name="fecha-inicial" id="fecha-inicial" />
         </label>
-        <label class="input" for="filtro_fecha_registro">
-          <span class="label font-medium">Fecha de Registro</span>
-          <input type="date" name="filtro_fecha_registro" id="filtro_fecha_registro"/>
+        <label class="input" for="fecha-final">
+          <span class="label font-medium">Hasta</span>
+          <input type="date" name="fecha-final" id="fecha-final" />
         </label>
       </div>
     </section>

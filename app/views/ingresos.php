@@ -62,7 +62,7 @@
         <label class="select" for="filtro_estado_registro">
           <span class="label font-medium">Estado</span>
           <select class="select" name="filtro_estado_registro" id="filtro_estado_registro">
-            <option selected>Seleccionar estado</option>
+            <option value=""selected>Seleccionar estado</option>
             <option value="activo" >Activo</option>
             <option value="anulado">Anulado</option>
           </select>
