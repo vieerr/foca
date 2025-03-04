@@ -9,3 +9,6 @@ ini_set("display_errors", 1);
 <link href="assets/daisyui.css" rel="stylesheet">
 <!-- jQuery -->
 <script src="assets/jquery.js"></script>
+<script src="assets/chart.js.js"></script>
+
+

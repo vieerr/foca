@@ -1,10 +1,57 @@
 <?php
 
+require_once "app/models/RegistroModel.php";
 class IncomeController
 {
+
+    private $regModel;
+    public function __construct()
+    {
+        $this->regModel = new Registro();
+    }
     public function index()
     {
         require "app/views/ingresos.php";
     }
+
+    public function fetchAllIncome()
+    {
+        $income = $this->regModel->getAllIncome();
+        header("Content-Type: application/json");
+        echo json_encode($income);
+        exit();
+    }
+
+
+    public function createIncome()
+    {
+        $input = file_get_contents("php://input");
+        parse_str($input, $data);
+        $fecha_registro = new DateTime('now', new DateTimeZone('America/Guayaquil'));
+        $fields = [
+            "id_categoria" => $data["nombre_categoria"],
+            "id_usuario"=> $_SESSION["user_id"],
+            "fecha_accion" => $data["fecha_accion"],
+            "metodo_registro" => $data["metodo_registro"],
+            "valor_registro" => $data["valor_registro"],
+            "tipo_registro" => "ingreso",
+            "fecha_registro"=> $fecha_registro->format('Y-m-d H:i:s'),
+            "estado_registro" => "activo",
+        ];
+
+
+        $res = $this->regModel->createReg($fields);
+
+
+        if ($res) {
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "success", "message" => "Record added successfully"]);
+        } else {
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "error", "message" => "Failed to update record"]);
+        }
+        exit();
+    }
+
 }
 ?>

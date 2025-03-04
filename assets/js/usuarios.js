@@ -72,7 +72,6 @@ function fetchUsers() {
     dataType: "json",
     success: function (response) {
       $("#users-table-body").empty();
-      console.log(response);
 
       response.forEach(function (user) {
         const row = `
