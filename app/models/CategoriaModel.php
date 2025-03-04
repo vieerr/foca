@@ -14,6 +14,10 @@ class Categoria extends Model
     {
         return self::select(table: self::$table, conditions: ["tipo_categoria" => "ingreso"]);
     }
+    public function getAllExpenseCategories()
+    {
+        return self::select(table: self::$table, conditions: ["tipo_categoria" => "egreso"]);
+    }
     public function getCategoryByName($name)
     {
         return self::select(table: self::$table, conditions: ["nombre_categoria" => $name]);

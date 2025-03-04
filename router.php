@@ -51,6 +51,10 @@ if (isset($_GET["route"])) {
         case "create-income":
             $incomeController->createIncome();
             break;
+
+        case "create-expense":
+            $expenseController->createExpense();
+            break;
         case "get-all-regs-with-cats":
             $regController->fetchAllRegsWithCats();
             break;
@@ -59,6 +63,9 @@ if (isset($_GET["route"])) {
             break;
         case "get-all-income-categories":
             $categoryController->fetchAllIncomeCategories();
+            break;
+        case "get-all-expense-categories":
+            $categoryController->fetchAllExpenseCategories();
             break;
         default:
             echo "404 Not Found";

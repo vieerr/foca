@@ -10,7 +10,7 @@
       <!--MODAL FORM-->
       <dialog id="modalGasto" class="modal">
         <div class="modal-box">
-          <form method="dialog">
+          <form id="close-modal" method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
           <!--Form-->
@@ -31,7 +31,7 @@
             <label class="select min-w-full" for="metodo_registro">
               <span class="label font-medium">Método de pago</span>
               <select class="select" name="metodo_registro" id="metodo_registro">
-                <option disabled selected>Seleccionar método</option>
+                <option selected>Seleccionar método</option>
                 <option>Transferencia</option>
                 <option>Efectivo</option>
                 <option>Tarjeta</option>
@@ -57,7 +57,7 @@
         <label class="select" for="filtro_metodo_registro">
           <span class="label font-medium">Método de Pago</span>
           <select class="select" name="metodo_registro" id="filtro_metodo_registro">
-            <option disabled selected>Seleccionar método</option>
+            <option  selected>Seleccionar método</option>
             <option>Transferencia</option>
             <option>Efectivo</option>
             <option>Tarjeta</option>
@@ -66,7 +66,7 @@
         <label class="select" for="filtro_estado_registro">
           <span class="label font-medium">Estado</span>
           <select class="select" name="filtro_estado_registro" id="filtro_estado_registro">
-            <option disabled selected>Seleccionar estado</option>
+            <option  selected>Seleccionar estado</option>
             <option>Activo</option>
             <option>Anulado</option>
           </select>
