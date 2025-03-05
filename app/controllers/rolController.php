@@ -58,6 +58,70 @@ class RolController
         }
     }
 
+
+
+    public function editRol()
+    {
+        $input = file_get_contents("php://input");
+        parse_str($input, $data);
+
+
+        $id = $data['id_rol'] ?? null;
+        if (!$id) {
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "error", "message" => "ID is required"]);
+            exit();
+        }
+        $permisos = $data["permisos"] ?? [];
+        $allowedFields = [
+            "descripcion_rol" => "descripcion_rol",
+            // "permisos" => "permisos",
+            "estado_rol" => "estado_rol",
+            "nombre_rol" => "nombre_rol",
+        ];
+
+
+        $fields = [];
+        foreach ($allowedFields as $dbField => $requestField) {
+            if (isset($data[$requestField])) {
+                $fields[$dbField] = $data[$requestField];
+            }
+        }
+
+
+        if (empty($fields)) {
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "error", "message" => "No fields provided to update"]);
+            exit();
+        }
+
+
+        $res = $this->rolModel->updateRol($id, $fields);
+
+        if ($res) {
+            // Obtener el ID del nuevo rol
+            $idNuevo = $this->rolModel->getId($data['nombre_rol']);
+
+            if ($idNuevo) {
+                // Asociar los permisos seleccionados
+                $autoriza = new Autorizacion();
+                $autoriza->deleteAutoriza($idNuevo);
+                foreach ($permisos as $permiso) {
+                    $autoriza->createAutoriza($idNuevo, $permiso);
+                }
+                echo json_encode(['success' => true, 'message' => 'Rol creado exitosamente.']);
+                exit();
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al obtener el ID del nuevo rol.']);
+                exit();
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Error al crear el rol.']);
+            exit();
+        }
+    }
+
+
 }
 
 ?>

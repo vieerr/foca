@@ -54,6 +54,12 @@ class Usuario extends Model
         }
     }
 
+    public function editUser($id, $fields)
+    {
+        return self::update(table: self::$table, data: $fields, conditions: ["id_usuario" => $id]);
+    }
+
+
     public function fetchAllUsers()
     {
         $query = "SELECT u.id_usuario, u.nombre_usuario, u.apellido_usuario, u.username_usuario, u.estado_usuario, r.nombre_rol

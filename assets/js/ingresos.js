@@ -202,6 +202,7 @@ $(document).ready(async () => {
 
   $(document).on("click", ".toggle-status", function () {
     const incomeId = $(this).data("id");
+    console.log({incomeId});
 
     const data = `id_registro=${incomeId}&estado_registro=anulado`;
 

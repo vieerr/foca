@@ -3,17 +3,16 @@
   <div class="mb-6 shadow-lg p-6 rounded-lg">
     <h2 class="text-2xl font-bold mb-4">Generador de Reportes</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 ">
       <!-- Report Type Selection -->
       <div class="form-control">
         <label class="label">
           <span class="label-text">Tipo de Reporte</span>
         </label>
-        <select class="select select-bordered">
-          <option value="full">Reporte Completo</option>
-          <option value="income">Solo Ingresos</option>
-          <option value="expenses">Solo Gastos</option>
-          <option value="custom">Personalizado</option>
+        <select id="report-type" class="select select-bordered">
+          <option value="">Reporte Completo</option>
+          <option value="ingreso">Solo Ingresos</option>
+          <option value="egreso">Solo Gastos</option>
         </select>
       </div>
 
@@ -23,8 +22,14 @@
           <span class="label-text">Rango de Fechas</span>
         </label>
         <div class="flex gap-2">
-          <input type="date" class="input input-bordered w-full" />
-          <input type="date" class="input input-bordered w-full" />
+          <label class="input" for="fecha-inicial">
+            <span class="label font-medium">Desde</span>
+            <input type="date" name="fecha-inicial" id="fecha-inicial" />
+          </label>
+          <label class="input" for="fecha-final">
+            <span class="label font-medium">Hasta</span>
+            <input type="date" name="fecha-final" id="fecha-final" />
+          </label>
         </div>
       </div>
 
@@ -42,7 +47,7 @@
     </div>
 
     <!-- Advanced Filters -->
-    <div class="mt-4 collapse collapse-arrow">
+    <!-- <div class="mt-4 collapse collapse-arrow">
       <input type="checkbox" />
       <div class="collapse-title text-sm font-medium">
         Filtros Avanzados
@@ -85,20 +90,24 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <!-- Report Actions -->
   <div class="flex justify-end gap-4 mb-6">
     <button class="btn btn-primary">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
       </svg>
       Exportar PDF
     </button>
     <button class="btn btn-secondary">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
       </svg>
       Exportar CSV
     </button>
@@ -126,14 +135,13 @@
         <tr>
           <th>Tipo</th>
           <th>Fecha</th>
-          <th>Descripción</th>
           <th>Categoría</th>
           <th>Monto</th>
           <th>Método de Pago</th>
           <th>Estado</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="report-table">
         <!-- Sample Data -->
         <tr class="hover">
           <td><span class="badge badge-success">Ingreso</span></td>

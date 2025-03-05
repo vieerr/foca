@@ -10,7 +10,7 @@
             <!--MODAL FORM-->
             <dialog id="modalRol" class="modal">
                 <div class="modal-box">
-                    <form method="dialog">
+                    <form id="close-modal" method="dialog">
                         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
                     <!--Form-->

@@ -8,15 +8,43 @@ $(document).ready(function () {
     modalRol.showModal();
   });
 
-  $("#register-role-btn").click(function(){
+  $("#register-role-btn").click(function () {
     generateInsertModal();
-		modalRol.showModal();
-	});
+    modalRol.showModal();
+  });
 });
 
-$(document).on("submit","#register-role-form", submitRole);
-$(document).on("submit","#edit-role-form", updateRole);
-  
+$(document).on("submit", "#register-role-form", submitRole);
+$(document).on("submit", "#edit-role-form", updateRole);
+
+$(document).on("click", ".toggle-status", function () {
+  const id = $(this).data("id");
+  const newStatus = $(this).data("status") === "activo" ? "inactivo" : "activo";
+
+  const data = `id_rol=${id}&estado_rol=${newStatus}`;
+
+  if (
+    confirm(
+      `¿Estás seguro que deseas ${
+        newStatus === "inactivo" ? "desactivar" : "activar"
+      } este rol?`
+    )
+  ) {
+    $.ajax({
+      url: "router.php?route=edit-rol",
+      type: "PUT",
+      data: data,
+      success: function (response) {
+        fetchRoles();
+        console.log("Update successful:", response);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error updating:", error);
+      },
+    });
+  }
+});
+
 function fetchPermisos() {
   $.ajax({
     url: "router.php?route=get-permisos",
@@ -26,7 +54,7 @@ function fetchPermisos() {
       console.log("Permisos recibidos:", response);
       $("#permisos").empty();
       response.forEach(function (permiso) {
-          const checkbox = `
+        const checkbox = `
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="${permiso.id_permiso}" id="permiso${permiso.id_permiso}" name="permiso[]">
             <label class="form-check-label" for="permiso${permiso.id_permiso}">
@@ -40,15 +68,11 @@ function fetchPermisos() {
     error: function (xhr, status, error) {
       console.error("Error al obtener los permisos:", error);
       alert("Error al cargar los permisos. Por favor, intenta nuevamente.");
-    }
+    },
   });
 }
 
-function fetchRole(id){
-  //TODO
-}
-
-function fetchRoles(){
+function fetchRoles() {
   $.ajax({
     url: "router.php?route=get-roles",
     method: "GET",
@@ -60,19 +84,27 @@ function fetchRoles(){
         const row = `
           <tr class="text-center">
             <td class="px-6 py-4 border-b border-gray-200">${role.id_rol}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${role.nombre_rol}</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              role.nombre_rol
+            }</td>
             <td class="py-3">
-              <span class="badge ${role.estado_rol === "activo" ? "badge-accent" : "badge-error"} badge-outline">
+              <span class="badge ${
+                role.estado_rol === "activo" ? "badge-accent" : "badge-error"
+              } badge-outline">
                 ${role.estado_rol}
               </span>
             </td>
             <td class="py-3">
               <div class="inline-flex">
-                <button class="edit-role btn btn-sm btn-info" data-id="${role.id_rol}">
+                <button class="edit-role btn btn-sm btn-info" data-id="${
+                  role.id_rol
+                }">
                     <i class="fas fa-pencil"></i>
                     <p class="hidden lg:inline-block">Editar</p>
                 </button>
-                <button class="btn btn-sm btn-error ml-2 toggle-status" data-id="${role.id_rol}" data-status="${role.estado_rol}">
+                <button class="btn btn-sm btn-error ml-2 toggle-status" data-id="${
+                  role.id_rol
+                }" data-status="${role.estado_rol}">
                     <i class="fas fa-retweet"></i>
                     <p class="hidden lg:inline-block">
                       ${role.estado_rol === "activo" ? "Desactivar" : "Activar"}
@@ -97,7 +129,7 @@ function submitRole(event) {
   const nombreRol = $("#nombre_rol").val().trim();
   const descripcionRol = $("#descripcion_rol").val().trim();
   const permisos = $("input[name='permiso[]']:checked")
-    .map(function() {
+    .map(function () {
       return $(this).val();
     })
     .get();
@@ -117,31 +149,71 @@ function submitRole(event) {
     data: {
       nombre_rol: nombreRol,
       descripcion_rol: descripcionRol,
-      permisos: permisos
+      permisos: permisos,
     },
     dataType: "json",
-    success: function(response) {
+    success: function (response) {
       console.log("Respuesta del servidor:", response);
+      $("#close-modal").trigger("submit");
+      fetchRoles();
+      $("#register-role-form").trigger("reset");
       if (response.success) {
         alert("Rol registrado exitosamente.");
-        $("#register-rol-form")[0].reset();
       } else {
         alert("Error al registrar el rol: " + response.message);
       }
     },
-    error: function(xhr, status, error) {
+    error: function (xhr, status, error) {
       console.error("Error en la solicitud AJAX:", error);
       alert("Ocurrió un error. Intente nuevamente.");
-    }
+    },
   });
 }
-  
-function updateRole(event){
+
+function updateRole(event) {
   event.preventDefault();
-  //TODO
+  const idRol = $(this).data("id");
+  const nombreRol = $("#nombre_rol").val().trim();
+  const descripcionRol = $("#descripcion_rol").val().trim();
+  const permisos = $("input[name='permiso[]']:checked")
+    .map(function () {
+      return $(this).val();
+    })
+    .get();
+  if (permisos.length === 0) {
+    alert("Por favor, seleccione al menos un permiso.");
+    return;
+  }
+
+  $.ajax({
+    url: "router.php?route=edit-rol",
+    method: "PUT",
+    data: {
+      id_rol: idRol,
+      nombre_rol: nombreRol,
+      descripcion_rol: descripcionRol,
+      permisos: permisos,
+    },
+    dataType: "json",
+    success: function (response) {
+      console.log("Respuesta del servidor:", response);
+      $("#close-modal").trigger("submit");
+      fetchRoles();
+      $("#edit-role-form").trigger("reset");
+      if (response.success) {
+        alert("Rol registrado exitosamente.");
+      } else {
+        alert("Error al registrar el rol: " + response.message);
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error en la solicitud AJAX:", error);
+      alert("Ocurrió un error. Intente nuevamente.");
+    },
+  });
 }
 
-function generateInsertModal(){
+function generateInsertModal() {
   $("#id-display").remove();
 
   $("#role-form-title").html("Registrar nuevo rol");
@@ -150,12 +222,11 @@ function generateInsertModal(){
   $("#edit-role-form").attr("id", "register-role-form");
 }
 
-
-function generateEditModal(roleId){
+function generateEditModal(roleId) {
   $("#role-form-title").html("Editar rol");
   $("#role-form-btn").html("Actualizar");
 
-  $("#register-role-form").attr("id", "edit-role-form");
+  $("#register-role-form").attr("id", "edit-role-form").data("id", roleId);
 
   if ($("#id-display").length) {
     $("#id_rol").val(roleId);
@@ -166,8 +237,4 @@ function generateEditModal(roleId){
         <input class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-white" type="text" name="id_rol" id="id_rol" value="${roleId}" readonly>
       </div>`);
   }
-  
-  const roleData = fetchRole(roleId);
-  //TODO fetch role data based on their ID and fill the form inputs
-  
 }
