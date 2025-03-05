@@ -10,7 +10,7 @@ USE `economiaf`;
 -- -----------------------------------------------------
 -- Table `economiaf`.`Roles`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `economiaf`.`Roles` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`roles` (
   `id_rol` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_rol` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion_rol` VARCHAR(100) NULL,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`Roles` (
 -- -----------------------------------------------------
 -- Table `economiaf`.`Usuarios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `economiaf`.`Usuarios` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`usuarios` (
   `id_usuario` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_usuario` VARCHAR(45) NOT NULL,
   `apellido_usuario` VARCHAR(45) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`Usuarios` (
   INDEX `fk_id_rol_usuario_idx` (`id_rol` ASC),
   CONSTRAINT `fk_id_rol_usuario`
     FOREIGN KEY (`id_rol`)
-    REFERENCES `economiaf`.`Roles` (`id_rol`)
+    REFERENCES `economiaf`.`roles` (`id_rol`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`Usuarios` (
 -- -----------------------------------------------------
 -- Table `economiaf`.`Permisos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `economiaf`.`Permisos` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`permisos` (
   `id_permiso` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_permiso` VARCHAR(45) NOT NULL UNIQUE,
   PRIMARY KEY (`id_permiso`)
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`Permisos` (
 -- -----------------------------------------------------
 -- Table `economiaf`.`Categorias`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `economiaf`.`Categorias` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`categorias` (
   `id_categoria` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_categoria` VARCHAR(45) NOT NULL,
   `tipo_categoria` ENUM('ingreso','egreso') NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`Categorias` (
 -- -----------------------------------------------------
 -- Table `economiaf`.`Registros`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `economiaf`.`Registros` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`registros` (
   `id_registro` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_registro` VARCHAR(45) NULL,
   `tipo_registro` ENUM('ingreso','egreso') NOT NULL,
@@ -77,12 +77,12 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`Registros` (
   INDEX `fk_id_categoria_registros_idx` (`id_categoria` ASC),
   CONSTRAINT `fk_id_usuario_registros`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `economiaf`.`Usuarios` (`id_usuario`)
+    REFERENCES `economiaf`.`usuarios` (`id_usuario`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_id_categoria_registros`
     FOREIGN KEY (`id_categoria`)
-    REFERENCES `economiaf`.`Categorias` (`id_categoria`)
+    REFERENCES `economiaf`.`categorias` (`id_categoria`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
@@ -90,18 +90,18 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`Registros` (
 -- -----------------------------------------------------
 -- Table `economiaf`.`Autorizaciones`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `economiaf`.`Autorizaciones` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`autorizaciones` (
   `id_rol` INT UNSIGNED NOT NULL,
   `id_permiso` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_rol`, `id_permiso`),
   CONSTRAINT `fk_id_rol_autorizacion`
     FOREIGN KEY (`id_rol`)
-    REFERENCES `economiaf`.`Roles` (`id_rol`)
+    REFERENCES `economiaf`.`roles` (`id_rol`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_id_permiso_autorizacion`
     FOREIGN KEY (`id_permiso`)
-    REFERENCES `economiaf`.`Permisos` (`id_permiso`)
+    REFERENCES `economiaf`.`permisos` (`id_permiso`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
@@ -121,12 +121,12 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`Auditoria` (
   INDEX `fk_id_usuario_auditoria_idx` (`id_usuario` ASC),
   CONSTRAINT `fk_id_usuario_auditoria`
     FOREIGN KEY (`id_usuario`)
-    REFERENCES `economiaf`.`Usuarios` (`id_usuario`)
+    REFERENCES `economiaf`.`usuarios` (`id_usuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
-INSERT INTO Permisos (id_permiso, nombre_permiso) VALUES
+INSERT INTO permisos (id_permiso, nombre_permiso) VALUES
 -- Funciones INSERT
 (1, 'Agregar categoría'),  -- Solo ADMIN
 (2, 'Agregar gastos'),
@@ -151,13 +151,13 @@ INSERT INTO Permisos (id_permiso, nombre_permiso) VALUES
 -- Reportes
 (16, 'Generar reportes');
 
-INSERT INTO Roles (nombre_rol, descripcion_rol, estado_rol) 
+INSERT INTO roles (nombre_rol, descripcion_rol, estado_rol) 
 VALUES ('Administrador', 'Rol administrador con permisos completos', 'activo');
 
-INSERT INTO Usuarios (nombre_usuario, apellido_usuario, username_usuario, claveHash_usuario, id_rol, estado_usuario)
+INSERT INTO usuarios (nombre_usuario, apellido_usuario, username_usuario, claveHash_usuario, id_rol, estado_usuario)
 VALUES ("Kleber", "Aguilar", "1234567890","$2y$10$ciGgtxcUUAWsqDNT5n9f3uIFLrmJdr6ZJvXyGiv0cvO6U/CO6EtiS" , 1, 'activo');
 
-INSERT INTO Autorizaciones (id_rol, id_permiso) VALUES 
+INSERT INTO autorizaciones (id_rol, id_permiso) VALUES 
 (1, 1),
 (1, 2),
 (1, 3),
@@ -178,44 +178,44 @@ INSERT INTO Autorizaciones (id_rol, id_permiso) VALUES
 
 DELIMITER $$
 
-CREATE TRIGGER `Roles_Auditoria_Insert` AFTER INSERT ON `Roles`
+CREATE TRIGGER `Roles_Auditoria_Insert` AFTER INSERT ON `roles`
 FOR EACH ROW
 BEGIN
-  INSERT INTO `Auditoria` 
+  INSERT INTO `auditoria` 
     (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
   VALUES 
     ('Crear', 'Roles', NEW.id_rol, @usuario_activo, NOW(), CONCAT('Nuevo rol creado: ', NEW.nombre_rol));
 END$$
 
-CREATE TRIGGER `Roles_Auditoria_Update` AFTER UPDATE ON `Roles`
+CREATE TRIGGER `Roles_Auditoria_Update` AFTER UPDATE ON `roles`
 FOR EACH ROW
 BEGIN
-  INSERT INTO `Auditoria` 
+  INSERT INTO `auditoria` 
     (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
   VALUES 
-    ('Actualizar', 'Roles', NEW.id_rol, @usuario_activo, NOW(), CONCAT('Rol actualizado: ', NEW.nombre_rol));
+    ('Actualizar', 'roles', NEW.id_rol, @usuario_activo, NOW(), CONCAT('Rol actualizado: ', NEW.nombre_rol));
 END$$
 
 -- Triggers para Registros
-CREATE TRIGGER `Registros_Auditoria_Insert` AFTER INSERT ON `Registros`
+CREATE TRIGGER `Registros_Auditoria_Insert` AFTER INSERT ON `registros`
 FOR EACH ROW
 BEGIN
-  INSERT INTO `Auditoria` 
+  INSERT INTO `auditoria` 
     (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
   VALUES 
     ('Crear', 'Registros', NEW.id_registro, @usuario_activo, NOW(), CONCAT('Nuevo registro creado: ', NEW.id_registro));
 END$$
 
-CREATE TRIGGER `Registros_Auditoria_Update` AFTER UPDATE ON `Registros`
+CREATE TRIGGER `Registros_Auditoria_Update` AFTER UPDATE ON `registros`
 FOR EACH ROW
 BEGIN
-  INSERT INTO `Auditoria` 
+  INSERT INTO `auditoria` 
     (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
   VALUES 
     ('Actualizar', 'Registros', NEW.id_registro, @usuario_activo, NOW(), CONCAT('Registro actualizado: ', NEW.nombre_registro));
   
   IF OLD.estado_registro != NEW.estado_registro THEN  
-    INSERT INTO `Auditoria` 
+    INSERT INTO `auditoria` 
       (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
     VALUES 
       ('Actualizar', 'Registros', NEW.id_registro, @usuario_activo, NOW(), CONCAT('Estado del registro actualizado: ', NEW.estado_registro));
@@ -223,32 +223,32 @@ BEGIN
 END$$
 
 -- Triggers para Usuarios
-CREATE TRIGGER `Usuarios_Auditoria_Insert` AFTER INSERT ON `Usuarios`
+CREATE TRIGGER `Usuarios_Auditoria_Insert` AFTER INSERT ON `usuarios`
 FOR EACH ROW
 BEGIN
-  INSERT INTO `Auditoria` 
+  INSERT INTO `auditoria` 
     (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
   VALUES 
     ('Crear', 'Usuarios', NEW.id_usuario, @usuario_activo, NOW(), 
      CONCAT('Nuevo usuario creado: ', NEW.nombre_usuario, ' ', NEW.apellido_usuario));
 END$$
 
-CREATE TRIGGER `Usuarios_Auditoria_Update_Rol` AFTER UPDATE ON `Usuarios`
+CREATE TRIGGER `Usuarios_Auditoria_Update_Rol` AFTER UPDATE ON `usuarios`
 FOR EACH ROW
 BEGIN
   IF OLD.id_rol != NEW.id_rol THEN
-    INSERT INTO `Auditoria` 
+    INSERT INTO `auditoria` 
       (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
     VALUES 
       ('Actualizar', 'Usuarios', NEW.id_usuario, @usuario_activo, NOW(), 'Cambio de rol');
   END IF;
 END$$
 
-CREATE TRIGGER `Usuarios_Auditoria_Update_Estado` AFTER UPDATE ON `Usuarios`
+CREATE TRIGGER `Usuarios_Auditoria_Update_Estado` AFTER UPDATE ON `usuarios`
 FOR EACH ROW
 BEGIN
   IF OLD.estado_usuario != NEW.estado_usuario THEN
-    INSERT INTO `Auditoria` 
+    INSERT INTO `auditoria` 
       (accion, tabla_afectada, id_registro_afectado, id_usuario, fecha_hora, detalles)
     VALUES 
       ('Actualizar', 'Usuarios', NEW.id_usuario, @usuario_activo, NOW(), CONCAT('Estado actualizado: ', NEW.estado_usuario));
