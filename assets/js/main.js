@@ -1,4 +1,7 @@
+
+
 $(document).ready(function () {
+
   const links = [
     {
       route: "dashboard",

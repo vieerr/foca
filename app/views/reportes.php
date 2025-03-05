@@ -9,11 +9,10 @@
         <label class="label">
           <span class="label-text">Tipo de Reporte</span>
         </label>
-        <select class="select select-bordered">
-          <option value="full">Reporte Completo</option>
+        <select id="report-type" class="select select-bordered">
+          <option value="">Reporte Completo</option>
           <option value="income">Solo Ingresos</option>
-          <option value="expenses">Solo Gastos</option>
-          <option value="custom">Personalizado</option>
+          <option value="expense">Solo Gastos</option>
         </select>
       </div>
 
@@ -42,7 +41,7 @@
     </div>
 
     <!-- Advanced Filters -->
-    <div class="mt-4 collapse collapse-arrow">
+    <!-- <div class="mt-4 collapse collapse-arrow">
       <input type="checkbox" />
       <div class="collapse-title text-sm font-medium">
         Filtros Avanzados
@@ -85,7 +84,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <!-- Report Actions -->
@@ -133,7 +132,7 @@
           <th>Estado</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="report-table">
         <!-- Sample Data -->
         <tr class="hover">
           <td><span class="badge badge-success">Ingreso</span></td>
