@@ -171,8 +171,8 @@ INSERT INTO autorizaciones (id_rol, id_permiso) VALUES
 (1, 11),
 (1, 12),
 (1, 13),
-(1, 14);
-(1, 15);
+(1, 14),
+(1, 15),
 (1, 16);
 
 
