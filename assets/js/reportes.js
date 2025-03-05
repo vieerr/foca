@@ -1,4 +1,11 @@
 $(document).ready(async function () {
+  const filterByDateRange = (data, startDate, endDate) => {
+    return data.filter((item) => {
+      const itemDate = new Date(item.fecha_accion);
+      return itemDate >= startDate && itemDate <= endDate;
+    });
+  };
+
   const setList = (data) => {
     const tbody = $("#report-table");
     tbody.empty();
@@ -25,15 +32,33 @@ $(document).ready(async function () {
 
   const handleFilter = (id, field, array) => {
     $(`#${id}`).change(() => {
-      const selected = $(`#${id}`).val();
-      if (selected.length === 0) {
-        setList(array);
-        filteredRegs = array;
+      applyFilters();
+    });
+  };
+
+  const applyFilters = () => {
+    const selectedType = $("#report-type").val();
+    const initial = $("#fecha-inicial").val();
+    const final = $("#fecha-final").val();
+
+    let filteredData = regs;
+
+    if (initial.length > 0 && final.length > 0) {
+      const startDate = new Date(initial);
+      const endDate = new Date(final);
+      if (!!!startDate || !!!endDate || startDate > endDate) {
+        console.log("Invalid date range");
         return;
       }
-      filteredRegs = array.filter((inc) => inc[field] === selected);
-      setList(filteredRegs);
-    });
+      filteredData = filterByDateRange(filteredData, startDate, endDate);
+    }
+
+    if (selectedType.length > 0) {
+      filteredData = filteredData.filter((inc) => inc.tipo_registro === selectedType);
+    }
+
+    filteredRegs = filteredData;
+    setList(filteredData);
   };
 
   const fetchRegs = async () => {
@@ -90,7 +115,11 @@ $(document).ready(async function () {
     },
   });
 
-  handleFilter("report-type", "tipo_registro", regs);
+  handleFilter("report-type", "tipo_registro", filteredRegs);
+
+  $("#fecha-inicial, #fecha-final").on("input", function () {
+    applyFilters();
+  });
 
   // Export to PDF button
   $(".btn-primary").on("click", () => exportToPDF(filteredRegs));
@@ -98,6 +127,7 @@ $(document).ready(async function () {
   // Export to CSV button
   $(".btn-secondary").on("click", () => exportToCSV(filteredRegs));
 });
+
 function exportToPDF(regs) {
   const { jsPDF } = window.jspdf;
   console.log(window);
@@ -124,6 +154,7 @@ function exportToPDF(regs) {
   // autoTable(doc, { html: ".table" });
   doc.save("reporte.pdf");
 }
+
 function exportToCSV(regs) {
   const body = [];
   const head = Object.keys(regs[0]);
