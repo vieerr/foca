@@ -4,54 +4,19 @@ $(document).ready(async function () {
     tbody.empty();
     data.reverse().map((item) => {
       const row = `
-        <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">${
-              item.id_registro
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">${
-              item.nombre_categoria
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">$ ${
-              item.valor_registro
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">${
-              item.metodo_registro
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">${
-              item.fecha_accion
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">${
-              item.fecha_registro
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">
-                <span class="badge ${
-                  item.estado_registro === "activo"
-                    ? "badge-success"
-                    : "badge-error"
-                } badge-outline">
-                    ${item.estado_registro}
-                </span>
-            </td>
-            <td class="py-3">
-                <div class="inline-flex">
-                    <button class="edit-income btn btn-sm btn-info" data-id="${
-                      item.id_registro
-                    }">
-                        <i class="fas fa-pencil"></i>
-                        <p class="hidden lg:inline-block">Editar</p>
-                    </button>
-                    <button data-id="${
-                      item.id_registro
-                    }" class="btn btn-sm btn-error ml-2 toggle-status">
-                        <i class="fas fa-retweet"></i>
-                        <p class="hidden lg:inline-block">Anular</p>
-                    </button>
-                    <button class="btn btn-sm btn-warning ml-2">
-                        <i class="fas fa-qrcode"></i>
-                        <p class="hidden lg:inline-block">QR</p>
-                    </button>
-                </div>
-            </td>
+    <tr class="hover">
+          <td><span class="badge ${
+            item.tipo_registro === "ingreso" ? "badge-success" : "badge-error"
+          }">${item.tipo_registro}</span></td>
+          <td>${item.fecha_accion}</td>
+          <td>${item.nombre_categoria}</td>
+          <td class="${
+            item.tipo_registro === "ingreso" ? "text-success" : "text-error"
+          }">${item.valor_registro}</td>
+          <td>${item.metodo_registro}</td>
+          <td><span class="badge ${
+            item.estado_registro === "activo" ? "badge-success" : "badge-error"
+          }">${item.estado_registro}</span></td>
         </tr>
         `;
       tbody.append(row); // Append the row to the tbody
@@ -59,14 +24,15 @@ $(document).ready(async function () {
   };
 
   const handleFilter = (id, field, array) => {
-    console.log(array);
     $(`#${id}`).change(() => {
       const selected = $(`#${id}`).val();
       if (selected.length === 0) {
         setList(array);
+        filteredRegs = array;
         return;
       }
-      setList(array.filter((inc) => inc[field] === selected));
+      filteredRegs = array.filter((inc) => inc[field] === selected);
+      setList(filteredRegs);
     });
   };
 
@@ -85,6 +51,7 @@ $(document).ready(async function () {
   };
 
   const regs = await fetchRegs();
+  let filteredRegs = regs;
   setList(regs);
 
   // Initialize Summary Chart (Bar Chart)
@@ -126,10 +93,10 @@ $(document).ready(async function () {
   handleFilter("report-type", "tipo_registro", regs);
 
   // Export to PDF button
-  $(".btn-primary").on("click", () => exportToPDF(regs));
+  $(".btn-primary").on("click", () => exportToPDF(filteredRegs));
 
   // Export to CSV button
-  $(".btn-secondary").on("click", () => exportToCSV(regs));
+  $(".btn-secondary").on("click", () => exportToCSV(filteredRegs));
 });
 function exportToPDF(regs) {
   const { jsPDF } = window.jspdf;

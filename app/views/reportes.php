@@ -11,8 +11,8 @@
         </label>
         <select id="report-type" class="select select-bordered">
           <option value="">Reporte Completo</option>
-          <option value="income">Solo Ingresos</option>
-          <option value="expense">Solo Gastos</option>
+          <option value="ingreso">Solo Ingresos</option>
+          <option value="egreso">Solo Gastos</option>
         </select>
       </div>
 
@@ -125,7 +125,6 @@
         <tr>
           <th>Tipo</th>
           <th>Fecha</th>
-          <th>Descripción</th>
           <th>Categoría</th>
           <th>Monto</th>
           <th>Método de Pago</th>
