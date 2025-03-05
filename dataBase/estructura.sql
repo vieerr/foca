@@ -175,6 +175,27 @@ INSERT INTO autorizaciones (id_rol, id_permiso) VALUES
 (1, 15),
 (1, 16);
 
+INSERT INTO categorias (id_categoria, nombre_categoria, tipo_categoria, qr_categoria) VALUES
+-- Ingresos
+(1, 'Salario', 'ingreso', 'link1'),
+(2, 'Ventas Negocio', 'ingreso', 'link2'),
+(3, 'Trabajos Extra', 'ingreso', 'link3'),
+(4, 'Alquileres', 'ingreso', 'link4'),
+(5, 'Regalo', 'ingreso', 'link5'),
+
+-- Egresos (gastos)
+(6, 'Servicios Básicos', 'egreso', 'link6'),
+(7, 'Vivienda', 'egreso', 'link7'),
+(8, 'Alimentación', 'egreso', 'link8'),
+(9, 'Transporte', 'egreso', 'link9'),
+(10, 'Educación', 'egreso', 'link10'),
+(11, 'Salud', 'egreso', 'link11'),
+(12, 'Vestimenta', 'egreso', 'link12'),
+(13, 'Entretenimiento', 'egreso', 'link13'),
+(14, 'Mascota', 'egreso', 'link14'),
+(15, 'Pagos Financieros', 'egreso', 'link15');
+
+
 
 DELIMITER $$
 
