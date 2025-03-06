@@ -1,4 +1,23 @@
 $(document).ready(async () => {
+
+
+  const handleAuth = (perms) => {
+    console.log(admin);
+    if(admin)
+    {
+      return;
+    }
+    if (!perms.includes(3)) {
+      $("#register-income-btn").addClass("btn-disabled");
+    }
+    if (!perms.includes(7)) {
+      $(".toggle-status").addClass("btn-disabled");
+    }
+    if (!perms.includes(13)) {
+      $(".edit-income").addClass("btn-disabled");
+    }
+  };
+
   const filterByDateRange = (data, startDate, endDate) => {
     return data.filter((item) => {
       const itemDate = new Date(item.fecha_accion);
@@ -121,6 +140,7 @@ $(document).ready(async () => {
         `;
       tbody.append(row); // Append the row to the tbody
     });
+    handleAuth(perms);
   };
 
   const generateInsertModal = () => {

@@ -51,10 +51,6 @@ class SessionController
 
     public function isAdmin()
     {
-        // echo json_encode([
-        //     "success" => false,
-        //     "message" => "Invalid username or password.",
-        // ]);
         echo json_encode(isset($_SESSION["role"]) && $_SESSION["role"] == 1);
     }
 

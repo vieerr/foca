@@ -1,4 +1,20 @@
 $(document).ready(function () {
+
+  const handleAuth = (perms) => {
+    console.log(admin);
+    if (admin) {
+      return;
+    }
+    if (!perms.includes(5)) {
+      $("#register-user-btn").addClass("btn-disabled");
+    }
+    if (!perms.includes(10)) {
+      $(".toggle-status").addClass("btn-disabled");
+    }
+    if (!perms.includes(15)) {
+      $(".edit-user").addClass("btn-disabled");
+    }
+  };
   function fetchRoles() {
     $.ajax({
       url: "router.php?route=get-roles",
@@ -86,6 +102,7 @@ $(document).ready(function () {
           `;
           $("#users-table-body").append(row);
         });
+        handleAuth(perms);
       },
       error: function (xhr, status, error) {
         console.error("Error fetching user data:", error);
@@ -123,7 +140,7 @@ $(document).ready(function () {
         console.log("Respuesta del servidor:", response);
         if (response.success) {
           alert("Usuario registrado exitosamente.");
-          // $("#register-user-form")[0].reset();
+          return;
         } else {
           alert("Error al registrar el usuario: " + response.message);
         }

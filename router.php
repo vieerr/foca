@@ -23,6 +23,9 @@ if (isset($_GET["route"])) {
         case "is-admin":
             $sessionController->isAdmin();
             break;
+        case "get-rol-perms":
+            $authController->fetchRolPerms();
+            break;
         case "get-all-audits":
             $auditController->fetchAllAudits();
             break;
