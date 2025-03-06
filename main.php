@@ -3,8 +3,7 @@
 session_start();
 require_once "app/controllers/sessionController.php";
 
-echo SessionController::isAuth() ? null : header("Location: index.php");
-;
+SessionController::isAuth() ? null : header( "Location: index.php");
 
 ?>
 
@@ -14,10 +13,8 @@ echo SessionController::isAuth() ? null : header("Location: index.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Include jsPDF library -->
     <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/jspdf-autotable@5.0.2/dist/jspdf.plugin.autotable.js"></script>
-    <!-- Include PapaParse library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <!-- Include html2canvas library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>

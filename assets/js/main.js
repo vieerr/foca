@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(async function () {
   const links = [
     {
       route: "dashboard",
@@ -25,6 +25,9 @@ $(document).ready(function () {
       icon: "fa-user",
       name: "Perfil",
     },
+  ];
+
+  const adminLinks = [
     {
       route: "usuarios",
       icon: "fa-user-group",
@@ -41,6 +44,27 @@ $(document).ready(function () {
       name: "Auditorias",
     },
   ];
+
+  const isAdmin = async () => {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: "router.php?route=is-admin",
+        method: "GET",
+        success: function (response) {
+          if (response === "true") {
+            links.push(...adminLinks);
+          }
+          resolve();
+        },
+        error: function () {
+          $("#main-content").html("<p>Error loading content.</p>");
+          reject();
+        },
+      });
+    });
+  };
+
+  await isAdmin();
 
   let html = "";
   $.each(links, function (index, link) {
