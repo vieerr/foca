@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+require_once "app/controllers/sessionController.php";
+
+echo SessionController::isAuth() ? null : header("Location: index.php");
+;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

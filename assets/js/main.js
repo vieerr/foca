@@ -1,7 +1,4 @@
-
-
 $(document).ready(function () {
-
   const links = [
     {
       route: "dashboard",
@@ -57,24 +54,36 @@ $(document).ready(function () {
     `;
   });
 
-  $("#sidebar-links").html(html);
+  $("#sidebar-links")
+    .html(html)
+    .append(
+      `
+    <li class="w-full">
+        <a href="router.php?route=logout" class="btn btn-error mt-7 gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
+            <i class="fas fa-sign-out-alt"></i>
+            Cerrar sesión
+        </a>
+    </li>
+    `
+    );
+
   $(".load-content").on("click", function (e) {
     e.preventDefault();
     const route = $(this).data("route");
     console.log(route);
-  
+
     $.ajax({
       url: `router.php?page=${route}`,
       method: "GET",
       success: function (response) {
         // Update the main content
         $("#main-content").html(response);
-  
+
         // Remove all previously loaded scripts with the class "dynamic-script"
         document.querySelectorAll("script.dynamic-script").forEach((script) => {
           script.remove();
         });
-  
+
         // Create and append the new script
         const script = document.createElement("script");
         script.src = `assets/js/${route}.js`;
