@@ -70,6 +70,16 @@ $(document).ready(async function () {
       icon: "fa-user",
       name: "Perfil",
     },
+    {
+      route: "gastos",
+      icon: "fa-wallet",
+      name: "Gastos",
+    },
+    {
+      route: "ingresos",
+      icon: "fa-money-bill-wave",
+      name: "Ingresos",
+    }
   ];
 
   const editSidebar = async () => {
@@ -84,22 +94,22 @@ $(document).ready(async function () {
     const usuarios = [5, 10, 15];
     const reportes = [16];
 
-    if (perms.some((el) => gastos.includes(el)) || admin) {
-      links.push({
-        route: "gastos",
-        icon: "fa-wallet",
-        name: "Gastos",
-      });
-      console.log("gastos");
-    }
-    if (perms.some((el) => ingresos.includes(el)) || admin) {
-      links.push({
-        route: "ingresos",
-        icon: "fa-money-bill-wave",
-        name: "Ingresos",
-      });
-      console.log("ingresos");
-    }
+    // if (perms.some((el) => gastos.includes(el)) || admin) {
+      // links.push({
+      //   route: "gastos",
+      //   icon: "fa-wallet",
+      //   name: "Gastos",
+      // });
+    //   console.log("gastos");
+    // }
+    // if (perms.some((el) => ingresos.includes(el)) || admin) {
+    //   links.push({
+    //     route: "ingresos",
+    //     icon: "fa-money-bill-wave",
+    //     name: "Ingresos",
+    //   });
+    //   console.log("ingresos");
+    // }
     if (perms.some((el) => roles.includes(el)) || admin) {
       links.push({
         route: "roles",
