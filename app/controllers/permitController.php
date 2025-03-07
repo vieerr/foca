@@ -1,7 +1,5 @@
 <?php
-require_once "app/models/RolModel.php";
 require_once "app/models/PermisoModel.php";
-require_once "app/models/AuthModel.php";
 
 class PermitController
 {

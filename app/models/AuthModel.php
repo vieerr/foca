@@ -42,4 +42,10 @@ class Autorizacion extends Model
             "id_permiso" => $id_permiso
         ]);
     }
+
+    public function get_rol_perms($id)
+    {
+        return self::select(self::$table, ['id_permiso'], ["id_rol" => $id]);
+    }
+
 }
