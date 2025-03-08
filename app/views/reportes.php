@@ -109,12 +109,12 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
       </svg>
-      Exportar CSV
+      Exportar Excel
     </button>
   </div>
 
   <!-- Visualizations -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 ">
     <!-- Income vs Expenses Chart -->
     <div class="bg-base-200 p-4 rounded-lg">
       <h3 class="text-lg font-bold mb-4">Resumen General</h3>
