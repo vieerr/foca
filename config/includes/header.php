@@ -10,5 +10,3 @@ ini_set("display_errors", 1);
 <!-- jQuery -->
 <script src="assets/jquery.js"></script>
 <script src="assets/chart.js.js"></script>
-
-

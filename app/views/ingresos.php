@@ -7,11 +7,28 @@
         <p class="hidden lg:inline-block">Agregar</p>
         <i class="fa-regular fa-plus"></i>
       </button>
+
+      <dialog id="qr_modal" class="modal">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold" id="qr-title"></h3>
+          <img src="assets/qrs/Alimentacion.png" alt="qr" class="mx-auto" id="qr-img" />
+          <div class="modal-action">
+            <form method="dialog">
+              <button class="btn">Cerrar</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+
+
+
+
       <!--MODAL FORM-->
       <dialog id="modalIngreso" class="modal">
         <div class="modal-box">
           <form id="close-modal" method="dialog">
-            <button  class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
           <!--Form-->
           <h2 id="income-form-title" class="text-xl font-bold mb-4"></h2>
@@ -22,7 +39,7 @@
             </label>
             <label class="input min-w-full" for="fecha_accion">
               <span class="label font-medium">Fecha de obtención</span>
-              <input type="date" name="fecha_accion" id="fecha_accion" required/>
+              <input type="date" name="fecha_accion" id="fecha_accion" required />
             </label>
             <label class="select min-w-full" for="metodo_registro">
               <span class="label font-medium">Método de pago</span>
@@ -35,11 +52,12 @@
             </label>
             <label class="input min-w-full" for="valor_registro">
               <span class="label font-medium">Valor</span>
-              <input type="number" step="0.01" min="0.15" class="outline-none" placeholder="$500.00" name="valor_registro" id="valor_registro" required/>
+              <input type="number" step="0.01" min="0.15" class="outline-none" placeholder="$500.00"
+                name="valor_registro" id="valor_registro" required />
             </label>
             <button id="income-form-btn" type="submit" class="btn btn-primary mt-4 w-full"></button>
           </form>
-        </div>          
+        </div>
       </dialog>
     </section>
 
@@ -55,25 +73,25 @@
           <select class="select" name="filtro_metodo_registro" id="filtro_metodo_registro">
             <option value="" selected>Seleccionar método</option>
             <option value="Transferencia">Transferencia</option>
-            <option value="Efectivo" >Efectivo</option>
+            <option value="Efectivo">Efectivo</option>
             <option value="Tarjeta">Tarjeta</option>
           </select>
         </label>
         <label class="select" for="filtro_estado_registro">
           <span class="label font-medium">Estado</span>
           <select class="select" name="filtro_estado_registro" id="filtro_estado_registro">
-            <option value=""selected>Seleccionar estado</option>
-            <option value="activo" >Activo</option>
+            <option value="" selected>Seleccionar estado</option>
+            <option value="activo">Activo</option>
             <option value="anulado">Anulado</option>
           </select>
         </label>
         <label class="input" for="fecha-inicial">
           <span class="label font-medium">Desde</span>
-          <input type="date" name="fecha-inicial" id="fecha-inicial"/>
+          <input type="date" name="fecha-inicial" id="fecha-inicial" />
         </label>
         <label class="input" for="fecha-final">
           <span class="label font-medium">Hasta</span>
-          <input type="date" name="fecha-final" id="fecha-final"/>
+          <input type="date" name="fecha-final" id="fecha-final" />
         </label>
       </div>
     </section>

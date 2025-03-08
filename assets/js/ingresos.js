@@ -1,4 +1,20 @@
 $(document).ready(async () => {
+  const handleAuth = (perms) => {
+    console.log(admin);
+    if (admin) {
+      return;
+    }
+    if (!perms.includes(3)) {
+      $("#register-income-btn").addClass("btn-disabled");
+    }
+    if (!perms.includes(7)) {
+      $(".toggle-status").addClass("btn-disabled");
+    }
+    if (!perms.includes(13)) {
+      $(".edit-income").addClass("btn-disabled");
+    }
+  };
+
   const filterByDateRange = (data, startDate, endDate) => {
     return data.filter((item) => {
       const itemDate = new Date(item.fecha_accion);
@@ -67,6 +83,7 @@ $(document).ready(async () => {
   const setList = (data) => {
     const tbody = $("#ingresos-table-body");
     tbody.empty();
+    console.log(data);
     data.reverse().map((item) => {
       const row = `
         <tr class="text-center">
@@ -111,16 +128,20 @@ $(document).ready(async () => {
                         <i class="fas fa-retweet"></i>
                         <p class="hidden lg:inline-block">Anular</p>
                     </button>
-                    <button class="btn btn-sm btn-warning ml-2">
+                    <button data-categoria="${
+                      item.nombre_categoria
+                    }" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
                         <i class="fas fa-qrcode"></i>
                         <p class="hidden lg:inline-block">QR</p>
                     </button>
                 </div>
             </td>
         </tr>
+        
         `;
       tbody.append(row); // Append the row to the tbody
     });
+    handleAuth(perms);
   };
 
   const generateInsertModal = () => {
@@ -202,7 +223,7 @@ $(document).ready(async () => {
 
   $(document).on("click", ".toggle-status", function () {
     const incomeId = $(this).data("id");
-    console.log({incomeId});
+    console.log({ incomeId });
 
     const data = `id_registro=${incomeId}&estado_registro=anulado`;
 
@@ -222,8 +243,13 @@ $(document).ready(async () => {
     }
   });
 
-  $(document).on("submit", "#register-income-form", (e)=>
-  {
+  $(document).on("click", ".qr-btn", function () {
+    const categoria = $(this).data("categoria");
+    $("#qr-img").attr("src", `assets/qrs/${categoria.split(" ").join("")}.png`);
+    $("#qr-title").html(`Categoría: ${categoria}`);
+  });
+
+  $(document).on("submit", "#register-income-form", (e) => {
     e.preventDefault();
     const formData = $("#register-income-form").serialize();
     $.ajax({

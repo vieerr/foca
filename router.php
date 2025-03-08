@@ -10,7 +10,7 @@ if (isset($_SESSION["user_id"])) {
 
 require("config/includes/controllers.php");
 
-$page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
+$page = isset($_GET["page"]) ? $_GET["page"] : "";
 $route = isset($_GET["route"]) ? $_GET["route"] : "";
 if (isset($_GET["route"])) {
     switch ($route) {
@@ -19,6 +19,12 @@ if (isset($_GET["route"])) {
             break;
         case "logout":
             $sessionController->logout();
+            break;
+        case "is-admin":
+            $sessionController->isAdmin();
+            break;
+        case "get-rol-perms":
+            $authController->fetchRolPerms();
             break;
         case "get-all-audits":
             $auditController->fetchAllAudits();
@@ -80,35 +86,36 @@ if (isset($_GET["route"])) {
     }
 }
 
-switch ($page) {
-    case "dashboard":
-        $dashboardController->index();
-        exit();
-    case "perfil":
-        $profileController->index();
-        exit();
-    case "usuarios":
-        $userController->index();
-        exit();
-    case "ingresos":
-        $incomeController->index();
-        exit();
-    case "gastos":
-        $expenseController->index();
-        exit();
-    case "roles":
-        $rolController->index();
-        exit();
-    case "reportes":
-        $reportController->index();
-        exit();
-    case "auditorias":
-        $auditController->index();
-        exit();
-    default:
-        echo "404 Not Found";
-        exit();
+if (isset($_GET["page"])) {
+
+    switch ($page) {
+        case "dashboard":
+            $dashboardController->index();
+            break;
+        case "perfil":
+            $profileController->index();
+            break;
+        case "usuarios":
+            $userController->index();
+            break;
+        case "ingresos":
+            $incomeController->index();
+            break;
+        case "gastos":
+            $expenseController->index();
+            break;
+        case "roles":
+            $rolController->index();
+            break;
+        case "reportes":
+            $reportController->index();
+            break;
+        case "auditorias":
+            $auditController->index();
+            break;
+        default:
+            echo "404 Not Found";
+            break;
+    }
 }
-
-
 ?>

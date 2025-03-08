@@ -11,7 +11,9 @@ require_once "app/controllers/auditController.php";
 require_once "app/controllers/permitController.php";
 require_once "app/controllers/regController.php";
 require_once "app/controllers/categoryController.php";
+require_once "app/controllers/authController.php";
 
+$authController = new AuthController();
 $incomeController = new IncomeController();
 $categoryController = new CategoryController();
 $regController = new RegController();

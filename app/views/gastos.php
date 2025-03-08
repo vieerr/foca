@@ -7,6 +7,19 @@
         <p class="hidden lg:inline-block">Agregar</p>
         <i class="fa-regular fa-plus"></i>
       </button>
+      <dialog id="qr_modal" class="modal">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold" id="qr-title"></h3>
+          <img src="assets/qrs/Alimentacion.png" alt="qr" class="mx-auto" id="qr-img" />
+          <div class="modal-action">
+            <form method="dialog">
+              <button class="btn">Cerrar</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+
       <!--MODAL FORM-->
       <dialog id="modalGasto" class="modal">
         <div class="modal-box">
@@ -102,96 +115,6 @@
           </tr>
         </thead>
         <tbody id="gastos-table-body">
-          <!-- Hardcoded Data -->
-          <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">1</td>
-            <td class="px-6 py-4 border-b border-gray-200">Cena en restaurante</td>
-            <td class="px-6 py-4 border-b border-gray-200">Comida</td>
-            <td class="px-6 py-4 border-b border-gray-200">$50.00</td>
-            <td class="px-6 py-4 border-b border-gray-200">Tarjeta</td>
-            <td class="px-6 py-4 border-b border-gray-200">2023-10-01</td>
-            <td class="px-6 py-4 border-b border-gray-200">2023-10-02</td>
-            <td class="px-6 py-4 border-b border-gray-200">
-              <span class="badge badge-success badge-outline">Activo</span>
-            </td>
-            <td class="py-3">
-              <div class="inline-flex">
-                <button class="edit-expense btn btn-sm btn-info">
-                  <i class="fas fa-pencil"></i>
-                  <p class="hidden lg:inline-block">Editar</p>
-                </button>
-                <button class="btn btn-sm btn-error ml-2 toggle-status">
-                  <i class="fas fa-retweet"></i>
-                  <p class="hidden lg:inline-block">Anular</p>
-                </button>
-                <button class="btn btn-sm btn-warning ml-2">
-                  <i class="fas fa-qrcode"></i>
-                  <p class="hidden lg:inline-block">QR</p>
-                </button>
-              </div>
-            </td>
-          </tr>
-
-
-          <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">2</td>
-            <td class="px-6 py-4 border-b border-gray-200">Transporte público</td>
-            <td class="px-6 py-4 border-b border-gray-200">Transporte</td>
-            <td class="px-6 py-4 border-b border-gray-200">$10.00</td>
-            <td class="px-6 py-4 border-b border-gray-200">Efectivo</td>
-            <td class="px-6 py-4 border-b border-gray-200">2023-10-05</td>
-            <td class="px-6 py-4 border-b border-gray-200">2023-10-06</td>
-            <td class="px-6 py-4 border-b border-gray-200">
-              <span class="badge badge-error badge-outline">Anulado</span>
-            </td>
-            <td class="py-3">
-              <div class="inline-flex">
-                <button class="edit-expense btn btn-sm btn-info">
-                  <i class="fas fa-pencil"></i>
-                  <p class="hidden lg:inline-block">Editar</p>
-                </button>
-                <button class="btn btn-sm btn-error ml-2 toggle-status">
-                  <i class="fas fa-retweet"></i>
-                  <p class="hidden lg:inline-block">Habilitar</p>
-                </button>
-                <button class="btn btn-sm btn-warning ml-2">
-                  <i class="fas fa-qrcode"></i>
-                  <p class="hidden lg:inline-block">QR</p>
-                </button>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">3</td>
-            <td class="px-6 py-4 border-b border-gray-200">Pago de luz</td>
-            <td class="px-6 py-4 border-b border-gray-200">Servicios</td>
-            <td class="px-6 py-4 border-b border-gray-200">$120.00</td>
-            <td class="px-6 py-4 border-b border-gray-200">Transferencia</td>
-            <td class="px-6 py-4 border-b border-gray-200">2023-10-10</td>
-            <td class="px-6 py-4 border-b border-gray-200">2023-10-11</td>
-            <td class="px-6 py-4 border-b border-gray-200">
-              <span class="badge badge-success badge-outline">Activo</span>
-            </td>
-            <td class="py-3">
-              <div class="inline-flex">
-                <button class="edit-expense btn btn-sm btn-info">
-                  <i class="fas fa-pencil"></i>
-                  <p class="hidden lg:inline-block">Editar</p>
-                </button>
-                <button class="btn btn-sm btn-error ml-2 toggle-status">
-                  <i class="fas fa-retweet"></i>
-                  <p class="hidden lg:inline-block">Anular</p>
-                </button>
-                <button class="btn btn-sm btn-warning ml-2">
-                  <i class="fas fa-qrcode"></i>
-                  <p class="hidden lg:inline-block">QR</p>
-                </button>
-              </div>
-            </td>
-          </tr>
-
-
         </tbody>
       </table>
     </section>

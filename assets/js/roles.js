@@ -1,6 +1,24 @@
 $(document).ready(function () {
+  const handleAuth = (perms) => {
+    console.log(admin);
+    if (admin) {
+      return;
+    }
+    if (!perms.includes(4)) {
+      $("#register-role-btn").addClass("btn-disabled");
+    }
+    if (!perms.includes(9)) {
+      $(".toggle-status").addClass("btn-disabled");
+    }
+    if (!perms.includes(14)) {
+      $(".edit-role").addClass("btn-disabled");
+    }
+  };
+
   fetchPermisos();
   fetchRoles();
+  handleAuth(perms);
+
 
   $(document).on("click", ".edit-role", function () {
     const roleId = $(this).data("id");

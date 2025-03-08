@@ -1,4 +1,20 @@
 $(document).ready(async () => {
+  const handleAuth = (perms) => {
+    console.log(admin);
+    if (admin) {
+      return;
+    }
+    if (!perms.includes(2)) {
+      $("#register-expense-btn").addClass("btn-disabled");
+    }
+    if (!perms.includes(6)) {
+      $(".toggle-status").addClass("btn-disabled");
+    }
+    if (!perms.includes(12)) {
+      $(".edit-expense").addClass("btn-disabled");
+    }
+  };
+
   const filterByDateRange = (data, startDate, endDate) => {
     return data.filter((item) => {
       const itemDate = new Date(item.fecha_accion);
@@ -112,7 +128,9 @@ $(document).ready(async () => {
                         <i class="fas fa-retweet"></i>
                         <p class="hidden lg:inline-block">Anular</p>
                     </button>
-                    <button class="btn btn-sm btn-warning ml-2">
+                    <button data-categoria="${
+                      item.nombre_categoria
+                    }" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
                         <i class="fas fa-qrcode"></i>
                         <p class="hidden lg:inline-block">QR</p>
                     </button>
@@ -155,7 +173,7 @@ $(document).ready(async () => {
   };
 
   const handleFilter = (id, field, array) => {
-    console.log(array)
+    console.log(array);
     $(`#${id}`).change(() => {
       const selected = $(`#${id}`).val();
       if (selected.length === 0) {
@@ -185,6 +203,12 @@ $(document).ready(async () => {
   handleFilter("filtro_nombre_categoria", "id_categoria", populatedRegs);
   handleFilter("filtro_metodo_registro", "metodo_registro", populatedRegs);
   handleFilter("filtro_estado_registro", "estado_registro", populatedRegs);
+
+  $(document).on("click", ".qr-btn", function () {
+    const categoria = $(this).data("categoria");
+    $("#qr-img").attr("src", `assets/qrs/${categoria.split(" ").join("")}.png`);
+    $("#qr-title").html(`Categoría: ${categoria}`);
+  });
 
   $("#fecha-inicial, #fecha-final").on("input", function () {
     const startDate = new Date($("#fecha-inicial").val());
@@ -271,83 +295,6 @@ $(document).ready(async () => {
       },
     });
   });
+
+  handleAuth(perms);
 });
-
-// $(document).ready(() => {
-//   fetchCategorias();
-//   fetchGastos();
-
-//   $(document).on("click", ".edit-expense", function () {
-//     const expenseId = $(this).data("id");
-//     generateEditModal(expenseId);
-//     modalGasto.showModal();
-//   });
-
-//   $("#register-expense-btn").click(function(){
-//     generateInsertModal();
-// 		modalGasto.showModal();
-// 	});
-// });
-
-// $(document).on("submit","#register-expense-form", submitExpense);
-// $(document).on("submit","#edit-expense-form", updateExpense);
-
-// function fetchCategorias(){
-//   //TODO --Obtener las categorías para gastos
-//   //$("#nombre_categoria").empty().append('<option value="">Seleccione una categoría</option>');
-//   // Colocar las categorías obtenidas en $("#nombre_categoria").append()
-
-//   // Realizar lo mismo para el filtro
-//   //$("#filtro_nombre_categoria").empty().append('<option value="">Seleccione una categoría</option>');
-//   // Colocar las categorías obtenidas en $("#filtro_nombre_categoria").append()
-// }
-
-// function fetchExpense(id){
-//   //TODO
-// }
-
-// function fetchGastos(){
-//   //TODO
-// }
-
-// function submitExpense(event){
-//   event.preventDefault();
-//   //TODO
-//   alert("Ingreso registrado");
-// }
-
-// function updateExpense(event){
-//   event.preventDefault();
-//   //TODO
-//   alert("Ingreso editado");
-// }
-
-// function generateInsertModal(){
-//   $("#id-display").remove();
-
-//   $("#expense-form-title").html("Registrar nuevo gasto");
-//   $("#expense-form-btn").html("Agregar");
-
-//   $("#edit-expense-form").attr("id", "register-expense-form");
-// }
-
-// function generateEditModal(expenseId){
-//   $("#expense-form-title").html("Editar gasto");
-//   $("#expense-form-btn").html("Actualizar");
-
-//   $("#register-expense-form").attr("id", "edit-expense-form");
-
-//   if ($("#id-display").length) {
-//     $("#id_registro").val(expenseId);
-//   } else {
-//     $("#edit-expense-form").prepend(`
-//       <label id="id-display" class="input min-w-full" for="id_registro">
-//         <span class="label font-bold">ID</span>
-//         <input type="text" name="id_registro" id="id_registro" readonly value="${expenseId}">
-//       </label>`);
-//   }
-
-//   const expenseData = fetchExpense(expenseId);
-//   //TODO fetch expense data based on their ID and fill the form inputs
-
-// }
