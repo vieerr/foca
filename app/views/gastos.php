@@ -7,6 +7,19 @@
         <p class="hidden lg:inline-block">Agregar</p>
         <i class="fa-regular fa-plus"></i>
       </button>
+      <dialog id="qr_modal" class="modal">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold" id="qr-title"></h3>
+          <img src="assets/qrs/Alimentacion.png" alt="qr" class="mx-auto" id="qr-img" />
+          <div class="modal-action">
+            <form method="dialog">
+              <button class="btn">Cerrar</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+
       <!--MODAL FORM-->
       <dialog id="modalGasto" class="modal">
         <div class="modal-box">

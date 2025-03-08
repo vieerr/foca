@@ -1,9 +1,7 @@
 $(document).ready(async () => {
-
   const handleAuth = (perms) => {
     console.log(admin);
-    if(admin)
-    {
+    if (admin) {
       return;
     }
     if (!perms.includes(2)) {
@@ -130,7 +128,9 @@ $(document).ready(async () => {
                         <i class="fas fa-retweet"></i>
                         <p class="hidden lg:inline-block">Anular</p>
                     </button>
-                    <button class="btn btn-sm btn-warning ml-2">
+                    <button data-categoria="${
+                      item.nombre_categoria
+                    }" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
                         <i class="fas fa-qrcode"></i>
                         <p class="hidden lg:inline-block">QR</p>
                     </button>
@@ -203,6 +203,12 @@ $(document).ready(async () => {
   handleFilter("filtro_nombre_categoria", "id_categoria", populatedRegs);
   handleFilter("filtro_metodo_registro", "metodo_registro", populatedRegs);
   handleFilter("filtro_estado_registro", "estado_registro", populatedRegs);
+
+  $(document).on("click", ".qr-btn", function () {
+    const categoria = $(this).data("categoria");
+    $("#qr-img").attr("src", `assets/qrs/${categoria.split(" ").join("")}.png`);
+    $("#qr-title").html(`Categoría: ${categoria}`);
+  });
 
   $("#fecha-inicial, #fecha-final").on("input", function () {
     const startDate = new Date($("#fecha-inicial").val());
