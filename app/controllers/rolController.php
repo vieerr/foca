@@ -22,6 +22,12 @@ class RolController
         exit();
     }
 
+    public function fetchRoleName($roleId)
+    {
+        $role = $this->rolModel->getRoleName($roleId)[0]["nombre_rol"];
+        return $role;
+    }
+
 
     public function index()
     {
