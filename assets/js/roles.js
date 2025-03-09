@@ -237,6 +237,10 @@ function generateInsertModal() {
   $("#role-form-btn").html("Agregar");
 
   $("#edit-role-form").attr("id", "register-role-form");
+  $("#nombre_rol").val("");
+  $("#descripcion_rol").val("");
+  $("input[name='permiso[]']").prop("checked", false);
+
 }
 
 function generateEditModal(roleId) {
@@ -254,4 +258,21 @@ function generateEditModal(roleId) {
         <input class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-white" type="text" name="id_rol" id="id_rol" value="${roleId}" readonly>
       </div>`);
   }
+  $.ajax({
+    url: "router.php?route=get-role",
+    method: "POST",
+    data: { id_rol: roleId },
+    success: function (response) {
+      console.log("Rol recibido:", response);
+      $("#nombre_rol").val(response.nombre_rol);
+      $("#descripcion_rol").val(response.descripcion_rol);
+      response.permisos.forEach(function (permiso) {
+        $(`#permiso${permiso.id_permiso}`).prop("checked", true);
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching role data:", error);
+      alert("Error fetching role data. Please try again.");
+    },
+  });
 }

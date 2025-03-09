@@ -7,12 +7,15 @@ class RolController
 {
     private $rolModel;
     private $permisoModel;
+    private $authModel;
 
     public function __construct()
     {
         $this->rolModel = new Rol();
         $this->permisoModel = new Permiso();
+        $this->authModel = new Autorizacion();
     }
+
     public function fetchRoles()
     {
         $roles = $this->rolModel->getRoles();
@@ -28,6 +31,7 @@ class RolController
         parse_str($input, $data);
 
         $role = $this->rolModel->getRole($data["id_rol"])[0];
+        $role["permisos"] = $this->authModel->get_rol_perms($data["id_rol"]);
         header("Content-Type: application/json");
         echo json_encode($role);
     }

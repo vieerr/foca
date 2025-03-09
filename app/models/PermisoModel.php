@@ -4,7 +4,7 @@ require_once "Model.php";
 class Permiso extends Model
 {
     private $conn;
-    public static $table = "categorias";
+    public static $table = "permisos";
 
 
     public function __construct()
@@ -23,10 +23,6 @@ class Permiso extends Model
         return $rows;
     }
 
-    public function get_rol_perms($id_rol)
-    {
-        return self::select(self::$table, ['*'], ["id_rol" => $id_rol]);
-    }
 }
 
 ?>
