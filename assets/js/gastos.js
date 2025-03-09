@@ -1,4 +1,42 @@
 $(document).ready(async () => {
+
+  const generateEditModal = (expenseId) => {
+    $("#expense-form-title").html("Editar ingreso");
+    $("#expense-form-btn").html("Actualizar");
+
+    $("#register-expense-form").attr("id", "edit-expense-form");
+
+    if ($("#id-display").length) {
+      $("#id_registro").val(expenseId);
+    } else {
+      $("#edit-expense-form").prepend(`
+        <label id="id-display" class="input min-w-full" for="id_registro">
+          <span class="label font-bold">ID</span>
+          <input type="text" name="id_registro" id="id_registro" readonly value="${expenseId}">
+        </label>`);
+    }
+
+    $.ajax({
+      url: `router.php?route=get-one-expense`,
+      method: "POST",
+      data: { id_registro: expenseId },
+      success: function (response) {
+        const { nombre_registro, id_categoria, valor_registro, metodo_registro, fecha_accion, fecha_registro, estado_registro } = response[0];
+        $("#nombre_registro").val(nombre_registro);
+        $("#nombre_categoria").val(id_categoria);
+        $("#valor_registro").val(valor_registro);
+        $("#metodo_registro").val(metodo_registro);
+        $("#fecha_accion").val(new Date(fecha_accion).toISOString().split('T')[0]);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error fetching expense:", error);
+      },
+    });
+    // optional operation
+    // const expenseData = fetchexpense(expenseId);
+    // //TODO fetch expense data based on their ID and fill the form inputs
+  };
+
   const handleAuth = (perms) => {
     if (admin) {
       return;
@@ -225,6 +263,36 @@ $(document).ready(async () => {
       },
     });
   });
+
+  $(document).on("click", ".edit-expense", function () {
+    const expenseId = $(this).data("id");
+    console.log("Editing expense with ID:", expenseId);
+
+    generateEditModal(expenseId);
+
+    modalGasto.showModal();
+  });
+  $(document).on("submit", "#edit-expense-form", (e) => {
+    e.preventDefault();
+
+    const formData = $("#edit-expense-form").serialize();
+
+    $.ajax({
+      url: "router.php?route=edit-reg",
+      type: "PUT",
+      data: formData,
+      success: function (response) {
+        $("#close-modal").trigger("submit");
+        refetchList();
+        $("#edit-expense-form").trigger("reset");
+        console.log("Update successful:", response);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error updating:", error);
+      },
+    });
+  });
+
 
   handleAuth(perms);
 });

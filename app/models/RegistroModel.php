@@ -55,6 +55,11 @@ class Registro extends Model
         return self::insert(self::$table, $data);
     }
 
+    public function findOne($id)
+    {
+        return self::select(table: self::$table, conditions: ["id_registro" => $id]);
+    }
+
 }
 
 

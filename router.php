@@ -50,6 +50,9 @@ if (isset($_GET["route"])) {
         case "edit-rol":
             $rolController->editRol();
             break;
+        case "get-one-expense":
+            $expenseController->getOneExpense();
+            break;
         case "get-all-income":
             $incomeController->fetchAllIncome();
             break;
