@@ -32,6 +32,10 @@ include "config/includes/header.php";
                     <label class="mb-2 text-[#333] font-medium" for="password">Contraseña</label>
                     <input type="password" id="password" name="password"
                         class="w-full py-2 px-3 rounded-lg border-2 border-[#e0e0e0] bg-base-100" required>
+                    <?php if (isset($_SESSION['login_error'])): ?>
+                        <label class="text-red-500 text-sm mt-1 block"><?= $_SESSION['login_error'] ?></label>
+                        <?php unset($_SESSION['login_error']); ?>
+                    <?php endif; ?>
                 </div>
                 <button type="submit" class="btn btn-primary mt-4 w-full rounded-3xl">Ingresar</button>
             </form>

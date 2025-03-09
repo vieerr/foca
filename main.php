@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once "config/includes/header.php";
 require_once "app/controllers/sessionController.php";
 SessionController::isAuth() ? null : header("Location: index.php");
 $name = $_SESSION["name"];

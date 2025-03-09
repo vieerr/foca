@@ -7,5 +7,10 @@ class Auditorias extends Model
     {
         return self::select(self::$table);
     }
+
+    public function loginAudit($data)
+    {
+        return self::insert(self::$table, $data);
+    }
 }
 ?>

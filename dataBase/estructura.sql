@@ -54,7 +54,6 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`categorias` (
   `id_categoria` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre_categoria` VARCHAR(45) NOT NULL,
   `tipo_categoria` ENUM('ingreso','egreso') NOT NULL,
-  `qr_categoria` VARCHAR(255) NULL,
   PRIMARY KEY (`id_categoria`)
 ) ENGINE = InnoDB;
 
@@ -67,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`registros` (
   `tipo_registro` ENUM('ingreso','egreso') NOT NULL,
   `metodo_registro` ENUM('tarjeta','efectivo','transferencia') NULL,
   `fecha_registro` DATETIME NOT NULL,
-  `fecha_obtencion` DATETIME NOT NULL,
+  `fecha_accion` DATETIME NOT NULL,
   `valor_registro` DECIMAL(10,2) NOT NULL,
   `estado_registro` ENUM('activo','anulado') NOT NULL DEFAULT 'activo',
   `id_usuario` INT UNSIGNED NOT NULL,
@@ -109,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `economiaf`.`autorizaciones` (
 -- -----------------------------------------------------
 -- Tabla Auditoría
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `economiaf`.`Auditoria` (
+CREATE TABLE IF NOT EXISTS `economiaf`.`auditoria` (
   `id_auditoria` INT NOT NULL AUTO_INCREMENT,
   `accion` VARCHAR(45) NOT NULL, 
   `tabla_afectada` VARCHAR(45) NOT NULL, -- Tabla en la que se realizó la acción
@@ -175,25 +174,25 @@ INSERT INTO autorizaciones (id_rol, id_permiso) VALUES
 (1, 15),
 (1, 16);
 
-INSERT INTO categorias (id_categoria, nombre_categoria, tipo_categoria, qr_categoria) VALUES
+INSERT INTO categorias (id_categoria, nombre_categoria, tipo_categoria) VALUES
 -- Ingresos
-(1, 'Salario', 'ingreso', 'link1'),
-(2, 'Ventas Negocio', 'ingreso', 'link2'),
-(3, 'Trabajos Extra', 'ingreso', 'link3'),
-(4, 'Alquileres', 'ingreso', 'link4'),
-(5, 'Regalo', 'ingreso', 'link5'),
+(1, 'Salario', 'ingreso'),
+(2, 'Ventas Negocio', 'ingreso'),
+(3, 'Trabajos Extra', 'ingreso'),
+(4, 'Alquileres', 'ingreso'),
+(5, 'Regalo', 'ingreso'),
 
 -- Egresos (gastos)
-(6, 'Servicios Básicos', 'egreso', 'link6'),
-(7, 'Vivienda', 'egreso', 'link7'),
-(8, 'Alimentación', 'egreso', 'link8'),
-(9, 'Transporte', 'egreso', 'link9'),
-(10, 'Educación', 'egreso', 'link10'),
-(11, 'Salud', 'egreso', 'link11'),
-(12, 'Vestimenta', 'egreso', 'link12'),
-(13, 'Entretenimiento', 'egreso', 'link13'),
-(14, 'Mascota', 'egreso', 'link14'),
-(15, 'Pagos Financieros', 'egreso', 'link15');
+(6, 'Servicios Básicos', 'egreso'),
+(7, 'Vivienda', 'egreso'),
+(8, 'Alimentación', 'egreso'),
+(9, 'Transporte', 'egreso'),
+(10, 'Educación', 'egreso'),
+(11, 'Salud', 'egreso'),
+(12, 'Vestimenta', 'egreso'),
+(13, 'Entretenimiento', 'egreso'),
+(14, 'Mascota', 'egreso'),
+(15, 'Pagos Financieros', 'egreso');
 
 
 
