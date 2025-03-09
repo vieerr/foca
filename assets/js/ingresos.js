@@ -15,6 +15,48 @@ $(document).ready(async () => {
     }
   };
 
+  const generateEditModal = (incomeId) => {
+    $("#income-form-title").html("Editar ingreso");
+    $("#income-form-btn").html("Actualizar");
+
+    $("#register-income-form").attr("id", "edit-income-form");
+
+    if ($("#id-display").length) {
+      $("#id_registro").val(incomeId);
+    } else {
+      $("#edit-income-form").prepend(`
+        <label id="id-display" class="input min-w-full" for="id_registro">
+          <span class="label font-bold">ID</span>
+          <input type="text" name="id_registro" id="id_registro" readonly value="${incomeId}">
+        </label>`);
+    }
+
+    $.ajax({
+      url: `router.php?route=get-one-expense`,
+      method: "POST",
+      data: { id_registro: incomeId },
+      success: function (response) {
+        const {
+          nombre_registro,
+          id_categoria,
+          valor_registro,
+          metodo_registro,
+          fecha_accion,
+        } = response[0];
+        $("#nombre_registro").val(nombre_registro);
+        $("#nombre_categoria").val(id_categoria);
+        $("#valor_registro").val(valor_registro);
+        $("#metodo_registro").val(metodo_registro);
+        $("#fecha_accion").val(
+          new Date(fecha_accion).toISOString().split("T")[0]
+        );
+      },
+      error: function (xhr, status, error) {
+        console.error("Error fetching expense:", error);
+      },
+    });
+  };
+
   const filterByDateRange = (data, startDate, endDate) => {
     return data.filter((item) => {
       const itemDate = new Date(item.fecha_accion);
@@ -235,6 +277,35 @@ $(document).ready(async () => {
   $(document).on("submit", "#edit-income-form", (e) => {
     e.preventDefault();
     const formData = $("#edit-income-form").serialize();
+    $.ajax({
+      url: "router.php?route=edit-reg",
+      type: "PUT",
+      data: formData,
+      success: function (response) {
+        $("#close-modal").trigger("submit");
+        refetchList();
+        $("#edit-income-form").trigger("reset");
+        console.log("Update successful:", response);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error updating:", error);
+      },
+    });
+  });
+
+  $(document).on("click", ".edit-income", function () {
+    const incomeId = $(this).data("id");
+    console.log("Editing income with ID:", incomeId);
+
+    generateEditModal(incomeId);
+
+    modalIngreso.showModal();
+  });
+  $(document).on("submit", "#edit-income-form", (e) => {
+    e.preventDefault();
+
+    const formData = $("#edit-income-form").serialize();
+
     $.ajax({
       url: "router.php?route=edit-reg",
       type: "PUT",

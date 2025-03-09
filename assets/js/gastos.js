@@ -1,5 +1,4 @@
 $(document).ready(async () => {
-
   const generateEditModal = (expenseId) => {
     $("#expense-form-title").html("Editar ingreso");
     $("#expense-form-btn").html("Actualizar");
@@ -21,20 +20,25 @@ $(document).ready(async () => {
       method: "POST",
       data: { id_registro: expenseId },
       success: function (response) {
-        const { nombre_registro, id_categoria, valor_registro, metodo_registro, fecha_accion, fecha_registro, estado_registro } = response[0];
+        const {
+          nombre_registro,
+          id_categoria,
+          valor_registro,
+          metodo_registro,
+          fecha_accion,
+        } = response[0];
         $("#nombre_registro").val(nombre_registro);
         $("#nombre_categoria").val(id_categoria);
         $("#valor_registro").val(valor_registro);
         $("#metodo_registro").val(metodo_registro);
-        $("#fecha_accion").val(new Date(fecha_accion).toISOString().split('T')[0]);
+        $("#fecha_accion").val(
+          new Date(fecha_accion).toISOString().split("T")[0]
+        );
       },
       error: function (xhr, status, error) {
         console.error("Error fetching expense:", error);
       },
     });
-    // optional operation
-    // const expenseData = fetchexpense(expenseId);
-    // //TODO fetch expense data based on their ID and fill the form inputs
   };
 
   const handleAuth = (perms) => {
@@ -75,8 +79,12 @@ $(document).ready(async () => {
   const setCategories = (cats) => {
     const modalCategories = $("#nombre_categoria");
     const filterCategories = $("#filtro_nombre_categoria");
-    modalCategories.append('<option value="">Seleccione una categoría</option>');
-    filterCategories.append('<option value="">Seleccione una categoría</option>');
+    modalCategories.append(
+      '<option value="">Seleccione una categoría</option>'
+    );
+    filterCategories.append(
+      '<option value="">Seleccione una categoría</option>'
+    );
     cats.map((cat) => {
       modalCategories.append(
         `<option value=${cat.id_categoria}>${cat.nombre_categoria}</option>`
@@ -118,29 +126,53 @@ $(document).ready(async () => {
     data.reverse().map((item) => {
       const row = `
         <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">${item.id_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.nombre_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.nombre_categoria}</td>
-            <td class="px-6 py-4 border-b border-gray-200">$ ${item.valor_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.metodo_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_accion}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_registro}</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              item.id_registro
+            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              item.nombre_registro
+            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              item.nombre_categoria
+            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">$ ${
+              item.valor_registro
+            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              item.metodo_registro
+            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              item.fecha_accion
+            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${
+              item.fecha_registro
+            }</td>
             <td class="px-6 py-4 border-b border-gray-200">
-                <span class="${item.estado_registro === "activo" ? "text-success" : "text-error"}">
+                <span class="${
+                  item.estado_registro === "activo"
+                    ? "text-success"
+                    : "text-error"
+                }">
                     ${item.estado_registro}
                 </span>
             </td>
             <td class="py-3">
                 <div class="inline-flex">
-                    <button class="edit-expense btn btn-sm btn-info" data-id="${item.id_registro}">
+                    <button class="edit-expense btn btn-sm btn-info" data-id="${
+                      item.id_registro
+                    }">
                         <i class="fas fa-pencil"></i>
                         <p class="hidden lg:inline-block">Editar</p>
                     </button>
-                    <button data-id="${item.id_registro}" class="btn btn-sm btn-error ml-2 toggle-status">
+                    <button data-id="${
+                      item.id_registro
+                    }" class="btn btn-sm btn-error ml-2 toggle-status">
                         <i class="fas fa-retweet"></i>
                         <p class="hidden lg:inline-block">Anular</p>
                     </button>
-                    <button data-categoria="${item.nombre_categoria}" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
+                    <button data-categoria="${
+                      item.nombre_categoria
+                    }" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
                         <i class="fas fa-qrcode"></i>
                         <p class="hidden lg:inline-block">QR</p>
                     </button>
@@ -207,12 +239,11 @@ $(document).ready(async () => {
   let populatedRegs = populateRegs(regs, cats);
   setList(populatedRegs);
 
-  $("#search-bar, #filtro_nombre_categoria, #filtro_metodo_registro, #filtro_estado_registro, #fecha-inicial, #fecha-final").on(
-    "input change",
-    () => {
-      setList(applyFilters(populatedRegs));
-    }
-  );
+  $(
+    "#search-bar, #filtro_nombre_categoria, #filtro_metodo_registro, #filtro_estado_registro, #fecha-inicial, #fecha-final"
+  ).on("input change", () => {
+    setList(applyFilters(populatedRegs));
+  });
 
   $(document).on("click", ".qr-btn", function () {
     const categoria = $(this).data("categoria");
@@ -292,7 +323,6 @@ $(document).ready(async () => {
       },
     });
   });
-
 
   handleAuth(perms);
 });
