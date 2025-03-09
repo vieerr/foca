@@ -8,11 +8,21 @@ $(document).ready(async () => {
       $("#register-income-btn").addClass("btn-disabled");
     }
     if (!perms.includes(7)) {
-      $(".toggle-status").addClass("btn-disabled");
+      $(".toggle-status-income").addClass("btn-disabled");
     }
     if (!perms.includes(13)) {
       $(".edit-income").addClass("btn-disabled");
     }
+  };
+
+  const generateInsertModal = () => {
+    $("#id-display").remove();
+
+    $("#income-form-title").html("Registrar nuevo ingreso");
+    $("#income-form-btn").html("Agregar");
+
+    $("#edit-income-form").attr("id", "register-income-form");
+    $("#register-income-form").trigger("reset");
   };
 
   const generateEditModal = (incomeId) => {
@@ -164,7 +174,7 @@ $(document).ready(async () => {
                     </button>
                     <button data-id="${
                       item.id_registro
-                    }" class="btn btn-sm btn-error ml-2 toggle-status">
+                    }" class="btn btn-sm btn-error ml-2 toggle-status-income">
                         <i class="fas fa-retweet"></i>
                         <p class="hidden lg:inline-block">Anular</p>
                     </button>
@@ -254,7 +264,9 @@ $(document).ready(async () => {
     modalIngreso.showModal();
   });
 
-  $(document).on("click", ".toggle-status", function () {
+  $(document).on("click", ".toggle-status-income", function (event) {
+    event.stopPropagation();
+
     const incomeId = $(this).data("id");
     const data = `id_registro=${incomeId}&estado_registro=anulado`;
 

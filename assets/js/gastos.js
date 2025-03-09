@@ -1,4 +1,14 @@
 $(document).ready(async () => {
+  const generateInsertModal = () => {
+    $("#id-display").remove();
+
+    $("#expense-form-title").html("Registrar nuevo ingreso");
+    $("#expense-form-btn").html("Agregar");
+
+    $("#edit-expense-form").attr("id", "register-expense-form");
+    $("#register-expense-form").trigger("reset");
+  };
+
   const generateEditModal = (expenseId) => {
     $("#expense-form-title").html("Editar ingreso");
     $("#expense-form-btn").html("Actualizar");
@@ -49,7 +59,7 @@ $(document).ready(async () => {
       $("#register-expense-btn").addClass("btn-disabled");
     }
     if (!perms.includes(6)) {
-      $(".toggle-status").addClass("btn-disabled");
+      $(".toggle-status-expense").addClass("btn-disabled");
     }
     if (!perms.includes(12)) {
       $(".edit-expense").addClass("btn-disabled");
@@ -166,7 +176,7 @@ $(document).ready(async () => {
                     </button>
                     <button data-id="${
                       item.id_registro
-                    }" class="btn btn-sm btn-error ml-2 toggle-status">
+                    }" class="btn btn-sm btn-error ml-2 toggle-status-expense">
                         <i class="fas fa-retweet"></i>
                         <p class="hidden lg:inline-block">Anular</p>
                     </button>
@@ -256,7 +266,9 @@ $(document).ready(async () => {
     modalGasto.showModal();
   });
 
-  $(document).on("click", ".toggle-status", function () {
+
+  $(document).on("click", ".toggle-status-expense", function (event) {
+    event.stopPropagation(); 
     const expenseId = $(this).data("id");
     const data = `id_registro=${expenseId}&estado_registro=anulado`;
 

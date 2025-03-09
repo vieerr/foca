@@ -7,7 +7,7 @@ $(document).ready(function () {
       $("#register-role-btn").addClass("btn-disabled");
     }
     if (!perms.includes(9)) {
-      $(".toggle-status").addClass("btn-disabled");
+      $(".toggle-status-role").addClass("btn-disabled");
     }
     if (!perms.includes(14)) {
       $(".edit-role").addClass("btn-disabled");
@@ -34,7 +34,8 @@ $(document).ready(function () {
 $(document).on("submit", "#register-role-form", submitRole);
 $(document).on("submit", "#edit-role-form", updateRole);
 
-$(document).on("click", ".toggle-status", function () {
+$(document).on("click", ".toggle-status-role", function (event) {
+  event.stopPropagation(); 
   const id = $(this).data("id");
   const newStatus = $(this).data("status") === "activo" ? "inactivo" : "activo";
 
@@ -119,7 +120,7 @@ function fetchRoles() {
                     <i class="fas fa-pencil"></i>
                     <p class="hidden lg:inline-block">Editar</p>
                 </button>
-                <button style="color:white" class="btn btn-sm w-32 btn-error ml-2 toggle-status" data-id="${
+                <button style="color:white" class="btn btn-sm w-32 btn-error ml-2 toggle-status-role" data-id="${
                   role.id_rol
                 }" data-status="${role.estado_rol}">
                     <i class="fas fa-retweet"></i>
@@ -240,7 +241,6 @@ function generateInsertModal() {
   $("#nombre_rol").val("");
   $("#descripcion_rol").val("");
   $("input[name='permiso[]']").prop("checked", false);
-
 }
 
 function generateEditModal(roleId) {
