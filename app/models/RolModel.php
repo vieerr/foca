@@ -45,6 +45,16 @@ class Rol extends Model
         return self::select(table: self::$table, columns: ["id_rol", "nombre_rol", "estado_rol"]);
     }
 
+    public function getRole($id)
+    {
+        return self::select(table: self::$table, conditions: ["id_rol" => $id]);
+    }
+    public function getRoleName($id)
+    {
+        return self::select(table: self::$table, columns: ["nombre_rol"], conditions: ["id_rol" => $id]);
+    }
+
+
 }
 
 

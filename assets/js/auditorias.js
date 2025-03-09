@@ -129,6 +129,21 @@ $(document).ready(async () => {
       .join("")
   );
 
+  const monthNames = {
+    January: "Enero",
+    February: "Febrero",
+    March: "Marzo",
+    April: "Abril",
+    May: "Mayo",
+    June: "Junio",
+    July: "Julio",
+    August: "Agosto",
+    September: "Septiembre",
+    October: "Octubre",
+    November: "Noviembre",
+    December: "Diciembre",
+  };
+
   $("#filtro_mes").append(
     [
       ...new Set(
@@ -137,7 +152,10 @@ $(document).ready(async () => {
         )
       ),
     ]
-      .map((month) => `<option value="${month}">${month}</option>`)
+      .map((month) => {
+        const spanishMonth = monthNames[month] || month; // Fallback to English if mapping is not found
+        return `<option value="${month}">${spanishMonth}</option>`;
+      })
       .join("")
   );
 

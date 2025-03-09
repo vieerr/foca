@@ -1,9 +1,11 @@
 <?php
-
 session_start();
 require_once "app/controllers/sessionController.php";
-
-SessionController::isAuth() ? null : header( "Location: index.php");
+SessionController::isAuth() ? null : header("Location: index.php");
+$name = $_SESSION["name"];
+$last_name = $_SESSION["last_name"];
+$username = $_SESSION["username"];
+$role_name = $_SESSION["role_name"];
 
 ?>
 
@@ -35,6 +37,23 @@ SessionController::isAuth() ? null : header( "Location: index.php");
             <div class="flex items-center mb-8 ">
                 <!-- <div class="text-2xl font-bold text-primary">FOCA</div> -->
                 <img class="h-14" src="assets/images/logo_inline.png">
+            </div>
+            <!-- User Info Section -->
+            <div class="flex items-center gap-4 mb-6 rounded-lg  ">
+                <!-- Avatar with ring effect -->
+                <div class="avatar avatar-placeholder">
+                    <div class="w-11 h-11 rounded-full bg-primary ring-2 ring-black ">
+                        <span class="text-2xl font-bold text-primary-content"><?= $name[0] . $last_name[0] ?></span>
+                    </div>
+                </div>
+
+                <!-- Name & Role -->
+                <div class="flex flex-col">
+                    <h2 class="text-md font-semibold text-base-content w-max"><?= htmlspecialchars(
+                        $name . " " . $last_name
+                    ) ?></h2>
+                    <span class="text-sm text-primary"><?= $role_name ?></span>
+                </div>
             </div>
 
             <ul id="sidebar-links" class="space-y-2 m-0 p-0"></ul>

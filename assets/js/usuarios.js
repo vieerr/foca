@@ -67,24 +67,24 @@ $(document).ready(function () {
                 user.nombre_rol
               }</td>
               <td class="py-3">
-                <span class="badge ${
+                <span class=" ${
                   user.estado_usuario === "activo"
-                    ? "badge-accent"
-                    : "badge-error"
-                } badge-outline">
+                    ? "text-accent"
+                    : "text-error"
+                } ">
                   ${user.estado_usuario}
                 </span>
               </td>
               <td class="py-3">
-                <div class="inline-flex">
-                  <button class="edit-user btn btn-sm btn-info" data-id="${
+                <div class="flex justify-center">
+                  <button class="edit-user btn btn-sm w-32 btn-info" data-id="${
                     user.id_usuario
                   }">
                       <i class="fas fa-pencil"></i>
                       <p class="hidden lg:inline-block">Editar</p>
                   </button>
   
-                  <button class="btn btn-sm btn-error ml-2 toggle-status" data-id="${
+                  <button style="color:white" class="btn btn-sm text-white w-32 btn-error ml-2 toggle-status" data-id="${
                     user.id_usuario
                   }" data-status="${user.estado_usuario}">
                       <i class="fas fa-retweet"></i>
