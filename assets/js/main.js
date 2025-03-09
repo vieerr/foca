@@ -6,14 +6,11 @@
 let perms = [];
 let admin = false;
 
-const getRolPerms = async (rol) => {
+const getRolPerms = async () => {
   return new Promise((resolve, reject) => {
     $.ajax({
       url: "router.php?route=get-rol-perms",
-      method: "POST",
-      data: {
-        id_rol: rol,
-      },
+      method: "GET",
       success: function (response) {
         resolve(response.map((perm) => Number(perm.id_permiso)));
       },
@@ -59,7 +56,6 @@ isAdmin()
   });
 
 $(document).ready(async function () {
-
   const links = [
     {
       route: "dashboard",
@@ -83,17 +79,21 @@ $(document).ready(async function () {
     },
   ];
 
-  const editSidebar = () => {
+  const editSidebar = async () => {
     // not implemented yet
     // if (perms.includes(1, 8, 11) || admin) {
     //   console.log("categorias");
     // }
 
+    const userPerms = await getRolPerms();
+
     const roles = [4, 9, 14];
     const usuarios = [5, 10, 15];
     const reportes = [16];
 
-    if (perms.some((el) => roles.includes(el)) || admin) {
+    console.log(userPerms);
+
+    if (userPerms.some((el) => roles.includes(el)) || admin) {
       links.push({
         route: "roles",
         icon: "fa-shield-halved",
@@ -101,7 +101,7 @@ $(document).ready(async function () {
       });
       console.log("roles");
     }
-    if (perms.some((el) => usuarios.includes(el)) || admin) {
+    if (userPerms.some((el) => usuarios.includes(el)) || admin) {
       links.push({
         route: "usuarios",
         icon: "fa-user-group",
@@ -109,7 +109,7 @@ $(document).ready(async function () {
       });
       console.log("usuarios");
     }
-    if (perms.some((el) => reportes.includes(el)) || admin) {
+    if (userPerms.some((el) => reportes.includes(el)) || admin) {
       links.push({
         route: "reportes",
         icon: "fa-chart-line",
@@ -125,33 +125,34 @@ $(document).ready(async function () {
       });
       console.log("auditorias");
     }
+
+    let html = "";
+    $.each(links, function (index, link) {
+      html += `
+      <li id=${link.route}-link class="w-full">
+          <a href="#" data-route=${link.route} class="load-content gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
+              <i class="fas ${link.icon}"></i>
+              ${link.name}
+          </a>
+      </li>
+      `;
+    });
+
+    $("#sidebar-links")
+      .html(html)
+      .append(
+        `
+      <li class="w-full">
+          <a href="router.php?route=logout" class="btn btn-error mt-7 gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
+              <i class="fas fa-sign-out-alt"></i>
+              Cerrar sesión
+          </a>
+      </li>
+      `
+      );
   };
 
-  editSidebar();
-  let html = "";
-  $.each(links, function (index, link) {
-    html += `
-    <li id=${link.route}-link class="w-full">
-        <a href="#" data-route=${link.route} class="load-content gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
-            <i class="fas ${link.icon}"></i>
-            ${link.name}
-        </a>
-    </li>
-    `;
-  });
-
-  $("#sidebar-links")
-    .html(html)
-    .append(
-      `
-    <li class="w-full">
-        <a href="router.php?route=logout" class="btn btn-error mt-7 gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
-            <i class="fas fa-sign-out-alt"></i>
-            Cerrar sesión
-        </a>
-    </li>
-    `
-    );
+  await editSidebar();
 
   $(".load-content").on("click", function (e) {
     e.preventDefault();

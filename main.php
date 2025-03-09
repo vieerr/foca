@@ -1,14 +1,10 @@
 <?php
-
 session_start();
 require_once "app/controllers/sessionController.php";
-
 SessionController::isAuth() ? null : header("Location: index.php");
-
 $name = $_SESSION["name"];
 $last_name = $_SESSION["last_name"];
-$username = $_SESSION["username"] ?? "Guest";
-
+$username = $_SESSION["username"];
 $role_name = $_SESSION["role_name"];
 
 ?>
@@ -43,7 +39,7 @@ $role_name = $_SESSION["role_name"];
                 <img class="h-14" src="assets/images/logo_inline.png">
             </div>
             <!-- User Info Section -->
-            <div class="flex items-center gap-4 mb-6 rounded-lg">
+            <div class="flex items-center gap-4 mb-6 rounded-lg  ">
                 <!-- Avatar with ring effect -->
                 <div class="avatar avatar-placeholder">
                     <div class="w-11 h-11 rounded-full bg-primary ring-2 ring-black ">

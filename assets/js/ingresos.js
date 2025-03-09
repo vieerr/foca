@@ -106,11 +106,11 @@ $(document).ready(async () => {
               item.fecha_registro
             }</td>
             <td class="px-6 py-4 border-b border-gray-200">
-                <span class="badge ${
+                <span class=" ${
                   item.estado_registro === "activo"
-                    ? "badge-success"
-                    : "badge-error"
-                } badge-outline">
+                    ? "text-success"
+                    : "text-error"
+                } ">
                     ${item.estado_registro}
                 </span>
             </td>

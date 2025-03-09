@@ -14,9 +14,6 @@ $page = isset($_GET["page"]) ? $_GET["page"] : "";
 $route = isset($_GET["route"]) ? $_GET["route"] : "";
 if (isset($_GET["route"])) {
     switch ($route) {
-        case "test":
-            $rolController->fetchRoleName(1);
-            break;
         case "login":
             $sessionController->login();
             break;
