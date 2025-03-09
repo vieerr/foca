@@ -52,16 +52,5 @@ class ExpenseController
         exit();
     }
 
-    public function getOneExpense()
-    {
-        $input = file_get_contents("php://input");
-        parse_str($input, $data);
-        $res = $this->regModel->findOne($data["id_registro"]);
-        header("Content-Type: application/json");
-        echo json_encode($res);
-        exit();
-    }
-
-
 }
 ?>

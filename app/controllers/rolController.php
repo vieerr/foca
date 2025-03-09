@@ -22,6 +22,16 @@ class RolController
         exit();
     }
 
+    public function fetchRole()
+    {
+        $input = file_get_contents("php://input");
+        parse_str($input, $data);
+
+        $role = $this->rolModel->getRole($data["id_rol"])[0];
+        header("Content-Type: application/json");
+        echo json_encode($role);
+    }
+
     public function fetchRoleName($roleId)
     {
         $role = $this->rolModel->getRoleName($roleId)[0]["nombre_rol"];

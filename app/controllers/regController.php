@@ -32,16 +32,16 @@ class RegController
     {
         $input = file_get_contents("php://input");
         parse_str($input, $data);
-    
-        
+
+
         $id = $data['id_registro'] ?? null;
         if (!$id) {
             header("Content-Type: application/json");
             echo json_encode(["status" => "error", "message" => "ID is required"]);
             exit();
         }
-    
-        
+
+
         $allowedFields = [
             "id_categoria" => "nombre_categoria",
             "fecha_accion" => "fecha_accion",
@@ -50,26 +50,26 @@ class RegController
             "estado_registro" => "estado_registro",
             "nombre_registro" => "nombre_registro",
         ];
-    
-        
+
+
         $fields = [];
         foreach ($allowedFields as $dbField => $requestField) {
             if (isset($data[$requestField])) {
                 $fields[$dbField] = $data[$requestField];
             }
         }
-    
-        
+
+
         if (empty($fields)) {
             header("Content-Type: application/json");
             echo json_encode(["status" => "error", "message" => "No fields provided to update"]);
             exit();
         }
-    
-        
+
+
         $res = $this->regModel->editReg($id, $fields);
-    
-        
+
+
         if ($res) {
             header("Content-Type: application/json");
             echo json_encode(["status" => "success", "message" => "Record updated successfully"]);
@@ -79,6 +79,18 @@ class RegController
         }
         exit();
     }
+
+
+    public function getOneReg()
+    {
+        $input = file_get_contents("php://input");
+        parse_str($input, $data);
+        $res = $this->regModel->findOne($data["id_registro"]);
+        header("Content-Type: application/json");
+        echo json_encode($res);
+        exit();
+    }
+
 
 }
 ?>

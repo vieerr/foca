@@ -16,7 +16,7 @@ $(document).ready(async () => {
     }
 
     $.ajax({
-      url: `router.php?route=get-one-expense`,
+      url: `router.php?route=get-one-reg`,
       method: "POST",
       data: { id_registro: expenseId },
       success: function (response) {
