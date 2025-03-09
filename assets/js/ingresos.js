@@ -1,26 +1,20 @@
 $(document).ready(async () => {
+  const itemsPerPage = 10; // Number of items per page
+  let currentPage = 1; // Current page
+  let allData = []; // Store all data for filtering and pagination
+
   const handleAuth = (perms) => {
     console.log(admin);
-    if (admin) {
-      return;
-    }
-    if (!perms.includes(3)) {
-      $("#register-income-btn").addClass("btn-disabled");
-    }
-    if (!perms.includes(7)) {
-      $(".toggle-status-income").addClass("btn-disabled");
-    }
-    if (!perms.includes(13)) {
-      $(".edit-income").addClass("btn-disabled");
-    }
+    if (admin) return;
+    if (!perms.includes(3)) $("#register-income-btn").addClass("btn-disabled");
+    if (!perms.includes(7)) $(".toggle-status-income").addClass("btn-disabled");
+    if (!perms.includes(13)) $(".edit-income").addClass("btn-disabled");
   };
 
   const generateInsertModal = () => {
     $("#id-display").remove();
-
     $("#income-form-title").html("Registrar nuevo ingreso");
     $("#income-form-btn").html("Agregar");
-
     $("#edit-income-form").attr("id", "register-income-form");
     $("#register-income-form").trigger("reset");
   };
@@ -28,7 +22,6 @@ $(document).ready(async () => {
   const generateEditModal = (incomeId) => {
     $("#income-form-title").html("Editar ingreso");
     $("#income-form-btn").html("Actualizar");
-
     $("#register-income-form").attr("id", "edit-income-form");
 
     if ($("#id-display").length) {
@@ -90,12 +83,8 @@ $(document).ready(async () => {
   const setCategories = (cats) => {
     const modalCategories = $("#nombre_categoria");
     const filterCategories = $("#filtro_nombre_categoria");
-    modalCategories.append(
-      '<option value="">Seleccione una categoría</option>'
-    );
-    filterCategories.append(
-      '<option value="">Seleccione una categoría</option>'
-    );
+    modalCategories.append('<option value="">Seleccione una categoría</option>');
+    filterCategories.append('<option value="">Seleccione una categoría</option>');
     cats.map((cat) => {
       modalCategories.append(
         `<option value=${cat.id_categoria}>${cat.nombre_categoria}</option>`
@@ -121,14 +110,10 @@ $(document).ready(async () => {
 
   const populateIngresosCats = (ingresos, cats) => {
     const catMap = new Map(cats.map((cat) => [cat.id_categoria, cat]));
-    const populated = ingresos.map((ing) => {
-      const cat = catMap.get(ing.id_categoria);
-      return {
-        ...ing,
-        ...cat,
-      };
-    });
-    return populated;
+    return ingresos.map((ing) => ({
+      ...ing,
+      ...catMap.get(ing.id_categoria),
+    }));
   };
 
   const setList = (data) => {
@@ -137,50 +122,28 @@ $(document).ready(async () => {
     data.reverse().map((item) => {
       const row = `
         <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">${
-              item.id_registro
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">${
-              item.nombre_categoria
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">$ ${
-              item.valor_registro
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">${
-              item.metodo_registro
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">${
-              item.fecha_accion
-            }</td>
-            <td class="px-6 py-4 border-b border-gray-200">${
-              item.fecha_registro
-            }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.id_registro}</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.nombre_categoria}</td>
+            <td class="px-6 py-4 border-b border-gray-200">$ ${item.valor_registro}</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.metodo_registro}</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_accion}</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_registro}</td>
             <td class="px-6 py-4 border-b border-gray-200">
-                <span class="${
-                  item.estado_registro === "activo"
-                    ? "text-success"
-                    : "text-error"
-                }">
+                <span class="${item.estado_registro === "activo" ? "text-success" : "text-error"}">
                     ${item.estado_registro}
                 </span>
             </td>
             <td class="py-3">
                 <div class="inline-flex">
-                    <button class="edit-income btn btn-sm btn-info" data-id="${
-                      item.id_registro
-                    }">
+                    <button class="edit-income btn btn-sm btn-info" data-id="${item.id_registro}">
                         <i class="fas fa-pencil"></i>
                         <p class="hidden lg:inline-block">Editar</p>
                     </button>
-                    <button data-id="${
-                      item.id_registro
-                    }" class="btn btn-sm btn-error ml-2 toggle-status-income">
+                    <button data-id="${item.id_registro}" class="btn btn-sm btn-error ml-2 toggle-status-income">
                         <i class="fas fa-retweet"></i>
                         <p class="hidden lg:inline-block">Anular</p>
                     </button>
-                    <button data-categoria="${
-                      item.nombre_categoria
-                    }" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
+                    <button data-categoria="${item.nombre_categoria}" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
                         <i class="fas fa-qrcode"></i>
                         <p class="hidden lg:inline-block">QR</p>
                     </button>
@@ -234,23 +197,75 @@ $(document).ready(async () => {
     return filteredData;
   };
 
+  const displayPage = (data, page) => {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedData = data.slice(startIndex, endIndex);
+    setList(paginatedData);
+  };
+
+  const updatePagination = (data) => {
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+    const pagination = $(".btn-group");
+    pagination.empty();
+
+    pagination.append(`<button class="btn btn-sm" id="prev-page">«</button>`);
+
+    for (let i = 1; i <= totalPages; i++) {
+      pagination.append(
+        `<button class="btn btn-sm ${
+          i === currentPage ? "btn-active" : ""
+        }" data-page="${i}">${i}</button>`
+      );
+    }
+
+    pagination.append(`<button class="btn btn-sm" id="next-page">»</button>`);
+
+    // Handle page navigation
+    $(".btn-group button").click(function () {
+      const page = $(this).data("page");
+      if (page) {
+        currentPage = page;
+        displayPage(data, currentPage);
+        updatePagination(data);
+      } else if ($(this).attr("id") === "prev-page" && currentPage > 1) {
+        currentPage--;
+        displayPage(data, currentPage);
+        updatePagination(data);
+      } else if (
+        $(this).attr("id") === "next-page" &&
+        currentPage < totalPages
+      ) {
+        currentPage++;
+        displayPage(data, currentPage);
+        updatePagination(data);
+      }
+    });
+  };
+
   const refetchList = async () => {
     const newIncome = await fetchIngresos();
-    populatedIncome = populateIngresosCats(newIncome, cats);
-    setList(applyFilters(populatedIncome));
+    allData = populateIngresosCats(newIncome, cats);
+    const filteredData = applyFilters(allData);
+    displayPage(filteredData, currentPage);
+    updatePagination(filteredData);
   };
 
   const cats = await fetchCategories();
   setCategories(cats);
 
   const income = await fetchIngresos();
-  let populatedIncome = populateIngresosCats(income, cats);
-  setList(populatedIncome);
+  allData = populateIngresosCats(income, cats);
+  const filteredData = applyFilters(allData);
+  displayPage(filteredData, currentPage);
+  updatePagination(filteredData);
 
   $(
     "#search-bar, #filtro_nombre_categoria, #filtro_metodo_registro, #filtro_estado_registro, #fecha-inicial, #fecha-final"
   ).on("input change", () => {
-    setList(applyFilters(populatedIncome));
+    const filteredData = applyFilters(allData);
+    displayPage(filteredData, currentPage);
+    updatePagination(filteredData);
   });
 
   $(document).on("click", ".qr-btn", function () {
@@ -266,7 +281,6 @@ $(document).ready(async () => {
 
   $(document).on("click", ".toggle-status-income", function (event) {
     event.stopPropagation();
-
     const incomeId = $(this).data("id");
     const data = `id_registro=${incomeId}&estado_registro=anulado`;
 
@@ -307,31 +321,8 @@ $(document).ready(async () => {
 
   $(document).on("click", ".edit-income", function () {
     const incomeId = $(this).data("id");
-    console.log("Editing income with ID:", incomeId);
-
     generateEditModal(incomeId);
-
     modalIngreso.showModal();
-  });
-  $(document).on("submit", "#edit-income-form", (e) => {
-    e.preventDefault();
-
-    const formData = $("#edit-income-form").serialize();
-
-    $.ajax({
-      url: "router.php?route=edit-reg",
-      type: "PUT",
-      data: formData,
-      success: function (response) {
-        $("#close-modal").trigger("submit");
-        refetchList();
-        $("#edit-income-form").trigger("reset");
-        console.log("Update successful:", response);
-      },
-      error: function (xhr, status, error) {
-        console.error("Error updating:", error);
-      },
-    });
   });
 
   handleAuth(perms);
