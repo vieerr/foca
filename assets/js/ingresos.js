@@ -32,9 +32,9 @@ $(document).ready(async () => {
       return response;
     } catch (error) {
       console.error("Error al obtener las categorias:", error);
-      // throw error;
     }
   };
+
   const setCategories = (cats) => {
     const modalCategories = $("#nombre_categoria");
     const filterCategories = $("#filtro_nombre_categoria");
@@ -53,6 +53,7 @@ $(document).ready(async () => {
       );
     });
   };
+
   const fetchIngresos = async () => {
     try {
       const response = await $.ajax({
@@ -60,11 +61,9 @@ $(document).ready(async () => {
         method: "GET",
         dataType: "json",
       });
-
       return response;
     } catch (error) {
       console.error("Error al obtener los regs:", error);
-      // throw error;
     }
   };
 
@@ -83,7 +82,6 @@ $(document).ready(async () => {
   const setList = (data) => {
     const tbody = $("#ingresos-table-body");
     tbody.empty();
-    console.log(data);
     data.reverse().map((item) => {
       const row = `
         <tr class="text-center">
@@ -106,11 +104,11 @@ $(document).ready(async () => {
               item.fecha_registro
             }</td>
             <td class="px-6 py-4 border-b border-gray-200">
-                <span class=" ${
+                <span class="${
                   item.estado_registro === "activo"
                     ? "text-success"
                     : "text-error"
-                } ">
+                }">
                     ${item.estado_registro}
                 </span>
             </td>
@@ -137,83 +135,76 @@ $(document).ready(async () => {
                 </div>
             </td>
         </tr>
-        
         `;
-      tbody.append(row); // Append the row to the tbody
+      tbody.append(row);
     });
-    handleAuth(perms);
   };
 
-  const generateInsertModal = () => {
-    $("#id-display").remove();
+  const applyFilters = (data) => {
+    let filteredData = [...data];
 
-    $("#income-form-title").html("Registrar nuevo ingreso");
-    $("#income-form-btn").html("Agregar");
-
-    $("#edit-income-form").attr("id", "register-income-form");
-  };
-
-  const generateEditModal = (incomeId) => {
-    $("#income-form-title").html("Editar ingreso");
-    $("#income-form-btn").html("Actualizar");
-
-    $("#register-income-form").attr("id", "edit-income-form");
-
-    if ($("#id-display").length) {
-      $("#id_registro").val(incomeId);
-    } else {
-      $("#edit-income-form").prepend(`
-        <label id="id-display" class="input min-w-full" for="id_registro">
-          <span class="label font-bold">ID</span>
-          <input type="text" name="id_registro" id="id_registro" readonly value="${incomeId}">
-        </label>`);
+    const searchTerm = $("#search-bar").val().toLowerCase();
+    if (searchTerm) {
+      filteredData = filteredData.filter((item) =>
+        Object.values(item).some((value) =>
+          String(value).toLowerCase().includes(searchTerm)
+        )
+      );
     }
 
-    // optional operation
-    // const incomeData = fetchIncome(incomeId);
-    // //TODO fetch income data based on their ID and fill the form inputs
-  };
+    const selectedCategory = $("#filtro_nombre_categoria").val();
+    if (selectedCategory) {
+      filteredData = filteredData.filter(
+        (item) => item.id_categoria === selectedCategory
+      );
+    }
 
-  const handleFilter = (id, field, array) => {
-    $(`#${id}`).change(() => {
-      const selected = $(`#${id}`).val();
-      if (selected.length === 0) {
-        setList(array);
-        return;
-      }
-      setList(array.filter((inc) => inc[field] === selected));
-    });
+    const selectedMethod = $("#filtro_metodo_registro").val();
+    if (selectedMethod) {
+      filteredData = filteredData.filter(
+        (item) => item.metodo_registro === selectedMethod
+      );
+    }
+
+    const selectedStatus = $("#filtro_estado_registro").val();
+    if (selectedStatus) {
+      filteredData = filteredData.filter(
+        (item) => item.estado_registro === selectedStatus
+      );
+    }
+
+    const startDate = new Date($("#fecha-inicial").val());
+    const endDate = new Date($("#fecha-final").val());
+    if (startDate && endDate && startDate <= endDate) {
+      filteredData = filterByDateRange(filteredData, startDate, endDate);
+    }
+
+    return filteredData;
   };
 
   const refetchList = async () => {
     const newIncome = await fetchIngresos();
     populatedIncome = populateIngresosCats(newIncome, cats);
-    setList(populatedIncome);
+    setList(applyFilters(populatedIncome));
   };
 
   const cats = await fetchCategories();
   setCategories(cats);
 
   const income = await fetchIngresos();
-
   let populatedIncome = populateIngresosCats(income, cats);
-
   setList(populatedIncome);
 
-  handleFilter("filtro_nombre_categoria", "id_categoria", populatedIncome);
-  handleFilter("filtro_metodo_registro", "metodo_registro", populatedIncome);
-  handleFilter("filtro_estado_registro", "estado_registro", populatedIncome);
+  $(
+    "#search-bar, #filtro_nombre_categoria, #filtro_metodo_registro, #filtro_estado_registro, #fecha-inicial, #fecha-final"
+  ).on("input change", () => {
+    setList(applyFilters(populatedIncome));
+  });
 
-  $("#fecha-inicial, #fecha-final").on("input", function () {
-    const startDate = new Date($("#fecha-inicial").val());
-    const endDate = new Date($("#fecha-final").val());
-
-    if (!startDate || !endDate || startDate > endDate) {
-      return;
-    }
-
-    const filteredData = filterByDateRange(populatedIncome, startDate, endDate);
-    setList(filteredData);
+  $(document).on("click", ".qr-btn", function () {
+    const categoria = $(this).data("categoria");
+    $("#qr-img").attr("src", `assets/qrs/${categoria.split(" ").join("")}.png`);
+    $("#qr-title").html(`Categoría: ${categoria}`);
   });
 
   $("#register-income-btn").click(function () {
@@ -223,8 +214,6 @@ $(document).ready(async () => {
 
   $(document).on("click", ".toggle-status", function () {
     const incomeId = $(this).data("id");
-    console.log({ incomeId });
-
     const data = `id_registro=${incomeId}&estado_registro=anulado`;
 
     if (confirm("¿Estás seguro que deseas anular este registro?")) {
@@ -243,44 +232,9 @@ $(document).ready(async () => {
     }
   });
 
-  $(document).on("click", ".qr-btn", function () {
-    const categoria = $(this).data("categoria");
-    $("#qr-img").attr("src", `assets/qrs/${categoria.split(" ").join("")}.png`);
-    $("#qr-title").html(`Categoría: ${categoria}`);
-  });
-
-  $(document).on("submit", "#register-income-form", (e) => {
-    e.preventDefault();
-    const formData = $("#register-income-form").serialize();
-    $.ajax({
-      url: "router.php?route=create-income",
-      type: "POST",
-      data: formData,
-      success: function (response) {
-        $("#close-modal").trigger("submit");
-        refetchList();
-        $("#register-income-form").trigger("reset");
-        console.log("Register successful:", response);
-      },
-      error: function (xhr, status, error) {
-        console.error("Error creating:", error);
-      },
-    });
-  });
-
-  $(document).on("click", ".edit-income", function () {
-    const incomeId = $(this).data("id");
-    console.log("Editing income with ID:", incomeId);
-
-    generateEditModal(incomeId);
-
-    modalIngreso.showModal();
-  });
   $(document).on("submit", "#edit-income-form", (e) => {
     e.preventDefault();
-
     const formData = $("#edit-income-form").serialize();
-
     $.ajax({
       url: "router.php?route=edit-reg",
       type: "PUT",
@@ -296,4 +250,6 @@ $(document).ready(async () => {
       },
     });
   });
+
+  handleAuth(perms);
 });
