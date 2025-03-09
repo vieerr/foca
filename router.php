@@ -41,6 +41,9 @@ if (isset($_GET["route"])) {
         case "get-permisos":
             $permitController->fetchPermisos();
             break;
+        case "get-role":
+            $rolController->fetchRole();
+            break;
         case "get-roles":
             $rolController->fetchRoles();
             break;
@@ -49,6 +52,9 @@ if (isset($_GET["route"])) {
             break;
         case "edit-rol":
             $rolController->editRol();
+            break;
+        case "get-one-reg":
+            $regController->getOneReg();
             break;
         case "get-all-income":
             $incomeController->fetchAllIncome();

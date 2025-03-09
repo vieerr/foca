@@ -6,14 +6,11 @@
 let perms = [];
 let admin = false;
 
-const getRolPerms = async (rol) => {
+const getRolPerms = async () => {
   return new Promise((resolve, reject) => {
     $.ajax({
       url: "router.php?route=get-rol-perms",
-      method: "POST",
-      data: {
-        id_rol: rol,
-      },
+      method: "GET",
       success: function (response) {
         resolve(response.map((perm) => Number(perm.id_permiso)));
       },
@@ -79,7 +76,7 @@ $(document).ready(async function () {
       route: "ingresos",
       icon: "fa-money-bill-wave",
       name: "Ingresos",
-    }
+    },
   ];
 
   const editSidebar = async () => {
@@ -88,29 +85,15 @@ $(document).ready(async function () {
     //   console.log("categorias");
     // }
 
-    const gastos = [2, 6, 12];
-    const ingresos = [3, 7, 13];
+    const userPerms = await getRolPerms();
+
     const roles = [4, 9, 14];
     const usuarios = [5, 10, 15];
     const reportes = [16];
 
-    // if (perms.some((el) => gastos.includes(el)) || admin) {
-      // links.push({
-      //   route: "gastos",
-      //   icon: "fa-wallet",
-      //   name: "Gastos",
-      // });
-    //   console.log("gastos");
-    // }
-    // if (perms.some((el) => ingresos.includes(el)) || admin) {
-    //   links.push({
-    //     route: "ingresos",
-    //     icon: "fa-money-bill-wave",
-    //     name: "Ingresos",
-    //   });
-    //   console.log("ingresos");
-    // }
-    if (perms.some((el) => roles.includes(el)) || admin) {
+    console.log(userPerms);
+
+    if (userPerms.some((el) => roles.includes(el)) || admin) {
       links.push({
         route: "roles",
         icon: "fa-shield-halved",
@@ -118,7 +101,7 @@ $(document).ready(async function () {
       });
       console.log("roles");
     }
-    if (perms.some((el) => usuarios.includes(el)) || admin) {
+    if (userPerms.some((el) => usuarios.includes(el)) || admin) {
       links.push({
         route: "usuarios",
         icon: "fa-user-group",
@@ -126,7 +109,7 @@ $(document).ready(async function () {
       });
       console.log("usuarios");
     }
-    if (perms.some((el) => reportes.includes(el)) || admin) {
+    if (userPerms.some((el) => reportes.includes(el)) || admin) {
       links.push({
         route: "reportes",
         icon: "fa-chart-line",
@@ -142,33 +125,34 @@ $(document).ready(async function () {
       });
       console.log("auditorias");
     }
+
+    let html = "";
+    $.each(links, function (index, link) {
+      html += `
+      <li id=${link.route}-link class="w-full">
+          <a href="#" data-route=${link.route} class="load-content gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
+              <i class="fas ${link.icon}"></i>
+              ${link.name}
+          </a>
+      </li>
+      `;
+    });
+
+    $("#sidebar-links")
+      .html(html)
+      .append(
+        `
+      <li class="w-full">
+          <a href="router.php?route=logout" class="btn btn-error mt-7 gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
+              <i class="fas fa-sign-out-alt"></i>
+              Cerrar sesión
+          </a>
+      </li>
+      `
+      );
   };
 
   await editSidebar();
-  let html = "";
-  $.each(links, function (index, link) {
-    html += `
-    <li id=${link.route}-link class="w-full">
-        <a href="#" data-route=${link.route} class="load-content gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
-            <i class="fas ${link.icon}"></i>
-            ${link.name}
-        </a>
-    </li>
-    `;
-  });
-
-  $("#sidebar-links")
-    .html(html)
-    .append(
-      `
-    <li class="w-full">
-        <a href="router.php?route=logout" class="btn btn-error mt-7 gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
-            <i class="fas fa-sign-out-alt"></i>
-            Cerrar sesión
-        </a>
-    </li>
-    `
-    );
 
   $(".load-content").on("click", function (e) {
     e.preventDefault();

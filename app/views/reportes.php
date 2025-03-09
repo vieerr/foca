@@ -1,8 +1,13 @@
 <div class="bg-base-100 p-8 flex flex-col">
   <!-- Report Configuration Section -->
   <div class="mb-6 shadow-lg p-6 rounded-lg">
-    <h2 class="text-2xl font-bold mb-4">Generador de Reportes</h2>
-
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Buscar</span>
+      </label>
+      <input type="text" id="search-bar" class="input input-bordered"
+        placeholder="Buscar por categoría, método o monto..." />
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 ">
       <!-- Report Type Selection -->
       <div class="form-control">
@@ -34,7 +39,7 @@
       </div>
 
       <!-- Quick Filters -->
-      <div class="form-control">
+      <!-- <div class="form-control">
         <label class="label">
           <span class="label-text">Filtros Rápidos</span>
         </label>
@@ -43,54 +48,8 @@
           <button class="btn btn-xs">Últimos 7 días</button>
           <button class="btn btn-xs">Trimestre Actual</button>
         </div>
-      </div>
+      </div> -->
     </div>
-
-    <!-- Advanced Filters -->
-    <!-- <div class="mt-4 collapse collapse-arrow">
-      <input type="checkbox" />
-      <div class="collapse-title text-sm font-medium">
-        Filtros Avanzados
-      </div>
-      <div class="collapse-content">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Categoría</span>
-            </label>
-            <select class="select select-bordered" multiple>
-              <option>Todas</option>
-              <option>Sueldo</option>
-              <option>Comida</option>
-              <option>Transporte</option>
-              <option>Servicios</option>
-            </select>
-          </div>
-
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Monto</span>
-            </label>
-            <div class="flex gap-2">
-              <input type="number" placeholder="Mínimo" class="input input-bordered w-full" />
-              <input type="number" placeholder="Máximo" class="input input-bordered w-full" />
-            </div>
-          </div>
-
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Estado</span>
-            </label>
-            <select class="select select-bordered">
-              <option>Todos</option>
-              <option>Activo</option>
-              <option>Pendiente</option>
-              <option>Cancelado</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 
   <!-- Report Actions -->
@@ -116,16 +75,16 @@
   <!-- Visualizations -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 ">
     <!-- Income vs Expenses Chart -->
-    <div class="bg-base-200 p-4 rounded-lg">
+    <div class="col-span-2 border-gray-400 border shadow-xl rounded-lg h-96 p-12 ">
       <h3 class="text-lg font-bold mb-4">Resumen General</h3>
       <canvas id="summaryChart" class="w-full h-32"></canvas>
     </div>
 
     <!-- Category Breakdown -->
-    <div class="bg-base-200 px-32 rounded-lg">
+    <!-- <div class=" border-gray-400 border shadow-xl rounded-lg h-96 p-12 ">
       <h3 class="text-lg font-bold mb-4">Distribución por Categoría</h3>
-      <canvas id="categoryChart" class="w-1/2 h-32"></canvas>
-    </div>
+      <canvas id="categoryChart" class="w-full h-32"></canvas>
+    </div> -->
   </div>
 
   <!-- Data Table -->

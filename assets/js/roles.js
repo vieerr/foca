@@ -1,6 +1,5 @@
 $(document).ready(function () {
   const handleAuth = (perms) => {
-    console.log(admin);
     if (admin) {
       return;
     }
@@ -8,7 +7,7 @@ $(document).ready(function () {
       $("#register-role-btn").addClass("btn-disabled");
     }
     if (!perms.includes(9)) {
-      $(".toggle-status").addClass("btn-disabled");
+      $(".toggle-status-role").addClass("btn-disabled");
     }
     if (!perms.includes(14)) {
       $(".edit-role").addClass("btn-disabled");
@@ -35,7 +34,8 @@ $(document).ready(function () {
 $(document).on("submit", "#register-role-form", submitRole);
 $(document).on("submit", "#edit-role-form", updateRole);
 
-$(document).on("click", ".toggle-status", function () {
+$(document).on("click", ".toggle-status-role", function (event) {
+  event.stopPropagation(); 
   const id = $(this).data("id");
   const newStatus = $(this).data("status") === "activo" ? "inactivo" : "activo";
 
@@ -106,21 +106,21 @@ function fetchRoles() {
               role.nombre_rol
             }</td>
             <td class="py-3">
-              <span class="badge ${
-                role.estado_rol === "activo" ? "badge-accent" : "badge-error"
-              } badge-outline">
+              <span class=" ${
+                role.estado_rol === "activo" ? "text-accent" : "text-error"
+              } ">
                 ${role.estado_rol}
               </span>
             </td>
             <td class="py-3">
-              <div class="inline-flex">
-                <button class="edit-role btn btn-sm btn-info" data-id="${
+              <div class="flex justify-center">
+                <button class="edit-role btn btn-sm w-32 btn-info" data-id="${
                   role.id_rol
                 }">
                     <i class="fas fa-pencil"></i>
                     <p class="hidden lg:inline-block">Editar</p>
                 </button>
-                <button class="btn btn-sm btn-error ml-2 toggle-status" data-id="${
+                <button style="color:white" class="btn btn-sm w-32 btn-error ml-2 toggle-status-role" data-id="${
                   role.id_rol
                 }" data-status="${role.estado_rol}">
                     <i class="fas fa-retweet"></i>
@@ -238,6 +238,9 @@ function generateInsertModal() {
   $("#role-form-btn").html("Agregar");
 
   $("#edit-role-form").attr("id", "register-role-form");
+  $("#nombre_rol").val("");
+  $("#descripcion_rol").val("");
+  $("input[name='permiso[]']").prop("checked", false);
 }
 
 function generateEditModal(roleId) {
@@ -255,4 +258,21 @@ function generateEditModal(roleId) {
         <input class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-white" type="text" name="id_rol" id="id_rol" value="${roleId}" readonly>
       </div>`);
   }
+  $.ajax({
+    url: "router.php?route=get-role",
+    method: "POST",
+    data: { id_rol: roleId },
+    success: function (response) {
+      console.log("Rol recibido:", response);
+      $("#nombre_rol").val(response.nombre_rol);
+      $("#descripcion_rol").val(response.descripcion_rol);
+      response.permisos.forEach(function (permiso) {
+        $(`#permiso${permiso.id_permiso}`).prop("checked", true);
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching role data:", error);
+      alert("Error fetching role data. Please try again.");
+    },
+  });
 }

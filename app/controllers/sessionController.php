@@ -3,13 +3,16 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 require "app/models/UserModel.php";
 require_once "app/models/Model.php";
+require_once "app/controllers/rolController.php";
 class SessionController
 {
     private $userModel;
+    private $roleController;
 
     public function __construct()
     {
         $this->userModel = new Usuario();
+        $this->roleController = new RolController();
     }
 
     public function login()
@@ -26,6 +29,7 @@ class SessionController
             $_SESSION["role"] = $user["id_rol"];
             $_SESSION["name"] = $user["nombre_usuario"];
             $_SESSION["last_name"] = $user["apellido_usuario"];
+            $_SESSION["role_name"] = $this->roleController->fetchRoleName($user["id_rol"]);
             $model = new Model();
             $model->setUsuarioActivo($user["id_usuario"]);
             $this->loggedIn();

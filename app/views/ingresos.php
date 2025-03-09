@@ -2,8 +2,15 @@
   <h1 class="text-3xl font-bold mb-6">Administrar Ingresos</h1>
   <div class="bg-base-200 p-4 rounded-lg shadow-lg mb-6 col-span-2">
     <section class="flex justify-between w-full mb-3">
-      <span class="text-xl font-bold mb-4 w-auto">Filtros de Búsqueda</span>
-      <button id="register-income-btn" class="btn btn-primary">
+      <label class="input mr-10" style="width: inherit">
+        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </g>
+        </svg>
+        <input id="search-bar" type="search" required placeholder="Buscar" />
+      </label> <button id="register-income-btn" class="btn btn-primary">
         <p class="hidden lg:inline-block">Agregar</p>
         <i class="fa-regular fa-plus"></i>
       </button>

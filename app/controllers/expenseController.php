@@ -52,6 +52,5 @@ class ExpenseController
         exit();
     }
 
-
 }
 ?>
