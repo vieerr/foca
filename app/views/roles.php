@@ -17,7 +17,7 @@
                     <div class="role-form">
                         <h2 id="role-form-title" class="text-xl font-bold mb-4"></h2>
                         <form id="register-role-form" method="POST">
-                            <label class="block text-sm font-medium text-gray-700" for="nombre_rol">Nombre del Rol:</label>
+                            <label class="block text-sm font-medium text-gray-700 mt-3" for="nombre_rol">Nombre del Rol:</label>
                             <input class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-white" type="text"
                                 name="nombre_rol" id="nombre_rol" required>
                             <label class="block text-sm font-medium text-gray-700 mt-3"

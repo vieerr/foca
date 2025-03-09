@@ -39,11 +39,11 @@ $role = "Admin";
         <form id="change-password-form">
             <div class="mb-4">
                 <label for="new-password" class="block text-sm font-medium text-gray-700">Nueva contraseña</label>
-                <input type="password" id="new-password" name="new-password" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg" required>
+                <input type="password" id="new-password" name="new-password" class="w-full py-2 px-3 rounded-lg border-2 border-[#e0e0e0] bg-base-100 mb-6" required>
             </div>
             <div class="mb-4">
                 <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
-                <input type="password" id="confirm-password" name="confirm-password" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg" required>
+                <input type="password" id="confirm-password" name="confirm-password" class="w-full py-2 px-3 rounded-lg border-2 border-[#e0e0e0] bg-base-100 mb-6" required>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar</button>
         </form>

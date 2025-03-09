@@ -13,7 +13,7 @@ $role = "Admin";
 
 <div class="bg-base-100 w-full ">
     <div class="flex min-h-screen">
-        <div class=" p-8 bg-base-100 w-full">
+        <div class=" p-8 bg-base-100 w-full md">
             <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
 
             <!-- Display User Session Data -->
@@ -92,7 +92,7 @@ $role = "Admin";
                     <div class="overflow-x-auto">
                         <table class="table w-full">
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th>Tipo</th>
                                     <th>Descripción</th>
                                     <th>Monto</th>

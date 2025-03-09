@@ -19,6 +19,7 @@ SessionController::isAuth() ? null : header( "Location: index.php");
     <!-- Include html2canvas library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/sidebar.css">
     <?php include "config/includes/header.php"; ?>
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
     <script src="assets/js/main.js">
@@ -26,26 +27,27 @@ SessionController::isAuth() ? null : header( "Location: index.php");
     <title>FOCA</title>
 </head>
 
-<body class="bg-base-100 w-screen">
-    <!-- App Container -->
-    <div class="flex min-h-screen">
+<body class="bg-base-100">
         <!-- Sidebar -->
-        <div class="sidebar bg-base-200 text-base-content w-64 p-6 shadow-lg">
-            <!-- App Name -->
-            <div class="flex items-center mb-8 ">
-                <!-- <div class="text-2xl font-bold text-primary">FOCA</div> -->
-                <img class="h-14" src="assets/images/logo_inline.png">
-            </div>
+        <nav id="sidebar" class="box-border h-screen w-60 bg-base-200 sticky top-0 self-start overflow-hidden text-nowrap shadow-lg">
 
-            <ul id="sidebar-links" class="space-y-2 m-0 p-0"></ul>
-        </div>
+            <ul id="sidebar-togle" class="list-none space-y-2 m-0 p-0">
+                <li class="flex justify-end mb-4">
+                    <span class="rounded-md p-2 flex items-center gap-3">
+                        <img class="h-13" src="assets/images/logo_inline.png">
+                    </span>
+                    <button id="toggle-btn" class="m-auto p-2 border-none rounded-md bg-none cursor-pointer hover:bg-base-300">
+                        <i id="toggle-icon" class="fa-solid fa-angles-left transition-transform duration-150 ease-in-out"></i>
+                    </button>
+                </li>
+            </ul>
+            <ul id="sidebar-links"></ul>
+        </nav>
 
         <!-- Main Content -->
-        <div id="main-content" class="main-content w-full p-8 bg-base-100">
+        <main id="main-content" class="main-content w-full p-8 bg-base-100">
             <!-- Content will be loaded here dynamically -->
-        </div>
-    </div>
-
+        </main>
     <!-- <script src="assets/js/auth.js">
     </script> -->
 </body>

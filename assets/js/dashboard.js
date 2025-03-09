@@ -174,20 +174,28 @@ $(document).ready(async () => {
     tbody.empty();
     data.forEach((item) => {
       const row = `
-            <tr>
-                <td><span class="badge ${
+            <tr class="text-center">
+                <td><span class="${
                   item.tipo_registro === "ingreso"
-                    ? "badge-success"
-                    : "badge-error"
+                    ? "text-[#2db086]"
+                    : "text-[#e73f5b]"
                 }">${item.tipo_registro}</span></td>
-                <td>${item.nombre_registro}</td>
+                <td>${
+                  item.nombre_registro === null
+                  ? "No disponible"
+                  : item.nombre_registro
+                }</td>
                 <td class="${
                   item.tipo_registro === "ingreso"
-                    ? "text-success"
-                    : "text-error"
+                    ? "text-[#2db086]"
+                    : "text-[#e73f5b]"
                 }">${item.valor_registro}</td>
                 <td>${item.fecha_accion}</td>
-                <td><span class="badge badge-success">${
+                <td><span class=" ${
+                  item.estado_registro === "activo"
+                    ? "text-[#2db086]"
+                    : "text-[#e73f5b]"
+                }">${
                   item.estado_registro
                 }</span></td>
             </tr>

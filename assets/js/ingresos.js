@@ -106,11 +106,11 @@ $(document).ready(async () => {
               item.fecha_registro
             }</td>
             <td class="px-6 py-4 border-b border-gray-200">
-                <span class="badge ${
+                <span class=" ${
                   item.estado_registro === "activo"
-                    ? "badge-success"
-                    : "badge-error"
-                } badge-outline">
+                    ? "text-[#2db086]"
+                    : "text-[#e73f5b]"
+                }">
                     ${item.estado_registro}
                 </span>
             </td>
@@ -119,14 +119,14 @@ $(document).ready(async () => {
                     <button class="edit-income btn btn-sm btn-info" data-id="${
                       item.id_registro
                     }">
-                        <i class="fas fa-pencil"></i>
-                        <p class="hidden lg:inline-block">Editar</p>
+                        <i class="fas fa-pencil text-white"></i>
+                        <p class="hidden lg:inline-block text-white">Editar</p>
                     </button>
                     <button data-id="${
                       item.id_registro
                     }" class="btn btn-sm btn-error ml-2 toggle-status">
-                        <i class="fas fa-retweet"></i>
-                        <p class="hidden lg:inline-block">Anular</p>
+                        <i class="fas fa-retweet text-white"></i>
+                        <p class="hidden lg:inline-block text-white">Anular</p>
                     </button>
                     <button data-categoria="${
                       item.nombre_categoria
