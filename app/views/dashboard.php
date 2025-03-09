@@ -8,7 +8,7 @@
                 <!-- Income Card -->
                 <div class="card bg-base-100 border-gray-400 border shadow-xl">
                     <div class="card-body">
-                        <h2 class="card-title ">Total de ingresos registrados</h2>
+                        <h2 class="card-title ">Cantidad de ingresos registrados</h2>
                         <p id="income-num" class=" text-success text-2xl font-bold"></p>
                         <!-- <p class="text-sm text-gray-500">+5% desde el mes pasado</p> -->
                     </div>
@@ -16,7 +16,7 @@
                 <!-- Expenses Card -->
                 <div class="card bg-base-100 border-gray-400 border shadow-xl">
                     <div class="card-body">
-                        <h2 class="card-title ">Total de ingresos registrados</h2>
+                        <h2 class="card-title ">Cantidad de gastos registrados</h2>
                         <p class="text-2xl font-bold text-error" id="expense-num">$100</p>
                         <!-- <p class="text-sm text-gray-500">-2% desde el mes pasado</p> -->
                     </div>
@@ -40,21 +40,21 @@
             </div>
 
             <!-- Charts Section -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="flex flex-col md:grid md:grid-cols-2 gap-6 mb-8">
                 <!-- Income vs Expenses Chart -->
-                <div class=" border-gray-400 border shadow-xl rounded-xl col-span-2 h-96 p-12 ">
+                <div class=" border-gray-400 border shadow-xl rounded-xl col-span-2 h-96 p-6 pb-12">
                     <h2 class="card-title">Ingresos vs Gastos</h2>
                     <canvas id="incomeExpensesChart" class="w-14 h-28"></canvas>
 
                 </div>
 
                 <!-- Category Breakdown -->
-                <div class=" border-gray-400 border shadow-xl rounded-lg h-96 p-12 ">
+                <div class=" border-gray-400 border shadow-xl rounded-lg h-96 p-6 pb-12">
                     <h3 class="text-lg font-bold mb-4">Ingresos por categorías</h3>
                     <canvas id="income-category" class="w-14 h-28"></canvas>
                 </div>
                 <!-- Category Breakdown -->
-                <div class=" border-gray-400 border shadow-xl rounded-lg h-96 p-12 ">
+                <div class=" border-gray-400 border shadow-xl rounded-lg h-96 p-6 pb-12">
                     <h3 class="text-lg font-bold mb-4">Egresos por categorías</h3>
                     <canvas id="expense-category" class="w-14 h-28"></canvas>
                 </div>
@@ -66,7 +66,7 @@
                     <div class="overflow-x-auto">
                         <table class="table w-full">
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th>Tipo</th>
                                     <th>Descripción</th>
                                     <th>Monto</th>
