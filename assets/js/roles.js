@@ -1,6 +1,5 @@
 $(document).ready(function () {
   const handleAuth = (perms) => {
-    console.log(admin);
     if (admin) {
       return;
     }
@@ -106,21 +105,21 @@ function fetchRoles() {
               role.nombre_rol
             }</td>
             <td class="py-3">
-              <span class="badge ${
-                role.estado_rol === "activo" ? "badge-accent" : "badge-error"
-              } badge-outline">
+              <span class=" ${
+                role.estado_rol === "activo" ? "text-accent" : "text-error"
+              } ">
                 ${role.estado_rol}
               </span>
             </td>
             <td class="py-3">
-              <div class="inline-flex">
-                <button class="edit-role btn btn-sm btn-info" data-id="${
+              <div class="flex justify-center">
+                <button class="edit-role btn btn-sm w-32 btn-info" data-id="${
                   role.id_rol
                 }">
                     <i class="fas fa-pencil"></i>
                     <p class="hidden lg:inline-block">Editar</p>
                 </button>
-                <button class="btn btn-sm btn-error ml-2 toggle-status" data-id="${
+                <button style="color:white" class="btn btn-sm w-32 btn-error ml-2 toggle-status" data-id="${
                   role.id_rol
                 }" data-status="${role.estado_rol}">
                     <i class="fas fa-retweet"></i>
