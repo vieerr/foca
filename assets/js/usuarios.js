@@ -36,10 +36,6 @@ $(document).ready(function () {
     });
   }
 
-  function fetchUser(id) {
-    //TODO
-  }
-
   function fetchUsers() {
     $.ajax({
       url: "router.php?route=get-users",
@@ -69,9 +65,9 @@ $(document).ready(function () {
               <td class="py-3">
                 <span class=" ${
                   user.estado_usuario === "activo"
-                    ? "text-accent"
-                    : "text-error"
-                } ">
+                    ? "text-[#2db086]"
+                    : "text-[#e73f5b]"
+                }">
                   ${user.estado_usuario}
                 </span>
               </td>
@@ -80,15 +76,15 @@ $(document).ready(function () {
                   <button class="edit-user btn btn-sm w-32 btn-info" data-id="${
                     user.id_usuario
                   }">
-                      <i class="fas fa-pencil"></i>
-                      <p class="hidden lg:inline-block">Editar</p>
+                      <i class="fas fa-pencil text-white"></i>
+                      <p class="hidden lg:inline-block text-white">Editar</p>
                   </button>
   
                   <button style="color:white" class="btn btn-sm text-white w-32 btn-error ml-2 toggle-status" data-id="${
                     user.id_usuario
                   }" data-status="${user.estado_usuario}">
-                      <i class="fas fa-retweet"></i>
-                      <p class="hidden lg:inline-block">
+                      <i class="fas fa-retweet text-white"></i>
+                      <p class="hidden lg:inline-block text-white">
                         ${
                           user.estado_usuario === "activo"
                             ? "Desactivar"
@@ -165,7 +161,7 @@ $(document).ready(function () {
     $("#user-form-title").html("Editar usuario");
     $("#user-form-btn").html("Actualizar");
 
-    $("#register-user-form").attr("id", "edit-user-form");
+    $("#register-user-form").attr("id", "edit-user-form").data("id", userId);;
 
     if ($("#id-display").length) {
       $("#id_usuario").val(userId);
@@ -176,9 +172,6 @@ $(document).ready(function () {
           <input class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-white" type="text" name="id_usuario" id="id_usuario" value="${userId}" readonly>
         </div>`);
     }
-
-    const userData = fetchUser(userId);
-    //TODO fetch user data based on their ID and fill the form inputs
   }
 
   fetchUsers();
