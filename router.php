@@ -20,6 +20,9 @@ if (isset($_GET["route"])) {
         case "logout":
             $sessionController->logout();
             break;
+        case "change-password":
+            $userController->updateUser();
+            break;
         case "is-admin":
             $sessionController->isAdmin();
             break;

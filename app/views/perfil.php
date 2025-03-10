@@ -4,6 +4,7 @@ $username = $_SESSION["username"];
 $name = $_SESSION["name"];
 $last_name = $_SESSION["last_name"];
 $role = $_SESSION["role_name"];
+$user_id = $_SESSION["user_id"];
 ?>
 
 <div class="bg-base-100 p-8">
@@ -35,14 +36,17 @@ $role = $_SESSION["role_name"];
     <!-- Change Password Section -->
     <div class="bg-base-200 p-6 rounded-lg shadow-lg w-full  md:w-1/3">
         <h2 class="text-xl font-bold mb-4">Cambiar contraseña</h2>
-        <form id="change-password-form">
+        <form id="change-password-form" data-id="<?= $_SESSION["user_id"] ?>">
+            <input type="text" id="id_usuario" name="id_usuario" value="<?= htmlspecialchars(
+                $user_id
+            ) ?>" hidden>
             <div class="mb-4 w-full">
-                <label for="new-password" class="block text-sm font-medium text-gray-700">Nueva contraseña</label>
-                <input type="password" id="new-password" name="new-password" class="w-full py-2 px-3 rounded-lg border-2 border-[#e0e0e0] bg-base-100 mb-3" required>
+                <label for="password" class="block text-sm font-medium text-gray-700">Nueva contraseña</label>
+                <input type="password" id="password" name="password" class="w-full py-2 px-3 rounded-lg border-2 border-[#e0e0e0] bg-base-100 mb-3" required>
             </div>
             <div class="mb-4 w-full">
                 <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
-                <input type="password" id="confirm-password" name="confirm-password" class="w-full py-2 px-3 rounded-lg border-2 border-[#e0e0e0] bg-base-100 mb-3" required>
+                <input type="password"  id="confirm-password" name="confirm-password" class="w-full py-2 px-3 rounded-lg border-2 border-[#e0e0e0] bg-base-100 mb-3" required>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar</button>
         </form>
