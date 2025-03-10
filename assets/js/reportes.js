@@ -22,18 +22,18 @@ $(document).ready(async function () {
     tbody.empty();
     data.reverse().map((item) => {
       const row = `
-        <tr class="hover">
-          <td><span class="badge ${
-            item.tipo_registro === "ingreso" ? "badge-success" : "badge-error"
+      <tr class="text-center">
+          <td><span class="${
+            item.tipo_registro === "ingreso" ? "text-[#2db086]" : "text-[#e73f5b]"
           }">${item.tipo_registro}</span></td>
           <td>${item.fecha_accion}</td>
           <td>${item.nombre_categoria}</td>
           <td class="${
-            item.tipo_registro === "ingreso" ? "text-success" : "text-error"
+            item.tipo_registro === "ingreso" ? "text-[#2db086]" : "text-[#e73f5b]"
           }">${item.valor_registro}</td>
           <td>${item.metodo_registro}</td>
-          <td><span class="badge ${
-            item.estado_registro === "activo" ? "badge-success" : "badge-error"
+          <td><span class="${
+            item.estado_registro === "activo" ? "text-[#2db086]" : "text-[#e73f5b]"
           }">${item.estado_registro}</span></td>
         </tr>
       `;

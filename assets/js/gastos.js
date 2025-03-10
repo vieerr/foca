@@ -141,24 +141,29 @@ $(document).ready(async () => {
             <td class="px-6 py-4 border-b border-gray-200">${item.fecha_registro
         }</td>
             <td class="px-6 py-4 border-b border-gray-200">
-                <span class="${item.estado_registro === "activo"
-          ? "text-success"
-          : "text-error"
-        }">
+
+                <span class="${
+                  item.estado_registro === "activo"
+                    ? "text-[#2db086]"
+                    : "text-[#e73f5b]"
+                }">
+
                     ${item.estado_registro}
                 </span>
             </td>
             <td class="py-3">
                 <div class="inline-flex">
-                    <button class="edit-expense btn btn-sm btn-info" data-id="${item.id_registro
-        }">
-                        <i class="fas fa-pencil"></i>
-                        <p class="hidden lg:inline-block">Editar</p>
+                    <button class="edit-expense btn btn-sm btn-info" data-id="${
+                      item.id_registro
+                    }">
+                        <i class="fas fa-pencil text-white"></i>
+                        <p class="hidden lg:inline-block text-white">Editar</p>
                     </button>
-                    <button data-id="${item.id_registro
-        }" class="btn btn-sm btn-error ml-2 toggle-status-expense">
-                        <i class="fas fa-retweet"></i>
-                        <p class="hidden lg:inline-block">Anular</p>
+                    <button data-id="${
+                      item.id_registro
+                    }" class="btn btn-sm btn-error ml-2 toggle-status-expense">
+                        <i class="fas fa-retweet text-white"></i>
+                        <p class="hidden lg:inline-block text-white">Anular</p>
                     </button>
                     <button data-categoria="${item.nombre_categoria
         }" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">

@@ -106,9 +106,9 @@ function fetchRoles() {
               role.nombre_rol
             }</td>
             <td class="py-3">
-              <span class=" ${
-                role.estado_rol === "activo" ? "text-accent" : "text-error"
-              } ">
+              <span class="${
+                role.estado_rol === "activo" ? "text-[#2db086]" : "text-[#e73f5b]"
+              }">
                 ${role.estado_rol}
               </span>
             </td>
@@ -117,14 +117,14 @@ function fetchRoles() {
                 <button class="edit-role btn btn-sm w-32 btn-info" data-id="${
                   role.id_rol
                 }">
-                    <i class="fas fa-pencil"></i>
-                    <p class="hidden lg:inline-block">Editar</p>
+                    <i class="fas fa-pencil text-white"></i>
+                    <p class="hidden lg:inline-block text-white">Editar</p>
                 </button>
                 <button style="color:white" class="btn btn-sm w-32 btn-error ml-2 toggle-status-role" data-id="${
                   role.id_rol
                 }" data-status="${role.estado_rol}">
-                    <i class="fas fa-retweet"></i>
-                    <p class="hidden lg:inline-block">
+                    <i class="fas fa-retweet text-white"></i>
+                    <p class="hidden lg:inline-block text-white">
                       ${role.estado_rol === "activo" ? "Desactivar" : "Activar"}
                     </p>
                 </button>
@@ -252,7 +252,7 @@ function generateEditModal(roleId) {
   if ($("#id-display").length) {
     $("#id_rol").val(roleId);
   } else {
-    $("#income-form-wrapper").prepend(`
+    $("#edit-role-form").prepend(`
       <div id="id-display">
         <label class="block text-sm font-medium text-gray-700" for="id_rol">ID:</label>
         <input class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-white" type="text" name="id_rol" id="id_rol" value="${roleId}" readonly>

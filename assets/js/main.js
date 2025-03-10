@@ -130,9 +130,9 @@ $(document).ready(async function () {
     $.each(links, function (index, link) {
       html += `
       <li id=${link.route}-link class="w-full">
-          <a href="#" data-route=${link.route} class="load-content gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
+          <a href="#" data-route=${link.route} class="load-content rounded-md p-3 flex items-center gap-4 hover:bg-base-300 shrink-0">
               <i class="fas ${link.icon}"></i>
-              ${link.name}
+              <span class="grow-1">${link.name}</span>
           </a>
       </li>
       `;
@@ -142,10 +142,10 @@ $(document).ready(async function () {
       .html(html)
       .append(
         `
-      <li class="w-full">
-          <a href="router.php?route=logout" class="btn btn-error mt-7 gap-5 flex items-center p-2 rounded-lg hover:bg-base-300 transition-colors">
-              <i class="fas fa-sign-out-alt"></i>
-              Cerrar sesión
+      <li>
+          <a href="router.php?route=logout" class="bg-[#FF637D] rounded-md p-2 flex items-center gap-5 shrink-0 hover:bg-[#ff4564]">
+              <i class="fas fa-sign-out-alt text-white"></i>
+              <span class="text-white font-bold">Cerrar sesión</span>
           </a>
       </li>
       `
@@ -153,6 +153,13 @@ $(document).ready(async function () {
   };
 
   await editSidebar();
+
+  $("#toggle-btn").click(function () {
+    $("#sidebar").toggleClass("close");
+    $("#toggle-icon").toggleClass("rotate-180");
+
+    $("#sidebar-links li a span").fadeToggle(300);
+  });
 
   $(".load-content").on("click", function (e) {
     e.preventDefault();
