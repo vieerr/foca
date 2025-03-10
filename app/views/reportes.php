@@ -57,7 +57,7 @@
 
   <!-- Report Actions -->
   <div class="flex justify-end gap-4 mb-6">
-    <button class="flex items-center px-4 py-2 rounded-md cursor-pointer text-white bg-[#B40B00] hover:opacity-90 text-sm font-medium">
+    <button id="pdf-btn" class="flex items-center px-4 py-2 rounded-md cursor-pointer text-white bg-[#B40B00] hover:opacity-90 text-sm font-medium">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
         stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -65,7 +65,7 @@
       </svg>
       Exportar PDF
     </button>
-    <button class="flex items-center px-4 py-2 rounded-md cursor-pointer text-white bg-[#107C41] hover:opacity-90 text-sm font-medium">
+    <button id="csv-btn" class="flex items-center px-4 py-2 rounded-md cursor-pointer text-white bg-[#107C41] hover:opacity-90 text-sm font-medium">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
         stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
