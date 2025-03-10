@@ -32,6 +32,9 @@ if (isset($_GET["route"])) {
         case "get-users":
             $userController->fetchUsers();
             break;
+        case "get-one-user":
+            $userController->fetchUser();
+            break;
         case "crear-usuario":
             $userController->createUser();
             break;

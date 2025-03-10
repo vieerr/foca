@@ -77,6 +77,11 @@ $(document).ready(async function () {
       icon: "fa-money-bill-wave",
       name: "Ingresos",
     },
+    {
+      route: "reportes",
+      icon: "fa-chart-line",
+      name: "Reportes",
+    }
   ];
 
   const editSidebar = async () => {
@@ -108,14 +113,6 @@ $(document).ready(async function () {
         name: "Usuarios",
       });
       console.log("usuarios");
-    }
-    if (userPerms.some((el) => reportes.includes(el)) || admin) {
-      links.push({
-        route: "reportes",
-        icon: "fa-chart-line",
-        name: "Reportes",
-      });
-      console.log("reportes");
     }
     if (admin) {
       links.push({

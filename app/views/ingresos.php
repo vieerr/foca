@@ -52,9 +52,9 @@
               <span class="label font-medium">Método de pago</span>
               <select class="select" name="metodo_registro" id="metodo_registro">
                 <option selected>Seleccionar método</option>
-                <option>Transferencia</option>
-                <option>Efectivo</option>
-                <option>Tarjeta</option>
+                <option value="transferencia">Transferencia</option>
+                <option value="efectivo">Efectivo</option>
+                <option value="tarjeta">Tarjeta</option>
               </select>
             </label>
             <label class="input min-w-full" for="valor_registro">

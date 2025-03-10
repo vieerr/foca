@@ -159,9 +159,13 @@ $(document).ready(async () => {
                     </button>
                     <button data-id="${
                       item.id_registro
-                    }" class="btn btn-sm btn-error ml-2 toggle-status-income">
+                    }" data-status="${item.estado_registro}" class="btn btn-sm btn-error ml-2 toggle-status-income">
                         <i class="fas fa-retweet text-white"></i>
-                        <p class="hidden lg:inline-block text-white">Anular</p>
+                        <p class="hidden lg:inline-block text-white">
+                          ${item.estado_registro === "activo" ? 
+                              "Anular" : "Activar"
+                          }
+                        </p>
                     </button>
                     <button data-categoria="${item.nombre_categoria
         }" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
@@ -303,9 +307,14 @@ $(document).ready(async () => {
   $(document).off("click", ".toggle-status-income").on("click", ".toggle-status-income", function (event) {
     event.stopPropagation();
     const incomeId = $(this).data("id");
-    const data = `id_registro=${incomeId}&estado_registro=anulado`;
+    const currentStatus = $(this).data("status") === "activo" ? true : false;
+    const nextStatus = !currentStatus;
+    const statusMsg = nextStatus ? "activar" : "anular";
+    const newStatus = nextStatus ? "activo" : "anulado";
 
-    if (confirm("¿Estás seguro que deseas anular este registro?")) {
+    const data = `id_registro=${incomeId}&estado_registro=${newStatus}`;
+
+    if (confirm(`¿Estás seguro que deseas ${statusMsg} este ingreso?`)) {
       $.ajax({
         url: "router.php?route=edit-reg",
         type: "PUT",

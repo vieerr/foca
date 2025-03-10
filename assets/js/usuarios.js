@@ -155,6 +155,7 @@ $(document).ready(function () {
     $("#user-form-btn").html("Agregar");
 
     $("#edit-user-form").attr("id", "register-user-form");
+    $("#register-user-form").trigger("reset");
   }
 
   function generateEditModal(userId) {
@@ -172,7 +173,23 @@ $(document).ready(function () {
           <input class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-white" type="text" name="id_usuario" id="id_usuario" value="${userId}" readonly>
         </div>`);
     }
-  }
+
+    $.ajax({
+      url: `router.php?route=get-one-user`,
+      method: "POST",
+      data: { id_usuario: userId },
+      success: function (response) {
+        console.log("Usuario encontrado:", response);
+        $("#nombre").val(response.nombre_usuario);
+        $("#apellido").val(response.apellido_usuario);
+        $("#username").val(response.username_usuario);
+        $("#rol").val(response.id_rol);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error fetching expense:", error);
+      },
+    });
+  };
 
   fetchUsers();
   fetchRoles();
@@ -189,16 +206,16 @@ $(document).ready(function () {
   });
   $(document).on("click", ".toggle-status", function () {
     const userId = $(this).data("id");
-    const newStatus =
-      $(this).data("status") === "activo" ? "inactivo" : "activo";
+    const currentStatus = $(this).data("status") === "activo" ? true : false;
+    const nextStatus = !currentStatus;
+    const statusMsg = nextStatus ? "activar" : "desactivar";
+    const newStatus = nextStatus ? "activo" : "inactivo";
 
     const data = `id_usuario=${userId}&estado_usuario=${newStatus}`;
 
     if (
       confirm(
-        `¿Estás seguro que deseas ${
-          newStatus === "inactivo" ? "desactivar" : "activar"
-        } este usuario?`
+        `¿Estás seguro que deseas ${statusMsg} este usuario?`
       )
     ) {
       $.ajax({

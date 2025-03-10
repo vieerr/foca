@@ -37,15 +37,16 @@ $(document).on("submit", "#edit-role-form", updateRole);
 $(document).on("click", ".toggle-status-role", function (event) {
   event.stopPropagation(); 
   const id = $(this).data("id");
-  const newStatus = $(this).data("status") === "activo" ? "inactivo" : "activo";
+  const currentStatus = $(this).data("status") === "activo" ? true : false;
+  const nextStatus = !currentStatus;
+  const statusMsg = nextStatus ? "activar" : "desactivar";
+  const newStatus = nextStatus ? "activo" : "inactivo";
 
   const data = `id_rol=${id}&estado_rol=${newStatus}`;
 
   if (
     confirm(
-      `¿Estás seguro que deseas ${
-        newStatus === "inactivo" ? "desactivar" : "activar"
-      } este rol?`
+      `¿Estás seguro que deseas ${statusMsg} este rol?`
     )
   ) {
     $.ajax({
@@ -258,6 +259,9 @@ function generateEditModal(roleId) {
         <input class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-white" type="text" name="id_rol" id="id_rol" value="${roleId}" readonly>
       </div>`);
   }
+  
+  $("input[name='permiso[]']").prop("checked", false);
+
   $.ajax({
     url: "router.php?route=get-role",
     method: "POST",
