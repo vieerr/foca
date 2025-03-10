@@ -59,7 +59,23 @@ class Usuario extends Model
         return self::update(table: self::$table, data: $fields, conditions: ["id_usuario" => $id]);
     }
 
+    public function getUser($id)
+    {
+        $query = "SELECT u.nombre_usuario, u.apellido_usuario, u.username_usuario, r.id_rol
+        FROM usuarios u
+        JOIN roles r ON u.id_rol = r.id_rol
+        WHERE u.id_usuario = '$id'";
 
+        $conn = self::getConn();
+        $result = $conn->query($query);
+
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            die("Error fetching user: " . $conn->error);
+        }
+    }
+    
     public function fetchAllUsers()
     {
         $query = "SELECT u.id_usuario, u.nombre_usuario, u.apellido_usuario, u.username_usuario, u.estado_usuario, r.nombre_rol
