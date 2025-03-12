@@ -18,7 +18,7 @@
       <dialog id="qr_modal" class="modal">
         <div class="modal-box">
           <h3 class="text-lg font-bold" id="qr-title"></h3>
-          <img src="assets/qrs/Alimentacion.png" alt="qr" class="mx-auto" id="qr-img" />
+          <img src="assets/qrs/Alimentación.png" alt="qr" class="mx-auto" id="qr-img" />
           <div class="modal-action">
             <form method="dialog">
               <button class="btn">Cerrar</button>
@@ -26,7 +26,6 @@
           </div>
         </div>
       </dialog>
-
 
       <!--MODAL FORM-->
       <dialog id="modalGasto" class="modal">
@@ -54,9 +53,9 @@
               <span class="label font-medium">Método de pago</span>
               <select class="select" name="metodo_registro" id="metodo_registro">
                 <option value="" selected>Seleccionar método</option>
-                <option value="Transferencia">Transferencia</option>
-                <option value="Efectivo">Efectivo</option>
-                <option value="Tarjeta">Tarjeta</option>
+                <option value="transferencia">Transferencia</option>
+                <option value="efectivo">Efectivo</option>
+                <option value="tarjeta">Tarjeta</option>
               </select>
             </label>
             <label class="input min-w-full" for="valor_registro">

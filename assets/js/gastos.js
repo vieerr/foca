@@ -55,7 +55,8 @@ $(document).ready(async () => {
   const handleAuth = (perms) => {
     if (admin) return;
     if (!perms.includes(2)) $("#register-expense-btn").addClass("btn-disabled");
-    if (!perms.includes(6)) $(".toggle-status-expense").addClass("btn-disabled");
+    if (!perms.includes(6))
+      $(".toggle-status-expense").addClass("btn-disabled");
     if (!perms.includes(12)) $(".edit-expense").addClass("btn-disabled");
   };
 
@@ -82,8 +83,12 @@ $(document).ready(async () => {
   const setCategories = (cats) => {
     const modalCategories = $("#nombre_categoria");
     const filterCategories = $("#filtro_nombre_categoria");
-    modalCategories.append('<option value="">Seleccione una categoría</option>');
-    filterCategories.append('<option value="">Seleccione una categoría</option>');
+    modalCategories.append(
+      '<option value="">Seleccione una categoría</option>'
+    );
+    filterCategories.append(
+      '<option value="">Seleccione una categoría</option>'
+    );
     cats.map((cat) => {
       modalCategories.append(
         `<option value=${cat.id_categoria}>${cat.nombre_categoria}</option>`
@@ -118,32 +123,54 @@ $(document).ready(async () => {
   const setList = (data) => {
     const tbody = $("#gastos-table-body");
     tbody.empty();
-    data.reverse().map((item) => {
+    data.map((item) => {
       const row = `
         <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">${item.id_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.nombre_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.nombre_categoria}</td>
-            <td class="px-6 py-4 border-b border-gray-200">$ ${item.valor_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.metodo_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_accion}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_registro}</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.id_registro
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.nombre_registro
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.nombre_categoria
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">$ ${item.valor_registro
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.metodo_registro
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_accion
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_registro
+        }</td>
             <td class="px-6 py-4 border-b border-gray-200">
-                <span class="${item.estado_registro === "activo" ? "text-success" : "text-error"}">
+
+                <span class="${
+                  item.estado_registro === "activo"
+                    ? "text-[#2db086]"
+                    : "text-[#e73f5b]"
+                }">
+
                     ${item.estado_registro}
                 </span>
             </td>
             <td class="py-3">
                 <div class="inline-flex">
-                    <button class="edit-expense btn btn-sm btn-info" data-id="${item.id_registro}">
-                        <i class="fas fa-pencil"></i>
-                        <p class="hidden lg:inline-block">Editar</p>
+                    <button class="edit-expense btn btn-sm btn-info" data-id="${
+                      item.id_registro
+                    }">
+                        <i class="fas fa-pencil text-white"></i>
+                        <p class="hidden lg:inline-block text-white">Editar</p>
                     </button>
-                    <button data-id="${item.id_registro}" class="btn btn-sm btn-error ml-2 toggle-status-expense">
-                        <i class="fas fa-retweet"></i>
-                        <p class="hidden lg:inline-block">Anular</p>
+                    <button data-id="${
+                      item.id_registro
+                    }" data-status="${item.estado_registro}" class="btn btn-sm btn-error ml-2 toggle-status-expense">
+                        <i class="fas fa-retweet text-white"></i>
+                        <p class="hidden lg:inline-block text-white">
+                          ${item.estado_registro === "activo" ? 
+                            "Anular" : "Activar"
+                          }
+                        </p>
                     </button>
-                    <button data-categoria="${item.nombre_categoria}" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
+                    <button data-categoria="${item.nombre_categoria
+        }" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
                         <i class="fas fa-qrcode"></i>
                         <p class="hidden lg:inline-block">QR</p>
                     </button>
@@ -200,7 +227,7 @@ $(document).ready(async () => {
   const displayPage = (data, page) => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const paginatedData = data.slice(startIndex, endIndex);
+    const paginatedData = data.reverse().slice(startIndex, endIndex);
     setList(paginatedData);
   };
 
@@ -213,8 +240,7 @@ $(document).ready(async () => {
 
     for (let i = 1; i <= totalPages; i++) {
       pagination.append(
-        `<button class="btn btn-sm ${
-          i === currentPage ? "btn-active" : ""
+        `<button class="btn btn-sm ${i === currentPage ? "btn-active" : ""
         }" data-page="${i}">${i}</button>`
       );
     }
@@ -279,51 +305,92 @@ $(document).ready(async () => {
     modalGasto.showModal();
   });
 
-  $(document).on("click", ".toggle-status-expense", function (event) {
+  // Toggle status handler - Prevención de múltiples clicks
+  $(document).off("click", ".toggle-status-expense").on("click", ".toggle-status-expense", function (event) {
     event.stopPropagation();
     const expenseId = $(this).data("id");
-    const data = `id_registro=${expenseId}&estado_registro=anulado`;
+    const currentStatus = $(this).data("status") === "activo" ? true : false;
+    const nextStatus = !currentStatus;
+    const statusMsg = nextStatus ? "activar" : "anular";
+    const newStatus = nextStatus ? "activo" : "anulado";
 
-    if (confirm("¿Estás seguro que deseas anular este registro?")) {
+    const data = `id_registro=${expenseId}&estado_registro=${newStatus}`;
+
+    if (confirm(`¿Estás seguro que deseas ${statusMsg} este gasto?`)) {
       $.ajax({
         url: "router.php?route=edit-reg",
         type: "PUT",
         data: data,
-        success: function (response) {
+        success: (response) => {
           refetchList();
           console.log("Update successful:", response);
         },
-        error: function (xhr, status, error) {
+        error: (xhr, status, error) => {
           console.error("Error updating:", error);
-        },
+        }
       });
     }
   });
 
-  $(document).on("submit", "#edit-expense-form", (e) => {
+  // Edit form handler - Prevención de múltiples submits
+  $(document).off("submit", "#edit-expense-form").on("submit", "#edit-expense-form", (e) => {
     e.preventDefault();
+    const $btn = $("#expense-form-btn").prop("disabled", true);
     const formData = $("#edit-expense-form").serialize();
+
     $.ajax({
       url: "router.php?route=edit-reg",
       type: "PUT",
       data: formData,
-      success: function (response) {
+      success: (response) => {
         $("#close-modal").trigger("submit");
         refetchList();
         $("#edit-expense-form").trigger("reset");
         console.log("Update successful:", response);
       },
-      error: function (xhr, status, error) {
+      error: (xhr, status, error) => {
         console.error("Error updating:", error);
       },
+      complete: () => $btn.prop("disabled", false)
     });
   });
 
-  $(document).on("click", ".edit-expense", function () {
-    const expenseId = $(this).data("id");
-    generateEditModal(expenseId);
-    modalGasto.showModal();
+  // Edit button handler - Control de apertura única
+  let editModalOpen = false;
+  $(document).off("click", ".edit-expense").on("click", ".edit-expense", function () {
+    if (!editModalOpen) {
+      editModalOpen = true;
+      const expenseId = $(this).data("id");
+      generateEditModal(expenseId);
+      modalGasto.showModal();
+
+      // Resetear estado al cerrar modal
+      modalGasto.on('close', () => editModalOpen = false);
+    }
   });
 
+  // Register form handler - Prevención de submits múltiples
+  $(document).off("submit", "#register-expense-form").on("submit", "#register-expense-form", (e) => {
+    e.preventDefault();
+    const $btn = $("#expense-form-btn").prop("disabled", true);
+    const formData = $("#register-expense-form").serialize();
+
+    $.ajax({
+      url: "router.php?route=create-expense",
+      type: "POST",
+      data: formData,
+      success: (response) => {
+        $("#close-modal").trigger("submit");
+        refetchList();
+        $("#register-expense-form").trigger("reset");
+        console.log("Register successful:", response);
+      },
+      error: (xhr, status, error) => {
+        console.error("Error creating:", error);
+      },
+      complete: () => $btn.prop("disabled", false)
+    });
+  });
+  
   handleAuth(perms);
 });

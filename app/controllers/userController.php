@@ -23,6 +23,17 @@ class UsuarioController
         echo json_encode($users);
         exit();
     }
+
+    public function fetchUser()
+    {
+        $input = file_get_contents("php://input");
+        parse_str($input, $data);
+
+        $user = $this->userModel->getUser($data["id_usuario"]);
+        header("Content-Type: application/json");
+        echo json_encode($user[0]);
+    }
+    
     //todo - improve data security (no post data)
     public function createUser()
     {

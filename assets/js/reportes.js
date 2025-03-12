@@ -14,7 +14,7 @@ $(document).ready(async function () {
         )
       );
     }
-    return data; // Return the original data if no search term is provided
+    return data;
   };
 
   const setList = (data) => {
@@ -22,22 +22,28 @@ $(document).ready(async function () {
     tbody.empty();
     data.reverse().map((item) => {
       const row = `
-        <tr class="hover">
-          <td><span class="badge ${
-            item.tipo_registro === "ingreso" ? "badge-success" : "badge-error"
+      <tr class="text-center">
+          <td><span class="${
+            item.tipo_registro === "ingreso"
+              ? "text-[#2db086]"
+              : "text-[#e73f5b]"
           }">${item.tipo_registro}</span></td>
           <td>${item.fecha_accion}</td>
           <td>${item.nombre_categoria}</td>
           <td class="${
-            item.tipo_registro === "ingreso" ? "text-success" : "text-error"
+            item.tipo_registro === "ingreso"
+              ? "text-[#2db086]"
+              : "text-[#e73f5b]"
           }">${item.valor_registro}</td>
           <td>${item.metodo_registro}</td>
-          <td><span class="badge ${
-            item.estado_registro === "activo" ? "badge-success" : "badge-error"
+          <td><span class="${
+            item.estado_registro === "activo"
+              ? "text-[#2db086]"
+              : "text-[#e73f5b]"
           }">${item.estado_registro}</span></td>
         </tr>
       `;
-      tbody.append(row); // Append the row to the tbody
+      tbody.append(row);
     });
   };
 
@@ -49,7 +55,6 @@ $(document).ready(async function () {
 
     let filteredData = regs;
 
-    // Apply date range filter
     if (initial.length > 0 && final.length > 0) {
       const startDate = new Date(initial);
       const endDate = new Date(final);
@@ -60,14 +65,12 @@ $(document).ready(async function () {
       filteredData = filterByDateRange(filteredData, startDate, endDate);
     }
 
-    // Apply report type filter
     if (selectedType.length > 0) {
       filteredData = filteredData.filter(
         (inc) => inc.tipo_registro === selectedType
       );
     }
 
-    // Apply search filter
     if (searchTerm.length > 0) {
       filteredData = filterBySearch(filteredData, searchTerm);
     }
@@ -97,7 +100,7 @@ $(document).ready(async function () {
   const monthlyExpense = new Array(12).fill(0);
 
   regs.forEach((reg) => {
-    const month = new Date(reg.fecha_registro).getMonth(); // Get month index (0-11)
+    const month = new Date(reg.fecha_registro).getMonth();
     if (reg.tipo_registro === "ingreso") {
       monthlyIncome[month] += Number(reg.valor_registro);
     } else {
@@ -105,7 +108,6 @@ $(document).ready(async function () {
     }
   });
 
-  // Initialize Summary Chart (Bar Chart)
   const summaryCtx = $("#summaryChart")[0].getContext("2d");
   new Chart(summaryCtx, {
     type: "bar",
@@ -143,22 +145,6 @@ $(document).ready(async function () {
     },
   });
 
-  // Initialize Category Chart (Pie Chart)
-  // const categoryCtx = $("#categoryChart")[0].getContext("2d");
-  // new Chart(categoryCtx, {
-  //   type: "pie",
-  //   data: {
-  //     labels: ["Comida", "Transporte", "Servicios", "Entretenimiento"],
-  //     datasets: [
-  //       {
-  //         data: [45, 25, 20, 10],
-  //         backgroundColor: ["#36D399", "#3B82F6", "#FBBF24", "#F472B6"],
-  //       },
-  //     ],
-  //   },
-  // });
-
-  // Event listeners for filters
   $("#report-type, #fecha-inicial, #fecha-final, #search-bar").on(
     "change input",
     function () {
@@ -166,7 +152,6 @@ $(document).ready(async function () {
     }
   );
 
-  // Quick filters
   $(".btn.btn-xs").on("click", function () {
     const filterType = $(this).text().trim();
     let startDate, endDate;
@@ -210,11 +195,9 @@ $(document).ready(async function () {
     }
   });
 
-  // Export to PDF button
-  $(".btn-primary").on("click", () => exportToPDF(filteredRegs));
+  $("#pdf-btn").on("click", () => exportToPDF(filteredRegs));
 
-  // Export to CSV button
-  $(".btn-secondary").on("click", () => exportToCSV(filteredRegs));
+  $("#csv-btn").on("click", () => exportToCSV(filteredRegs));
 });
 
 function exportToPDF(regs) {

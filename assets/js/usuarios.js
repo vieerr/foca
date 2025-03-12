@@ -36,10 +36,6 @@ $(document).ready(function () {
     });
   }
 
-  function fetchUser(id) {
-    //TODO
-  }
-
   function fetchUsers() {
     $.ajax({
       url: "router.php?route=get-users",
@@ -69,9 +65,9 @@ $(document).ready(function () {
               <td class="py-3">
                 <span class=" ${
                   user.estado_usuario === "activo"
-                    ? "text-accent"
-                    : "text-error"
-                } ">
+                    ? "text-[#2db086]"
+                    : "text-[#e73f5b]"
+                }">
                   ${user.estado_usuario}
                 </span>
               </td>
@@ -80,15 +76,15 @@ $(document).ready(function () {
                   <button class="edit-user btn btn-sm w-32 btn-info" data-id="${
                     user.id_usuario
                   }">
-                      <i class="fas fa-pencil"></i>
-                      <p class="hidden lg:inline-block">Editar</p>
+                      <i class="fas fa-pencil text-white"></i>
+                      <p class="hidden lg:inline-block text-white">Editar</p>
                   </button>
   
                   <button style="color:white" class="btn btn-sm text-white w-32 btn-error ml-2 toggle-status" data-id="${
                     user.id_usuario
                   }" data-status="${user.estado_usuario}">
-                      <i class="fas fa-retweet"></i>
-                      <p class="hidden lg:inline-block">
+                      <i class="fas fa-retweet text-white"></i>
+                      <p class="hidden lg:inline-block text-white">
                         ${
                           user.estado_usuario === "activo"
                             ? "Desactivar"
@@ -159,13 +155,14 @@ $(document).ready(function () {
     $("#user-form-btn").html("Agregar");
 
     $("#edit-user-form").attr("id", "register-user-form");
+    $("#register-user-form").trigger("reset");
   }
 
   function generateEditModal(userId) {
     $("#user-form-title").html("Editar usuario");
     $("#user-form-btn").html("Actualizar");
 
-    $("#register-user-form").attr("id", "edit-user-form");
+    $("#register-user-form").attr("id", "edit-user-form").data("id", userId);;
 
     if ($("#id-display").length) {
       $("#id_usuario").val(userId);
@@ -177,9 +174,22 @@ $(document).ready(function () {
         </div>`);
     }
 
-    const userData = fetchUser(userId);
-    //TODO fetch user data based on their ID and fill the form inputs
-  }
+    $.ajax({
+      url: `router.php?route=get-one-user`,
+      method: "POST",
+      data: { id_usuario: userId },
+      success: function (response) {
+        console.log("Usuario encontrado:", response);
+        $("#nombre").val(response.nombre_usuario);
+        $("#apellido").val(response.apellido_usuario);
+        $("#username").val(response.username_usuario);
+        $("#rol").val(response.id_rol);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error fetching expense:", error);
+      },
+    });
+  };
 
   fetchUsers();
   fetchRoles();
@@ -196,16 +206,16 @@ $(document).ready(function () {
   });
   $(document).on("click", ".toggle-status", function () {
     const userId = $(this).data("id");
-    const newStatus =
-      $(this).data("status") === "activo" ? "inactivo" : "activo";
+    const currentStatus = $(this).data("status") === "activo" ? true : false;
+    const nextStatus = !currentStatus;
+    const statusMsg = nextStatus ? "activar" : "desactivar";
+    const newStatus = nextStatus ? "activo" : "inactivo";
 
     const data = `id_usuario=${userId}&estado_usuario=${newStatus}`;
 
     if (
       confirm(
-        `¿Estás seguro que deseas ${
-          newStatus === "inactivo" ? "desactivar" : "activar"
-        } este usuario?`
+        `¿Estás seguro que deseas ${statusMsg} este usuario?`
       )
     ) {
       $.ajax({

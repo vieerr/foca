@@ -83,8 +83,12 @@ $(document).ready(async () => {
   const setCategories = (cats) => {
     const modalCategories = $("#nombre_categoria");
     const filterCategories = $("#filtro_nombre_categoria");
-    modalCategories.append('<option value="">Seleccione una categoría</option>');
-    filterCategories.append('<option value="">Seleccione una categoría</option>');
+    modalCategories.append(
+      '<option value="">Seleccione una categoría</option>'
+    );
+    filterCategories.append(
+      '<option value="">Seleccione una categoría</option>'
+    );
     cats.map((cat) => {
       modalCategories.append(
         `<option value=${cat.id_categoria}>${cat.nombre_categoria}</option>`
@@ -119,31 +123,52 @@ $(document).ready(async () => {
   const setList = (data) => {
     const tbody = $("#ingresos-table-body");
     tbody.empty();
-    data.reverse().map((item) => {
+    data.map((item) => {
       const row = `
         <tr class="text-center">
-            <td class="px-6 py-4 border-b border-gray-200">${item.id_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.nombre_categoria}</td>
-            <td class="px-6 py-4 border-b border-gray-200">$ ${item.valor_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.metodo_registro}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_accion}</td>
-            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_registro}</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.id_registro
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.nombre_categoria
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">$ ${item.valor_registro
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.metodo_registro
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_accion
+        }</td>
+            <td class="px-6 py-4 border-b border-gray-200">${item.fecha_registro
+        }</td>
             <td class="px-6 py-4 border-b border-gray-200">
-                <span class="${item.estado_registro === "activo" ? "text-success" : "text-error"}">
+
+                <span class="${
+                  item.estado_registro === "activo"
+                    ? "text-[#2db086]"
+                    : "text-[#e73f5b]"
+                }">
                     ${item.estado_registro}
                 </span>
             </td>
             <td class="py-3">
                 <div class="inline-flex">
-                    <button class="edit-income btn btn-sm btn-info" data-id="${item.id_registro}">
-                        <i class="fas fa-pencil"></i>
-                        <p class="hidden lg:inline-block">Editar</p>
+
+                    <button class="edit-income btn btn-sm btn-info" data-id="${
+                      item.id_registro
+                    }">
+                        <i class="fas fa-pencil text-white"></i>
+                        <p class="hidden lg:inline-block text-white">Editar</p>
                     </button>
-                    <button data-id="${item.id_registro}" class="btn btn-sm btn-error ml-2 toggle-status-income">
-                        <i class="fas fa-retweet"></i>
-                        <p class="hidden lg:inline-block">Anular</p>
+                    <button data-id="${
+                      item.id_registro
+                    }" data-status="${item.estado_registro}" class="btn btn-sm btn-error ml-2 toggle-status-income">
+                        <i class="fas fa-retweet text-white"></i>
+                        <p class="hidden lg:inline-block text-white">
+                          ${item.estado_registro === "activo" ? 
+                              "Anular" : "Activar"
+                          }
+                        </p>
                     </button>
-                    <button data-categoria="${item.nombre_categoria}" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
+                    <button data-categoria="${item.nombre_categoria
+        }" onclick="qr_modal.showModal()" class="btn btn-sm btn-warning ml-2 qr-btn">
                         <i class="fas fa-qrcode"></i>
                         <p class="hidden lg:inline-block">QR</p>
                     </button>
@@ -200,7 +225,7 @@ $(document).ready(async () => {
   const displayPage = (data, page) => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const paginatedData = data.slice(startIndex, endIndex);
+    const paginatedData = data.reverse().slice(startIndex, endIndex);
     setList(paginatedData);
   };
 
@@ -213,8 +238,7 @@ $(document).ready(async () => {
 
     for (let i = 1; i <= totalPages; i++) {
       pagination.append(
-        `<button class="btn btn-sm ${
-          i === currentPage ? "btn-active" : ""
+        `<button class="btn btn-sm ${i === currentPage ? "btn-active" : ""
         }" data-page="${i}">${i}</button>`
       );
     }
@@ -279,50 +303,90 @@ $(document).ready(async () => {
     modalIngreso.showModal();
   });
 
-  $(document).on("click", ".toggle-status-income", function (event) {
+  // Toggle status handler
+  $(document).off("click", ".toggle-status-income").on("click", ".toggle-status-income", function (event) {
     event.stopPropagation();
     const incomeId = $(this).data("id");
-    const data = `id_registro=${incomeId}&estado_registro=anulado`;
+    const currentStatus = $(this).data("status") === "activo" ? true : false;
+    const nextStatus = !currentStatus;
+    const statusMsg = nextStatus ? "activar" : "anular";
+    const newStatus = nextStatus ? "activo" : "anulado";
 
-    if (confirm("¿Estás seguro que deseas anular este registro?")) {
+    const data = `id_registro=${incomeId}&estado_registro=${newStatus}`;
+
+    if (confirm(`¿Estás seguro que deseas ${statusMsg} este ingreso?`)) {
       $.ajax({
         url: "router.php?route=edit-reg",
         type: "PUT",
         data: data,
-        success: function (response) {
+        success: (response) => {
           refetchList();
-          console.log("Update successful:", response);
+          console.log("Actualización exitosa:", response);
         },
-        error: function (xhr, status, error) {
-          console.error("Error updating:", error);
-        },
+        error: (xhr, status, error) => {
+          console.error("Error al actualizar:", error);
+        }
       });
     }
   });
 
-  $(document).on("submit", "#edit-income-form", (e) => {
+  // Edit form handler
+  $(document).off("submit", "#edit-income-form").on("submit", "#edit-income-form", (e) => {
     e.preventDefault();
+    const $btn = $("#income-form-btn").prop("disabled", true);
     const formData = $("#edit-income-form").serialize();
+
     $.ajax({
       url: "router.php?route=edit-reg",
       type: "PUT",
       data: formData,
-      success: function (response) {
+      success: (response) => {
         $("#close-modal").trigger("submit");
         refetchList();
         $("#edit-income-form").trigger("reset");
-        console.log("Update successful:", response);
+        console.log("Actualización exitosa:", response);
       },
-      error: function (xhr, status, error) {
-        console.error("Error updating:", error);
+      error: (xhr, status, error) => {
+        console.error("Error al actualizar:", error);
       },
+      complete: () => $btn.prop("disabled", false)
     });
   });
 
-  $(document).on("click", ".edit-income", function () {
-    const incomeId = $(this).data("id");
-    generateEditModal(incomeId);
-    modalIngreso.showModal();
+  // Edit button handler
+  let incomeModalOpen = false;
+  $(document).off("click", ".edit-income").on("click", ".edit-income", function () {
+    if (!incomeModalOpen) {
+      incomeModalOpen = true;
+      const incomeId = $(this).data("id");
+      generateEditModal(incomeId);
+      modalIngreso.showModal();
+
+      modalIngreso.on('close', () => incomeModalOpen = false);
+    }
+  });
+
+  // Register form handler
+  $(document).off("submit", "#register-income-form").on("submit", "#register-income-form", (e) => {
+    e.preventDefault();
+    const $btn = $("#income-form-btn").prop("disabled", true);
+    const formData = $("#register-income-form").serialize();
+
+    $.ajax({
+      url: "router.php?route=create-income",
+      type: "POST",
+      data: formData,
+      success: (response) => {
+        $("#close-modal").trigger("submit");
+        refetchList();
+        $("#register-income-form").trigger("reset");
+        console.log("Registro exitoso:", response);
+      },
+      error: (xhr, status, error) => {
+        console.error("Error al crear:", error);
+      },
+      complete: () => $btn.prop("disabled", false)
+    });
   });
 
   handleAuth(perms);

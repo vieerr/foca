@@ -1,4 +1,5 @@
 <div class="bg-base-100 p-8 flex flex-col">
+<h1 class="text-3xl font-bold mb-6">Reportes</h1>
   <!-- Report Configuration Section -->
   <div class="mb-6 shadow-lg p-6 rounded-lg">
     <div class="form-control">
@@ -8,17 +9,19 @@
       <input type="text" id="search-bar" class="input input-bordered"
         placeholder="Buscar por categoría, método o monto..." />
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 ">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
       <!-- Report Type Selection -->
       <div class="form-control">
         <label class="label">
           <span class="label-text">Tipo de Reporte</span>
         </label>
-        <select id="report-type" class="select select-bordered">
-          <option value="">Reporte Completo</option>
-          <option value="ingreso">Solo Ingresos</option>
-          <option value="egreso">Solo Gastos</option>
-        </select>
+        <div>
+          <select id="report-type" class="select select-bordered">
+            <option value="">Reporte Completo</option>
+            <option value="ingreso">Solo Ingresos</option>
+            <option value="egreso">Solo Gastos</option>
+          </select>
+        </div>
       </div>
 
       <!-- Date Range -->
@@ -26,7 +29,7 @@
         <label class="label">
           <span class="label-text">Rango de Fechas</span>
         </label>
-        <div class="flex gap-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
           <label class="input" for="fecha-inicial">
             <span class="label font-medium">Desde</span>
             <input type="date" name="fecha-inicial" id="fecha-inicial" />
@@ -54,7 +57,7 @@
 
   <!-- Report Actions -->
   <div class="flex justify-end gap-4 mb-6">
-    <button class="btn btn-primary">
+    <button id="pdf-btn" class="flex items-center px-4 py-2 rounded-md cursor-pointer text-white bg-[#B40B00] hover:opacity-90 text-sm font-medium">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
         stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -62,11 +65,11 @@
       </svg>
       Exportar PDF
     </button>
-    <button class="btn btn-secondary">
+    <button id="csv-btn" class="flex items-center px-4 py-2 rounded-md cursor-pointer text-white bg-[#107C41] hover:opacity-90 text-sm font-medium">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
         stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
       </svg>
       Exportar Excel
     </button>
@@ -75,7 +78,7 @@
   <!-- Visualizations -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 ">
     <!-- Income vs Expenses Chart -->
-    <div class="col-span-2 border-gray-400 border shadow-xl rounded-lg h-96 p-12 ">
+    <div class="col-span-2 border-gray-400 border shadow-xl rounded-lg h-96 p-6 pb-12">
       <h3 class="text-lg font-bold mb-4">Resumen General</h3>
       <canvas id="summaryChart" class="w-full h-32"></canvas>
     </div>
@@ -91,7 +94,7 @@
   <div class="overflow-x-auto">
     <table class="table w-full">
       <thead>
-        <tr>
+        <tr class="text-center">
           <th>Tipo</th>
           <th>Fecha</th>
           <th>Categoría</th>
@@ -101,26 +104,7 @@
         </tr>
       </thead>
       <tbody id="report-table">
-        <!-- Sample Data -->
-        <tr class="hover">
-          <td><span class="badge badge-success">Ingreso</span></td>
-          <td>2023-10-01</td>
-          <td>Sueldo Octubre</td>
-          <td>Sueldo</td>
-          <td class="text-success">+$2,500.00</td>
-          <td>Transferencia</td>
-          <td><span class="badge badge-success">Confirmado</span></td>
-        </tr>
-        <tr class="hover">
-          <td><span class="badge badge-error">Gasto</span></td>
-          <td>2023-10-05</td>
-          <td>Supermercado</td>
-          <td>Comida</td>
-          <td class="text-error">-$150.00</td>
-          <td>Tarjeta</td>
-          <td><span class="badge badge-success">Confirmado</span></td>
-        </tr>
-        <!-- Add more rows as needed -->
+        
       </tbody>
     </table>
   </div>
